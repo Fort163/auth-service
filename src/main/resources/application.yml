@@ -1,0 +1,27 @@
+server:
+  port: 8090
+spring:
+  main:
+    allow-bean-definition-overriding: true
+  application:
+    name: auth-service
+  security:
+    oauth2:
+      authorization-server:
+        issuer-url: http://localhost:8090
+        introspection-endpoint: /oauth2/token-info
+  datasource:
+    url: jdbc:postgresql://127.0.0.1:5432/authSso
+    username: postgres
+    password: postgres
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: false
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+eureka:
+  instance:
+    hostname: localhost
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka
