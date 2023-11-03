@@ -4,24 +4,39 @@ spring:
   main:
     allow-bean-definition-overriding: true
   application:
-    name: auth-service
+    name: 'auth-service'
   security:
     oauth2:
+      client:
+        provider:
+          yandex:
+            authorization-uri: 'https://oauth.yandex.ru/authorize'
+            token-uri: 'https://oauth.yandex.ru/token'
+            user-info-uri: 'https://login.yandex.ru/info'
+            user-name-attribute: 'login'
+        registration:
+          yandex:
+            client-name: 'Yandex'
+            client-id: '139bc65bf3ea4be0a697308d2cf115e5'
+            client-secret: '08787b0d7e1c4ed8b2bcf1c6d292b967'
+            redirect-uri: 'http://localhost:8090/login/oauth2/code/yandex'
+            client-authentication-method: 'client_secret_basic'
+            authorization-grant-type: 'authorization_code'
       authorization-server:
-        issuer-url: http://localhost:8090
-        introspection-endpoint: /oauth2/token-info
+        issuer-url: 'http://localhost:8090'
+        introspection-endpoint: '/oauth2/token-info'
   datasource:
-    url: jdbc:postgresql://127.0.0.1:5432/authSso
-    username: postgres
-    password: postgres
+    url: 'jdbc:postgresql://127.0.0.1:5433/authSso'
+    username: 'postgres'
+    password: 'postgres'
   jpa:
     hibernate:
       ddl-auto: create-drop
     show-sql: false
-    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    database-platform: 'org.hibernate.dialect.PostgreSQLDialect'
 eureka:
   instance:
-    hostname: localhost
+    hostname: 'localhost'
   client:
     service-url:
-      defaultZone: http://localhost:8761/eureka
+      defaultZone: 'http://localhost:8761/eureka'

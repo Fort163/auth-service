@@ -1,0 +1,19 @@
+version: "3.9"
+
+services:
+  postgres:
+    container_name: authSso
+    image: postgres:${POSTGRES_VERSION:-15.2}
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-authSso}
+      POSTGRES_USER: ${POSTGRES_USER:-postgres}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-postgres}
+    ports:
+      - "5433:5432"
+    networks:
+      - backend
+
+networks:
+  backend:
+    name: backend
+    driver: bridge

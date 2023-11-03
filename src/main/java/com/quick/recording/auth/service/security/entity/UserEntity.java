@@ -1,53 +1,29 @@
 package com.quick.recording.auth.service.security.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import lombok.Data;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
 
-import java.util.Collection;
-import java.util.UUID;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
+@Table(name = "qr_user")
 @Data
-public class UserEntity implements UserDetails {
+@AllArgsConstructor
+@NoArgsConstructor
+public class UserEntity extends BaseEntity {
 
-    @Id
-    private UUID uuid;
+  @Column(name = "username", nullable = false)
+  private String username;
 
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
-    }
+  @Column(name = "password", nullable = false)
+  private String password;
 
-    @Override
-    public String getPassword() {
-        return null;
-    }
+  @Column(name = "first_name", nullable = false)
+  private String firstName;
 
-    @Override
-    public String getUsername() {
-        return null;
-    }
-
-    @Override
-    public boolean isAccountNonExpired() {
-        return false;
-    }
-
-    @Override
-    public boolean isAccountNonLocked() {
-        return false;
-    }
-
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return false;
-    }
-
-    @Override
-    public boolean isEnabled() {
-        return false;
-    }
+  @Column(name = "last_name", nullable = false)
+  private String lastName;
 }
