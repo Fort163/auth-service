@@ -1,0 +1,29 @@
+package com.quick.recording.auth.service.security.entity;
+
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import java.util.List;
+
+@Entity
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
+public class RoleEntity extends BaseEntity {
+
+    @Column(name = "name", unique = true)
+    private String name;
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "Role2Permission",
+            joinColumns = { @JoinColumn(name = "role2permission_id") },
+            inverseJoinColumns = { @JoinColumn(name = "permission2role_id") }
+    )
+    private List<PermissionEntity> permissionList;
+
+}

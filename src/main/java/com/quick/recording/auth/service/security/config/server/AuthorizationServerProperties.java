@@ -1,4 +1,4 @@
-package com.quick.recording.auth.service.security.config;
+package com.quick.recording.auth.service.security.config.server;
 
 import lombok.Getter;
 import lombok.Setter;

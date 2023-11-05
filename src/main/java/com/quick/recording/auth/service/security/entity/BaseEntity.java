@@ -13,8 +13,8 @@ import lombok.Data;
 public class BaseEntity {
 
   @Id
-  @Column(name = "id")
+  @Column(name = "uuid")
   @GeneratedValue(strategy = GenerationType.UUID)
-  protected UUID id;
+  protected UUID uuid;
 
 }

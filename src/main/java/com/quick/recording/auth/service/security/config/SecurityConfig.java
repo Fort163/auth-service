@@ -1,8 +1,10 @@
 package com.quick.recording.auth.service.security.config;
 
+import com.quick.recording.auth.service.security.config.client.QRSocialConfigurer;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.core.userdetails.User;
@@ -18,18 +20,15 @@ import static org.springframework.security.config.Customizer.withDefaults;
 @Configuration(proxyBeanMethods = false)
 public class SecurityConfig {
 
-    private final CustomAuthorizationRequestRepository authorizationRequestRepository;
-    private final CustomHttpConfigurer customHttpConfigurer;
+    private final QRSocialConfigurer qrSocialConfigurer;
 
     @Bean
     public SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception {
         http.authorizeHttpRequests(authorize ->
-                authorize.anyRequest().authenticated()
+                authorize
+                        .anyRequest().authenticated()
         );
-        return http
-            .apply(customHttpConfigurer)
-            .and()
-            .formLogin(withDefaults()).build();
+        return http.apply(qrSocialConfigurer).and().formLogin(withDefaults()).build();
     }
 
     @Bean
