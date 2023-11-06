@@ -1,5 +1,6 @@
 package com.quick.recording.auth.service.model;
 
+import com.quick.recording.auth.service.security.entity.UserEntity;
 import com.quick.recording.auth.service.security.enumeration.Gender;
 import java.time.LocalDate;
 import java.util.Map;
@@ -21,27 +22,9 @@ public abstract class SocialUser {
 
   public OAuth2User getUser(){return this.user;}
 
-  public String getAttribute(String attribute) {
-    return (String) attributes.get(attribute);
+  public Object getAttribute(String attribute) {
+    return attributes.get(attribute);
   }
 
-  public abstract String getId();
-
-  public abstract String getLogin();
-
-  public abstract String getFirstName();
-
-  public abstract String getLastName();
-
-  public abstract String getEmail();
-
-  public abstract String getImageUrl();
-
-  public abstract Gender getGender();
-
-  public abstract LocalDate getBirthday();
-
-  public abstract String getPhone();
-
-  public abstract String getLocale();
+  public abstract UserEntity getUserEntity();
 }

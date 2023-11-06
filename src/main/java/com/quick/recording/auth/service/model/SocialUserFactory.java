@@ -6,14 +6,12 @@ import org.springframework.security.oauth2.core.user.OAuth2User;
 
 public class SocialUserFactory {
 
-  public static SocialUser getOAuth2UserInfo(String registrationId, OAuth2User oAuth2User,String accessToken) {
-
-    if(registrationId.equalsIgnoreCase(AuthProvider.YANDEX.getName())) {
-      return new YandexUser(oAuth2User);
-    } else if(registrationId.equalsIgnoreCase(AuthProvider.VK.getName())) {
-      return null;
-    } else {
-      throw new AuthenticationProcessingException("Sorry! Login with " + registrationId + " is not supported yet.");
+  public static SocialUser createSocialUser(OAuth2User oAuth2User,AuthProvider provider) {
+    SocialUser user;
+    switch (provider){
+      case yandex -> user = new YandexUser(oAuth2User);
+      default -> throw new AuthenticationProcessingException("This provider not supported : " + provider.name());
     }
+    return user;
   }
 }

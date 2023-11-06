@@ -12,6 +12,7 @@ import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.core.AuthorizationGrantType;
 import org.springframework.security.oauth2.core.ClientAuthenticationMethod;
 import org.springframework.security.oauth2.server.authorization.client.InMemoryRegisteredClientRepository;
@@ -37,6 +38,7 @@ public class AuthorizationServerConfig {
 
     private final AuthorizationServerProperties authorizationServerProperties;
     private final DataSource dataSource;
+    private final PasswordEncoder passwordEncoder;
 
     @Bean
     @Order(Ordered.HIGHEST_PRECEDENCE)
@@ -55,7 +57,7 @@ public class AuthorizationServerConfig {
         RegisteredClient.Builder test_client = RegisteredClient.withId("test-client-id")
                 .clientName("Test Client")
                 .clientId("test-client")
-                .clientSecret("{noop}test-client")
+                .clientSecret(passwordEncoder.encode("test-client"))
                 .redirectUri("http://localhost:3001/home")
                 .scope("read.scope")
                 .scope("write.scope")

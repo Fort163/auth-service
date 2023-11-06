@@ -6,6 +6,8 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.MappedSuperclass;
 import java.util.UUID;
+
+import lombok.Builder;
 import lombok.Data;
 
 @MappedSuperclass

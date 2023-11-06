@@ -1,7 +1,12 @@
 package com.quick.recording.auth.service.model;
 
+import com.quick.recording.auth.service.security.entity.UserEntity;
+import com.quick.recording.auth.service.security.enumeration.AuthProvider;
 import com.quick.recording.auth.service.security.enumeration.Gender;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.LinkedHashMap;
+import java.util.Map;
 import java.util.Objects;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 
@@ -12,65 +17,54 @@ public class YandexUser extends SocialUser {
   }
 
   @Override
-  public String getId() {
-    return getAttribute("id");
+  public UserEntity getUserEntity() {
+    return UserEntity.builder()
+            .birthDay(
+                    attributes.get("birthday") != null ?
+                            LocalDate.parse((String)attributes.get("birthday"))
+                             : null)
+            .email((String)getAttribute("default_email"))
+            //.password(passwordEncoder.encode("test"))
+            .credentialsNonExpired(true)
+            .username((String)getAttribute("display_name"))
+            .enabled(true)
+            .firstName((String)getAttribute("first_name"))
+            .lastName((String)getAttribute("last_name"))
+            .fullName(((String)getAttribute("real_name")))
+            .gender(getGender())
+            .userpic(getImageUrl())
+            .phoneNumber(getPhone())
+            .provider(AuthProvider.yandex)
+            .accountNonLocked(true)
+            .accountNonExpired(true)
+            .verified(true)
+            .lastVisit(LocalDateTime.now())
+            .build();
   }
 
-  @Override
-  public String getLogin() {
-    return getAttribute("login");
-  }
-
-  @Override
-  public String getFirstName() {
-    return getAttribute("first_name");
-  }
-
-  @Override
-  public String getLastName() {
-    return getAttribute("last_name");
-  }
-
-  @Override
-  public String getEmail() {
-    return getAttribute("default_email");
-  }
-
-  @Override
-  public String getImageUrl() {
-    String avatar = getAttribute("default_avatar_id");
+  private String getImageUrl() {
+    String avatar = (String)getAttribute("default_avatar_id");
     if (Objects.nonNull(avatar) && !avatar.isEmpty()) {
       return "https://avatars.yandex.net/get-yapic/" + avatar + "/islands-75";
     }
     return null;
   }
 
-  @Override
-  public Gender getGender() {
-    String gender = getAttribute("sex");
+  private Gender getGender() {
+    String gender = (String)getAttribute("sex");
     if (Objects.nonNull(gender)) {
       return gender.equalsIgnoreCase("male") ? Gender.MALE : Gender.FEMALE;
     }
     return Gender.NOT_DEFINED;
   }
 
-  @Override
-  public LocalDate getBirthday() {
-    String birthday = (String) attributes.get("birthday");
-    if (birthday != null && !birthday.isEmpty()) {
-      return LocalDate.parse(birthday);
+  private String getPhone() {
+    Map phoneMap = (LinkedHashMap) getAttribute("default_phone");
+    if (Objects.nonNull(phoneMap)) {
+      return (String) phoneMap.get("number");
     }
-    return null;
+    else return null;
   }
 
-  @Override
-  public String getPhone() {
-    return null;
-  }
-
-  @Override
-  public String getLocale() {
-    return null;
-  }
 
 }

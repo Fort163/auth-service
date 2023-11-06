@@ -83,7 +83,7 @@ public class UserEntity extends BaseEntity implements UserDetails {
     private Boolean credentialsNonExpired;
 
     @Column(name = "account_non_locked")
-    private Boolean accountNonLocked = false;
+    private Boolean accountNonLocked = true;
 
     @Column(name = "enabled")
     private Boolean enabled = true;
