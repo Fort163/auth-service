@@ -1,8 +1,7 @@
 package com.quick.recording.auth.service.model;
 
-import com.quick.recording.auth.service.security.entity.UserEntity;
-import com.quick.recording.auth.service.security.enumeration.Gender;
-import java.time.LocalDate;
+import com.quick.recording.auth.service.entity.UserEntity;
+
 import java.util.Map;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 

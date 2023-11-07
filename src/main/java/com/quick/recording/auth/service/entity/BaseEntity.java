@@ -1,4 +1,4 @@
-package com.quick.recording.auth.service.security.entity;
+package com.quick.recording.auth.service.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.GeneratedValue;
@@ -7,7 +7,6 @@ import jakarta.persistence.Id;
 import jakarta.persistence.MappedSuperclass;
 import java.util.UUID;
 
-import lombok.Builder;
 import lombok.Data;
 
 @MappedSuperclass

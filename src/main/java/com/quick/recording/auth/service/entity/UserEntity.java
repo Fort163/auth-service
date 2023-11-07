@@ -1,5 +1,6 @@
-package com.quick.recording.auth.service.security.entity;
+package com.quick.recording.auth.service.entity;
 
+import com.quick.recording.auth.service.listener.UserListener;
 import com.quick.recording.auth.service.security.enumeration.AuthProvider;
 import com.quick.recording.auth.service.security.enumeration.Gender;
 import com.quick.recording.auth.service.security.enumeration.Status;
@@ -8,22 +9,18 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 @Entity(name = "qr_user")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@EntityListeners(UserListener.class)
 @Builder
-public class UserEntity extends BaseEntity implements UserDetails {
+public class UserEntity extends BaseEntity {
 
     @Column(name = "full_name")
     private String fullName;
@@ -96,34 +93,4 @@ public class UserEntity extends BaseEntity implements UserDetails {
     )
     private List<RoleEntity> roleList;
 
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        List<SimpleGrantedAuthority> authorities = new ArrayList<>();
-        for (RoleEntity role : getRoleList()) {
-            for (PermissionEntity permission : role.getPermissionList()) {
-                authorities.add(new SimpleGrantedAuthority(permission.getPermission()));
-            }
-        }
-        return authorities;
-    }
-
-    @Override
-    public boolean isAccountNonExpired() {
-        return this.accountNonExpired;
-    }
-
-    @Override
-    public boolean isAccountNonLocked() {
-        return this.accountNonLocked;
-    }
-
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return this.credentialsNonExpired;
-    }
-
-    @Override
-    public boolean isEnabled() {
-        return this.enabled;
-    }
 }

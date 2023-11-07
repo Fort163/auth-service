@@ -1,4 +1,4 @@
-package com.quick.recording.auth.service.security.entity;
+package com.quick.recording.auth.service.entity;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;

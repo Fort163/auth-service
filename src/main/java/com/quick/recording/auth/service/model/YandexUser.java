@@ -1,6 +1,6 @@
 package com.quick.recording.auth.service.model;
 
-import com.quick.recording.auth.service.security.entity.UserEntity;
+import com.quick.recording.auth.service.entity.UserEntity;
 import com.quick.recording.auth.service.security.enumeration.AuthProvider;
 import com.quick.recording.auth.service.security.enumeration.Gender;
 import java.time.LocalDate;

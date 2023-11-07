@@ -1,4 +1,4 @@
-package com.quick.recording.auth.service.security.config.client;
+package com.quick.recording.auth.service.security.config;
 
 import jakarta.annotation.PostConstruct;
 import jakarta.servlet.ServletException;
@@ -16,7 +16,7 @@ import java.io.IOException;
 
 @Component
 @AllArgsConstructor
-public class QRSocialSuccessHandler extends SavedRequestAwareAuthenticationSuccessHandler {
+public class QRSuccessHandler extends SavedRequestAwareAuthenticationSuccessHandler {
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws ServletException, IOException {

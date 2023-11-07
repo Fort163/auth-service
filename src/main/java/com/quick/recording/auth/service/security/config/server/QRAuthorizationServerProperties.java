@@ -9,7 +9,7 @@ import org.springframework.context.annotation.Configuration;
 @Setter
 @Getter
 @Configuration
-public class AuthorizationServerProperties {
+public class QRAuthorizationServerProperties {
 
     private String issuerUrl;
     private String introspectionEndpoint;

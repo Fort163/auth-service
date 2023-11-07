@@ -1,6 +1,6 @@
 package com.quick.recording.auth.service.repository;
 
-import com.quick.recording.auth.service.security.entity.PermissionEntity;
+import com.quick.recording.auth.service.entity.PermissionEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

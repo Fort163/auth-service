@@ -4,15 +4,12 @@ import com.quick.recording.auth.service.security.config.client.QRSocialConfigure
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
+import org.springframework.security.oauth2.server.authorization.InMemoryOAuth2AuthorizationService;
+import org.springframework.security.oauth2.server.authorization.OAuth2AuthorizationService;
 import org.springframework.security.web.SecurityFilterChain;
 
 import static org.springframework.security.config.Customizer.withDefaults;
@@ -23,6 +20,7 @@ import static org.springframework.security.config.Customizer.withDefaults;
 public class SecurityConfig {
 
     private final QRSocialConfigurer qrSocialConfigurer;
+    private final QRSuccessHandler qrSuccessHandler;
 
     @Bean
     public SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception {
@@ -30,11 +28,23 @@ public class SecurityConfig {
                 authorize
                         .anyRequest().authenticated()
         );
-        return http.apply(qrSocialConfigurer).and().formLogin(withDefaults()).build();
+        return http.apply(qrSocialConfigurer).and().formLogin(login -> {
+            try {
+                login.successHandler(qrSuccessHandler).and().formLogin(withDefaults());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }).build();
     }
 
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
+
+    @Bean
+    public OAuth2AuthorizationService oAuth2AuthorizationService() {
+        return new InMemoryOAuth2AuthorizationService();
+    }
+
 }

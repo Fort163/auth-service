@@ -1,7 +1,7 @@
 package com.quick.recording.auth.service.service;
 
 import com.quick.recording.auth.service.repository.PermissionRepository;
-import com.quick.recording.auth.service.security.entity.PermissionEntity;
+import com.quick.recording.auth.service.entity.PermissionEntity;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
