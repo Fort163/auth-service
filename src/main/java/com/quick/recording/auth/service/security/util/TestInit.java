@@ -29,9 +29,9 @@ public class TestInit {
 
     @PostConstruct
     private void init(){
-        PermissionEntity read = createPermission("READ");
-        PermissionEntity write = createPermission("WRITE");
-        PermissionEntity create_space = createPermission("CREATE_SPACE");
+        PermissionEntity read = createPermission("ROLE_READ");
+        PermissionEntity write = createPermission("ROLE_WRITE");
+        PermissionEntity create_space = createPermission("ROLE_CREATE_SPACE");
 
         RoleEntity simple_user = createRole("SIMPLE_USER");
         simple_user.setPermissionList(List.of(read));
@@ -40,6 +40,10 @@ public class TestInit {
 
 
         RoleEntity space_admin = createRole("SPACE_ADMIN");
+        RoleEntity service = createRole("SERVICE");
+        service.setPermissionList(List.of(read,write));
+        roleService.save(service);
+
         List<PermissionEntity> permissions = List.of(read, write, create_space);
         List<RoleEntity> roles = List.of(space_admin);
         space_admin.setPermissionList(permissions);
@@ -50,6 +54,16 @@ public class TestInit {
         permissionService.save(read);
         permissionService.save(write);
         permissionService.save(create_space);
+
+
+        UserEntity userCompany = createUserCompany();
+        userCompany.setRoleList(List.of(service));
+        userService.save(userCompany);
+
+        UserEntity userUser = createUserUser();
+        userUser.setRoleList(List.of(service));
+        userService.save(userUser);
+
         UserEntity userTest = createUserTest();
         userTest.setRoleList(roles);
         userService.save(userTest);
@@ -74,6 +88,38 @@ public class TestInit {
                 .enabled(true)
                 .firstName("Тест")
                 .lastName("Тестовый")
+                .provider(AuthProvider.local)
+                .accountNonLocked(true)
+                .accountNonExpired(true)
+                .credentialsNonExpired(true)
+                .gender(Gender.NOT_DEFINED)
+                .build();
+    }
+
+    private UserEntity createUserCompany(){
+        return UserEntity.builder()
+                .birthDay(LocalDate.of(2000,01,01))
+                .email("company")
+                .password(passwordEncoder.encode("company-service"))
+                .username("company-service")
+                .enabled(true)
+                .fullName("company-service")
+                .provider(AuthProvider.local)
+                .accountNonLocked(true)
+                .accountNonExpired(true)
+                .credentialsNonExpired(true)
+                .gender(Gender.NOT_DEFINED)
+                .build();
+    }
+
+    private UserEntity createUserUser(){
+        return UserEntity.builder()
+                .birthDay(LocalDate.of(2000,01,01))
+                .email("user")
+                .password(passwordEncoder.encode("user-service"))
+                .username("user-service")
+                .enabled(true)
+                .fullName("user-service")
                 .provider(AuthProvider.local)
                 .accountNonLocked(true)
                 .accountNonExpired(true)

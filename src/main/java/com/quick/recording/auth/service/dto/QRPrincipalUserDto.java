@@ -13,7 +13,7 @@ import java.util.Collection;
 public class QRPrincipalUserDto {
 
     private Collection<? extends GrantedAuthority> authorities;
-    private String username;
+    private String name;
     private String fullName;
     private String userpic;
     private String email;
@@ -25,7 +25,7 @@ public class QRPrincipalUserDto {
     private Boolean active;
 
     public QRPrincipalUserDto(QRPrincipalUser user){
-        this.username = user.getUsername();
+        this.name = user.getUsername();
         this.fullName = user.getFullName();
         this.userpic = user.getUserpic();
         this.email = user.getEmail();
