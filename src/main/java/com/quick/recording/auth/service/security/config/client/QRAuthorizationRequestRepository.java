@@ -21,11 +21,11 @@ public class QRAuthorizationRequestRepository implements AuthorizationRequestRep
 
     @Override
     public void saveAuthorizationRequest(OAuth2AuthorizationRequest authorizationRequest, HttpServletRequest request, HttpServletResponse response) {
-        this.authorizationRequestRepository.saveAuthorizationRequest(authorizationRequest,request,response);
+        this.authorizationRequestRepository.saveAuthorizationRequest(authorizationRequest, request, response);
     }
 
     @Override
     public OAuth2AuthorizationRequest removeAuthorizationRequest(HttpServletRequest request, HttpServletResponse response) {
-        return this.authorizationRequestRepository.removeAuthorizationRequest(request,response);
+        return this.authorizationRequestRepository.removeAuthorizationRequest(request, response);
     }
 }

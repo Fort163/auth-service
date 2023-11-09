@@ -1,14 +1,10 @@
 package com.quick.recording.auth.service.security.config.server;
 
-import com.quick.recording.auth.service.entity.UserEntity;
-import com.quick.recording.auth.service.exception.NotFoundException;
-import com.quick.recording.auth.service.security.config.QRPrincipalUser;
 import com.quick.recording.auth.service.dto.QRPrincipalUserDto;
-import com.quick.recording.auth.service.service.UserService;
+import com.quick.recording.auth.service.security.config.QRPrincipalUser;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.AllArgsConstructor;
-import org.apache.logging.log4j.util.Strings;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.http.server.ServletServerHttpResponse;
 import org.springframework.security.core.Authentication;
@@ -20,7 +16,6 @@ import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.nio.file.AccessDeniedException;
-import java.util.Optional;
 
 @Component
 @AllArgsConstructor
@@ -28,7 +23,6 @@ public class QRAuthorizationServerConfigurer {
 
     private final MappingJackson2HttpMessageConverter mappingJackson2HttpMessageConverter;
     private final OAuth2AuthorizationService oAuth2AuthorizationService;
-    private final UserService userService;
 
     public void introspectionResponse(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException {
         OAuth2TokenIntrospectionAuthenticationToken introspectionAuthenticationToken = (OAuth2TokenIntrospectionAuthenticationToken) authentication;
@@ -37,29 +31,15 @@ public class QRAuthorizationServerConfigurer {
             OAuth2Authorization tokenAuth = oAuth2AuthorizationService.findByToken(token, OAuth2TokenType.ACCESS_TOKEN);
             Authentication attributeAuth = tokenAuth.getAttribute("java.security.Principal");
             if (attributeAuth != null) {
-                if(attributeAuth.getPrincipal() instanceof QRPrincipalUser){
+                if (attributeAuth.getPrincipal() instanceof QRPrincipalUser) {
                     QRPrincipalUserDto qrPrincipalUserDto = new QRPrincipalUserDto((QRPrincipalUser) attributeAuth.getPrincipal());
                     ServletServerHttpResponse httpResponse = new ServletServerHttpResponse(response);
                     mappingJackson2HttpMessageConverter.write(qrPrincipalUserDto, null, httpResponse);
-                }else {
+                } else {
                     throw new ClassCastException("Principal not supported " + attributeAuth.getPrincipal().getClass());
                 }
             }
-            else {
-                if(Strings.isNotEmpty(request.getHeader("username"))){
-                    Optional<UserEntity> user = userService.findByEmail(request.getHeader("username"));
-                    if(user.isPresent()) {
-                        QRPrincipalUserDto qrPrincipalUserDto = new QRPrincipalUserDto(new QRPrincipalUser(user.get()));
-                        ServletServerHttpResponse httpResponse = new ServletServerHttpResponse(response);
-                        mappingJackson2HttpMessageConverter.write(qrPrincipalUserDto, null, httpResponse);
-                    }
-                    else {
-                        throw new NotFoundException("User with email " + request.getHeader("username") + " not found");
-                    }
-                }
-            }
-        }
-        else {
+        } else {
             throw new AccessDeniedException("User for this token is blocked " + introspectionAuthenticationToken.getTokenClaims().getUsername());
         }
     }

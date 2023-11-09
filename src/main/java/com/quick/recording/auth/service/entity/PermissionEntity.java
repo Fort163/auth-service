@@ -17,10 +17,10 @@ import java.util.List;
 @Builder
 public class PermissionEntity extends BaseEntity {
 
-    @Column(name = "permission",unique = true)
+    @Column(name = "permission", unique = true)
     private String permission;
 
-    @ManyToMany(mappedBy = "permissionList")
+    @ManyToMany(mappedBy = "permissions")
     private List<RoleEntity> roleList;
 
 }

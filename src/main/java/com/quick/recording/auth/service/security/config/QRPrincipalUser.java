@@ -1,7 +1,6 @@
 package com.quick.recording.auth.service.security.config;
 
 import com.quick.recording.auth.service.entity.PermissionEntity;
-import com.quick.recording.auth.service.entity.RoleEntity;
 import com.quick.recording.auth.service.entity.UserEntity;
 import com.quick.recording.auth.service.security.enumeration.AuthProvider;
 import com.quick.recording.auth.service.security.enumeration.Gender;
@@ -13,9 +12,7 @@ import org.springframework.security.oauth2.core.user.OAuth2User;
 
 import java.security.Principal;
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 import java.util.Map;
 
 @Getter
@@ -38,7 +35,7 @@ public class QRPrincipalUser implements OAuth2User, Principal, UserDetails {
     private Boolean accountNonLocked;
     private Boolean enabled;
 
-    public QRPrincipalUser(UserEntity user){
+    public QRPrincipalUser(UserEntity user) {
         this.name = user.getUsername();
         this.username = user.getUsername();
         this.fullName = user.getFullName();
@@ -83,13 +80,11 @@ public class QRPrincipalUser implements OAuth2User, Principal, UserDetails {
     }
 
     private Collection<? extends GrantedAuthority> setAuthorities(UserEntity user) {
-        List<SimpleGrantedAuthority> authorities = new ArrayList<>();
-        for (RoleEntity role : user.getRoleList()) {
-            for (PermissionEntity permission : role.getPermissionList()) {
-                authorities.add(new SimpleGrantedAuthority(permission.getPermission()));
-            }
-        }
-        return authorities;
+        return user.getRoleList().stream()
+                .flatMap(role -> role.getPermissions().stream())
+                .map(PermissionEntity::getPermission)
+                .map(SimpleGrantedAuthority::new)
+                .toList();
     }
 
 }

@@ -34,7 +34,7 @@ public class UserEntity extends BaseEntity {
     @Column(name = "userpic")
     private String userpic;
 
-    @Column(name = "email",unique = true)
+    @Column(name = "email", unique = true)
     private String email;
 
     @Column(name = "locale")
@@ -63,7 +63,7 @@ public class UserEntity extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private Status status;
 
-    @Column(name = "provider",nullable = false)
+    @Column(name = "provider", nullable = false)
     @Enumerated(EnumType.STRING)
     private AuthProvider provider;
 
@@ -88,8 +88,8 @@ public class UserEntity extends BaseEntity {
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "User2Role",
-            joinColumns = { @JoinColumn(name = "user2role_id") },
-            inverseJoinColumns = { @JoinColumn(name = "role2user_id") }
+            joinColumns = {@JoinColumn(name = "user2role_id")},
+            inverseJoinColumns = {@JoinColumn(name = "role2user_id")}
     )
     private List<RoleEntity> roleList;
 

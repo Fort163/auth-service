@@ -6,12 +6,13 @@ import org.springframework.security.oauth2.core.user.OAuth2User;
 
 public class SocialUserFactory {
 
-  public static SocialUser createSocialUser(OAuth2User oAuth2User,AuthProvider provider) {
-    SocialUser user;
-    switch (provider){
-      case yandex -> user = new YandexUser(oAuth2User);
-      default -> throw new AuthenticationProcessingException("This provider not supported : " + provider.name());
+    public static SocialUser createSocialUser(OAuth2User auth2User, AuthProvider provider) {
+        SocialUser user;
+        switch (provider) {
+            case yandex -> user = new YandexUser(auth2User);
+            case vk -> user = new VkUser(auth2User);
+            default -> throw new AuthenticationProcessingException("This provider not supported : " + provider.name());
+        }
+        return user;
     }
-    return user;
-  }
 }

@@ -28,13 +28,13 @@ public class TestInit {
     private final PasswordEncoder passwordEncoder;
 
     @PostConstruct
-    private void init(){
+    private void init() {
         PermissionEntity read = createPermission("ROLE_READ");
         PermissionEntity write = createPermission("ROLE_WRITE");
         PermissionEntity create_space = createPermission("ROLE_CREATE_SPACE");
 
         RoleEntity simple_user = createRole("SIMPLE_USER");
-        simple_user.setPermissionList(List.of(read));
+        simple_user.setPermissions(List.of(read));
         write.setRoleList(List.of(simple_user));
         roleService.save(simple_user);
 
@@ -46,7 +46,7 @@ public class TestInit {
 
         List<PermissionEntity> permissions = List.of(read, write, create_space);
         List<RoleEntity> roles = List.of(space_admin);
-        space_admin.setPermissionList(permissions);
+        space_admin.setPermissions(permissions);
         write.setRoleList(roles);
         read.setRoleList(roles);
         create_space.setRoleList(roles);
@@ -69,19 +69,19 @@ public class TestInit {
         userService.save(userTest);
     }
 
-    private PermissionEntity createPermission(String permission){
+    private PermissionEntity createPermission(String permission) {
         PermissionEntity build = PermissionEntity.builder().permission(permission).build();
         return permissionService.save(build);
     }
 
-    private RoleEntity createRole(String name){
+    private RoleEntity createRole(String name) {
         RoleEntity build = RoleEntity.builder().name(name).build();
         return roleService.save(build);
     }
 
-    private UserEntity createUserTest(){
+    private UserEntity createUserTest() {
         return UserEntity.builder()
-                .birthDay(LocalDate.of(2000,01,01))
+                .birthDay(LocalDate.of(2000, 01, 01))
                 .email("test@test.ru")
                 .password(passwordEncoder.encode("test"))
                 .username("test@test.ru")
@@ -128,7 +128,7 @@ public class TestInit {
                 .build();
     }
 
-    private <E extends BaseEntity> E addUuid(E obj){
+    private <E extends BaseEntity> E addUuid(E obj) {
         obj.setUuid(UUID.randomUUID());
         return obj;
     }

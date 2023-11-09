@@ -19,11 +19,10 @@ public class QRUserDetailsService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         Optional<UserEntity> user = userService.findByEmail(username);
-        if(user.isPresent()){
+        if (user.isPresent()) {
             return new QRPrincipalUser(user.get());
-        }
-        else {
-            throw new UsernameNotFoundException("User with email "+ username +" not found");
+        } else {
+            throw new UsernameNotFoundException("User with email " + username + " not found");
         }
     }
 

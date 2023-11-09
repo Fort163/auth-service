@@ -1,6 +1,8 @@
 package com.quick.recording.auth.service.entity;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
 import lombok.Data;
 
 import java.time.LocalDateTime;
@@ -8,7 +10,7 @@ import java.time.LocalDateTime;
 
 @Entity(name = "oauth2_registered_client")
 @Data
-public class Oauth2RegisteredClient{
+public class Oauth2RegisteredClient {
 
     @Id
     @Column(name = "id", nullable = false)

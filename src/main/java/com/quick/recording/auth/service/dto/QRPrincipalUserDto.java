@@ -24,7 +24,7 @@ public class QRPrincipalUserDto {
     private LocalDate birthDay;
     private Boolean active;
 
-    public QRPrincipalUserDto(QRPrincipalUser user){
+    public QRPrincipalUserDto(QRPrincipalUser user) {
         this.name = user.getUsername();
         this.fullName = user.getFullName();
         this.userpic = user.getUserpic();

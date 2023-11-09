@@ -1,21 +1,27 @@
 package com.quick.recording.auth.service.security.config;
 
+import com.quick.recording.auth.service.security.config.client.QROAuth2UserService;
 import com.quick.recording.auth.service.security.config.client.QRSocialConfigurer;
+import com.quick.recording.auth.service.security.config.client.QRTokenResponseConverter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.ProviderManager;
-import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
-import org.springframework.security.config.Customizer;
+import org.springframework.http.converter.FormHttpMessageConverter;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.oauth2.client.endpoint.DefaultAuthorizationCodeTokenResponseClient;
+import org.springframework.security.oauth2.client.endpoint.OAuth2AccessTokenResponseClient;
+import org.springframework.security.oauth2.client.endpoint.OAuth2AuthorizationCodeGrantRequest;
+import org.springframework.security.oauth2.client.http.OAuth2ErrorResponseErrorHandler;
+import org.springframework.security.oauth2.core.http.converter.OAuth2AccessTokenResponseHttpMessageConverter;
 import org.springframework.security.oauth2.server.authorization.InMemoryOAuth2AuthorizationService;
 import org.springframework.security.oauth2.server.authorization.OAuth2AuthorizationService;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.web.client.RestTemplate;
+
+import java.util.Arrays;
 
 import static org.springframework.security.config.Customizer.withDefaults;
 
@@ -24,8 +30,9 @@ import static org.springframework.security.config.Customizer.withDefaults;
 @Configuration(proxyBeanMethods = false)
 public class SecurityConfig {
 
-    private final QRSocialConfigurer qrSocialConfigurer;
-    private final QRSuccessHandler qrSuccessHandler;
+    private final QRSocialConfigurer socialConfigurer;
+    private final QROAuth2UserService auth2UserService;
+    private final QRSuccessHandler successHandler;
 
     @Bean
     public SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception {
@@ -33,9 +40,20 @@ public class SecurityConfig {
                 authorize
                         .anyRequest().authenticated()
         );
-        return http.apply(qrSocialConfigurer).and().formLogin(login -> {
+        http.logout(l -> l
+                        .logoutSuccessUrl("/").permitAll()
+                )
+                .oauth2Login()
+                //Access token Endpoint
+                .tokenEndpoint()
+                .accessTokenResponseClient(accessTokenResponseClient())
+                //Userinfo endpoint
+                .and()
+                .userInfoEndpoint()
+                .userService(auth2UserService);
+        return http.apply(socialConfigurer).and().formLogin(login -> {
             try {
-                login.successHandler(qrSuccessHandler).and().formLogin(withDefaults());
+                login.successHandler(successHandler).and().formLogin(withDefaults());
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -52,15 +70,23 @@ public class SecurityConfig {
         return new InMemoryOAuth2AuthorizationService();
     }
 
-    @Bean
-    public AuthenticationManager authenticationManager(
-            UserDetailsService userDetailsService,
-            PasswordEncoder passwordEncoder) {
-        DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
-        authenticationProvider.setUserDetailsService(userDetailsService);
-        authenticationProvider.setPasswordEncoder(passwordEncoder);
+    //    @Bean
+    public OAuth2AccessTokenResponseClient<OAuth2AuthorizationCodeGrantRequest> accessTokenResponseClient() {
+        DefaultAuthorizationCodeTokenResponseClient accessTokenResponseClient =
+                new DefaultAuthorizationCodeTokenResponseClient();
 
-        return new ProviderManager(authenticationProvider);
+        OAuth2AccessTokenResponseHttpMessageConverter tokenResponseHttpMessageConverter =
+                new OAuth2AccessTokenResponseHttpMessageConverter();
+
+        tokenResponseHttpMessageConverter.setAccessTokenResponseConverter(new QRTokenResponseConverter());
+
+        RestTemplate restTemplate = new RestTemplate(Arrays.asList(
+                new FormHttpMessageConverter(), tokenResponseHttpMessageConverter));
+
+        restTemplate.setErrorHandler(new OAuth2ErrorResponseErrorHandler());
+
+        accessTokenResponseClient.setRestOperations(restTemplate);
+        return accessTokenResponseClient;
     }
 
 }

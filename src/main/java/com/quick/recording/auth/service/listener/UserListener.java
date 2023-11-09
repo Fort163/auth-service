@@ -18,13 +18,13 @@ public class UserListener {
     private final String SIMPLE_USER_ROLE = "SIMPLE_USER";
 
     @Autowired
-    public void init(RoleService roleService){
+    public void init(RoleService roleService) {
         this.roleService = roleService;
     }
 
     @PrePersist
-    private void prePersist(UserEntity user){
-        if(Objects.isNull(user.getRoleList())){
+    private void prePersist(UserEntity user) {
+        if (Objects.isNull(user.getRoleList())) {
             RoleEntity role = roleService.findByName(SIMPLE_USER_ROLE);
             user.setRoleList(List.of(role));
         }

@@ -21,9 +21,9 @@ public class RoleEntity extends BaseEntity {
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "Role2Permission",
-            joinColumns = { @JoinColumn(name = "role2permission_id") },
-            inverseJoinColumns = { @JoinColumn(name = "permission2role_id") }
+            joinColumns = {@JoinColumn(name = "role2permission_id")},
+            inverseJoinColumns = {@JoinColumn(name = "permission2role_id")}
     )
-    private List<PermissionEntity> permissionList;
+    private List<PermissionEntity> permissions;
 
 }
