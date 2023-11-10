@@ -16,7 +16,7 @@ spring:
             client-authentication-method: client_secret_basic
             authorization-grant-type: authorization_code
           vk:
-            client-name: vk
+            client-name: 'vk'
             clientId: '51788027'
             clientSecret: 'ZztXJT28kicJXzPYIbKd'
             redirectUri: "http://localhost:8090/login/oauth2/code/vk"
@@ -32,7 +32,7 @@ spring:
             #revoke=1 needs to always show vk dialog
             authorization-uri: https://oauth.vk.com/authorize?revoke=1
             token-uri: https://oauth.vk.com/access_token
-            user-info-uri: https://api.vk.com/method/users.get?{user_id}&v=5.95&fields=id,domain,photo_id,verified,sex,bdate,city,country,phone,email,photo_max,home_town,has_photo&display=popup&lang=ru&access_token=xxxxx
+            user-info-uri: https://api.vk.com/method/users.get?{user_id}&v=5.95&fields=id,domain,photo_id,verified,sex,bdate,city,country,contacts,has_mobile,photo_max,home_town,has_photo&display=popup&lang=ru&access_token=xxxxx
             user-name-attribute: id
       authorization-server:
         issuer-url: http://localhost:8090
@@ -43,7 +43,7 @@ spring:
     password: postgres
   jpa:
     hibernate:
-      ddl-auto: create-drop
+      ddl-auto: update
     show-sql: false
     database-platform: org.hibernate.dialect.PostgreSQLDialect
 eureka:
