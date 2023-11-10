@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <title>Please sign in</title>
+    <link th:href="@{/css/login.css}" rel="stylesheet"/>
+</head>
+<body>
+<div class="container">
+
+    <form class="form-signin" method="post" action="/login">
+        <h2 class="form-signin-heading">Авторизация</h2>
+        <p>
+            <input type="text" id="username" name="username" class="form-control" placeholder="логин/email" required
+                   autofocus>
+        </p>
+        <p>
+            <input type="password" id="password" name="password" class="form-control" placeholder="пароль" required>
+        </p>
+        <button class="btn btn-lg btn-primary btn-block" type="submit">Войти</button>
+    </form>
+    <label class="form-signin-heading">Или через социальные сети</label>
+    <button class="yandex-button" onclick="window.location.href ='/oauth2/authorization/yandex'"></button>
+    <button class="google-button" onclick="window.location.href ='/oauth2/authorization/google'"></button>
+    <button class="vk-button" onclick="window.location.href ='/oauth2/authorization/vk'"></button>
+</div>
+</body>
+</html>

@@ -32,7 +32,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 
-@Component
+@Component("qROAuth2UserService")
 @RequiredArgsConstructor
 public class QROAuth2UserService extends DefaultOAuth2UserService {
 
@@ -45,6 +45,8 @@ public class QROAuth2UserService extends DefaultOAuth2UserService {
         UserEntity save = userService.save(oAuth2User, provider);
         return new QRPrincipalUser(save);
     }
+
+
 
     private OAuth2User loadVkUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
         Assert.notNull(userRequest, "userRequest cannot be null");

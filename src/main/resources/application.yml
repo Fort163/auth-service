@@ -1,6 +1,8 @@
 server:
   port: 8090
 spring:
+  mvc:
+    static-path-pattern: "/resources/**"
   main:
     allow-bean-definition-overriding: true
   application:
@@ -22,7 +24,25 @@ spring:
             redirectUri: "http://localhost:8090/login/oauth2/code/vk"
             client-authentication-method: client_secret_post
             authorization-grant-type: authorization_code
+          google:
+            clientId: '1014037692582-l4ivt43kdb5o7mh70r0khejacb6b99nf.apps.googleusercontent.com'
+            clientSecret: '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'
+            redirectUri: 'http://localhost:8090/login/oauth2/code/google'
+            client-authentication-method: client_secret_basic
+            authorization-grant-type: authorization_code
+            scope:
+              - openid
+              - email
+              - profile
+              - https://www.googleapis.com/auth/user.phonenumbers.read
+              - https://www.googleapis.com/auth/user.gender.read
+              - https://www.googleapis.com/auth/user.birthday.read
         provider:
+          google:
+            authorization-uri: https://accounts.google.com/o/oauth2/v2/auth
+            token-uri: https://www.googleapis.com/oauth2/v4/token
+            user-info-uri: https://www.googleapis.com/oauth2/v3/userinfo
+            user-name-attribute: sub
           yandex:
             authorization-uri: https://oauth.yandex.ru/authorize
             token-uri: https://oauth.yandex.ru/token
@@ -38,12 +58,12 @@ spring:
         issuer-url: http://localhost:8090
         introspection-endpoint: /oauth2/token-info
   datasource:
-    url: jdbc:postgresql://127.0.0.1:5433/authSso
+    url: jdbc:postgresql://127.0.0.1:5432/authSso
     username: postgres
     password: postgres
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: 'create-drop'
     show-sql: false
     database-platform: org.hibernate.dialect.PostgreSQLDialect
 eureka:
@@ -52,3 +72,8 @@ eureka:
   client:
     service-url:
       defaultZone: http://localhost:8761/eureka
+logging:
+  level:
+    org:
+      springframework:
+        security: DEBUG
