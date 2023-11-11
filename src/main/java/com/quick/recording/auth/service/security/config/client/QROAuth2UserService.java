@@ -2,8 +2,8 @@ package com.quick.recording.auth.service.security.config.client;
 
 import com.quick.recording.auth.service.entity.UserEntity;
 import com.quick.recording.auth.service.security.config.QRPrincipalUser;
-import com.quick.recording.auth.service.security.enumeration.AuthProvider;
 import com.quick.recording.auth.service.service.UserService;
+import com.quick.recording.resource.service.enumeration.AuthProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.RequestEntity;
@@ -32,7 +32,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 
-@Component("qROAuth2UserService")
+@Component
 @RequiredArgsConstructor
 public class QROAuth2UserService extends DefaultOAuth2UserService {
 

@@ -2,12 +2,15 @@ package com.quick.recording.auth.service.security.config;
 
 import com.quick.recording.auth.service.entity.PermissionEntity;
 import com.quick.recording.auth.service.entity.UserEntity;
-import com.quick.recording.auth.service.security.enumeration.AuthProvider;
-import com.quick.recording.auth.service.security.enumeration.Gender;
+import com.quick.recording.resource.service.enumeration.AuthProvider;
+import com.quick.recording.resource.service.enumeration.Gender;
 import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.oauth2.core.oidc.OidcIdToken;
+import org.springframework.security.oauth2.core.oidc.OidcUserInfo;
+import org.springframework.security.oauth2.core.oidc.user.OidcUser;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 
 import java.security.Principal;
@@ -16,7 +19,7 @@ import java.util.Collection;
 import java.util.Map;
 
 @Getter
-public class QRPrincipalUser implements OAuth2User, Principal, UserDetails {
+public class QRPrincipalUser implements OAuth2User, OidcUser, Principal, UserDetails {
 
     private Collection<? extends GrantedAuthority> authorities;
     private String name;
@@ -24,7 +27,7 @@ public class QRPrincipalUser implements OAuth2User, Principal, UserDetails {
     private String userpic;
     private String email;
     private String locale;
-    private Gender gender;
+    private Gender genderEnum;
     private AuthProvider provider;
     private String phoneNumber;
     private LocalDate birthDay;
@@ -42,7 +45,7 @@ public class QRPrincipalUser implements OAuth2User, Principal, UserDetails {
         this.userpic = user.getUserpic();
         this.email = user.getEmail();
         this.locale = user.getLocale();
-        this.gender = user.getGender();
+        this.genderEnum = user.getGender();
         this.provider = user.getProvider();
         this.phoneNumber = user.getPhoneNumber();
         this.birthDay = user.getBirthDay();
@@ -85,6 +88,26 @@ public class QRPrincipalUser implements OAuth2User, Principal, UserDetails {
                 .map(PermissionEntity::getPermission)
                 .map(SimpleGrantedAuthority::new)
                 .toList();
+    }
+
+    @Override
+    public Map<String, Object> getClaims() {
+        return null;
+    }
+
+    @Override
+    public OidcUserInfo getUserInfo() {
+        return null;
+    }
+
+    @Override
+    public OidcIdToken getIdToken() {
+        return null;
+    }
+
+    @Override
+    public String getGender(){
+        return null;
     }
 
 }

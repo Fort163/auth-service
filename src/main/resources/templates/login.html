@@ -7,22 +7,28 @@
 </head>
 <body>
 <div class="container">
-
-    <form class="form-signin" method="post" action="/login">
-        <h2 class="form-signin-heading">Авторизация</h2>
-        <p>
+    <div class="container-form">
+        <form class="form-signin" method="post" action="/login">
+            <h2 class="form-signin-heading">Авторизация</h2>
             <input type="text" id="username" name="username" class="form-control" placeholder="логин/email" required
-                   autofocus>
-        </p>
-        <p>
+                       autofocus>
             <input type="password" id="password" name="password" class="form-control" placeholder="пароль" required>
-        </p>
-        <button class="btn btn-lg btn-primary btn-block" type="submit">Войти</button>
-    </form>
-    <label class="form-signin-heading">Или через социальные сети</label>
-    <button class="yandex-button" onclick="window.location.href ='/oauth2/authorization/yandex'"></button>
-    <button class="google-button" onclick="window.location.href ='/oauth2/authorization/google'"></button>
-    <button class="vk-button" onclick="window.location.href ='/oauth2/authorization/vk'"></button>
+            <div>
+                <button class="btn-submit" type="submit">Войти</button>
+                <button class="btn-submit" onclick="window.location.href ='/login/registration'">Регистрация</button>
+            </div>
+
+        </form>
+    </div>
+    <div class="container-social">
+        <label class="label-social">Или через социальные сети</label>
+        <div>
+            <button class="yandex-button" onclick="window.location.href ='/oauth2/authorization/yandex'"></button>
+            <button class="google-button" onclick="window.location.href ='/oauth2/authorization/google'"></button>
+            <button class="vk-button" onclick="window.location.href ='/oauth2/authorization/vk'"></button>
+        </div>
+    </div>
+
 </div>
 </body>
 </html>

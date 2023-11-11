@@ -1,8 +1,8 @@
 package com.quick.recording.auth.service.model;
 
 import com.quick.recording.auth.service.entity.UserEntity;
-import com.quick.recording.auth.service.security.enumeration.AuthProvider;
-import com.quick.recording.auth.service.security.enumeration.Gender;
+import com.quick.recording.resource.service.enumeration.AuthProvider;
+import com.quick.recording.resource.service.enumeration.Gender;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 
 import java.time.LocalDate;
@@ -21,14 +21,15 @@ public class VkUser extends SocialUser {
 //            .email((String)getAttribute("default_email"))
 //            .password(passwordEncoder.encode("test"))
                 .credentialsNonExpired(true)
-                .username((Integer) getAttribute("id") + (String) getAttribute("domain"))
+                .username((String)getAttribute("id"))
                 .enabled(true)
                 .firstName((String) getAttribute("first_name"))
                 .lastName((String) getAttribute("last_name"))
                 .fullName(getFullName())
                 .gender(getGender())
                 .userpic(getImageUrl())
-//            .phoneNumber(getPhone())
+                .phoneNumber((String) getAttribute("home_phone"))
+                .providerId((String)getAttribute("id"))
                 .provider(AuthProvider.vk)
                 .accountNonLocked(true)
                 .accountNonExpired(true)

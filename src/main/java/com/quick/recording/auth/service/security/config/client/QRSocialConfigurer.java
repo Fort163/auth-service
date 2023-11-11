@@ -28,8 +28,7 @@ public class QRSocialConfigurer extends AbstractHttpConfigurer<QRSocialConfigure
     private final AuthenticationFailureHandler failureHandler;
     private final AuthenticationSuccessHandler successHandler;
     private final AuthorizationRequestRepository authorizationRequestRepository;
-    private final QROAuth2UserService auth2UserService;
-    private final QROidcService qROidcService;
+    private final OAuth2UserService auth2UserService;
 
 
     @Override
@@ -41,7 +40,7 @@ public class QRSocialConfigurer extends AbstractHttpConfigurer<QRSocialConfigure
                         .and()
                         .userInfoEndpoint()
                         .userService(this.auth2UserService)
-                        .oidcUserService(qROidcService);
+                        .oidcUserService(this.auth2UserService);
                 oauth2Login.tokenEndpoint().accessTokenResponseClient(accessTokenResponseClient());
             }
             if (this.successHandler != null) {

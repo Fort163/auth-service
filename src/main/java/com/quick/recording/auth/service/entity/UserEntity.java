@@ -1,9 +1,9 @@
 package com.quick.recording.auth.service.entity;
 
 import com.quick.recording.auth.service.listener.UserListener;
-import com.quick.recording.auth.service.security.enumeration.AuthProvider;
-import com.quick.recording.auth.service.security.enumeration.Gender;
-import com.quick.recording.auth.service.security.enumeration.Status;
+import com.quick.recording.resource.service.enumeration.AuthProvider;
+import com.quick.recording.resource.service.enumeration.Gender;
+import com.quick.recording.resource.service.enumeration.Status;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

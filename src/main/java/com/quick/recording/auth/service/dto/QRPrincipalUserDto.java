@@ -1,8 +1,8 @@
 package com.quick.recording.auth.service.dto;
 
 import com.quick.recording.auth.service.security.config.QRPrincipalUser;
-import com.quick.recording.auth.service.security.enumeration.AuthProvider;
-import com.quick.recording.auth.service.security.enumeration.Gender;
+import com.quick.recording.resource.service.enumeration.AuthProvider;
+import com.quick.recording.resource.service.enumeration.Gender;
 import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
 
@@ -30,7 +30,7 @@ public class QRPrincipalUserDto {
         this.userpic = user.getUserpic();
         this.email = user.getEmail();
         this.locale = user.getLocale();
-        this.gender = user.getGender();
+        this.gender = user.getGenderEnum();
         this.provider = user.getProvider();
         this.phoneNumber = user.getPhoneNumber();
         this.birthDay = user.getBirthDay();

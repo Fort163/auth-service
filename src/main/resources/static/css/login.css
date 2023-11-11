@@ -9,6 +9,7 @@
     background-image: url("/assert/google_big.png");
     padding-bottom: 4px;
     margin: 10px;
+    cursor: pointer;
 }
 
 .google-button:hover{
@@ -31,6 +32,7 @@
     background-size: 100% 100%;
     background-image: url("/assert/yandex_big.png");
     margin: 10px;
+    cursor: pointer;
 }
 
 .yandex-button:hover{
@@ -53,6 +55,7 @@
     background-size: 100% 100%;
     background-image: url("/assert/vk_big.png");
     margin: 10px;
+    cursor: pointer;
 }
 
 .vk-button:hover{
@@ -63,4 +66,73 @@
 
 .vk-button:focus{
     outline: none;
+}
+
+.container{
+    display: flex;
+    flex-direction: column;
+}
+
+.container-form {
+    display: flex;
+    width: 50%;
+    height: 50%;
+    margin: auto;
+    margin-top: 10%;
+    border: 3px inset #22add9;
+    padding: 20px;
+}
+
+.form-signin{
+    display: flex;
+    flex-direction: column;
+    margin: auto;
+}
+
+.btn-submit{
+    margin-top: 30px;
+    margin-right: auto;
+    margin-left: auto;
+    width: 200px;
+    height: 50px;
+    font-size: large;
+    cursor: pointer;
+    background-color: #22add9;
+    border: none;
+}
+
+.btn-submit:hover{
+    background-color: #2271d9;
+}
+
+.form-signin-heading{
+    margin-right: auto;
+    margin-left: auto;
+}
+
+.form-control{
+    width: 100%;
+    min-height: 65px;
+    font-size: 30px;
+    color: #22add9;
+    border: none;
+    border-bottom: 2px groove #22add9;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+.form-control:focus{
+    outline: none;
+}
+
+.container-social{
+    display: flex;
+    flex-direction: column;
+    margin : auto;
+    margin-top: 10%;
+}
+
+.label-social{
+    margin-left: 70px;
+    font-style: italic;
 }

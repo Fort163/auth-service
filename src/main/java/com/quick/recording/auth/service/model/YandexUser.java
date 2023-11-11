@@ -1,8 +1,8 @@
 package com.quick.recording.auth.service.model;
 
 import com.quick.recording.auth.service.entity.UserEntity;
-import com.quick.recording.auth.service.security.enumeration.AuthProvider;
-import com.quick.recording.auth.service.security.enumeration.Gender;
+import com.quick.recording.resource.service.enumeration.AuthProvider;
+import com.quick.recording.resource.service.enumeration.Gender;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 
 import java.time.LocalDate;
@@ -36,6 +36,7 @@ public class YandexUser extends SocialUser {
                 .userpic(getImageUrl())
                 .phoneNumber(getPhone())
                 .provider(AuthProvider.yandex)
+                .providerId((String) getAttribute("id"))
                 .accountNonLocked(true)
                 .accountNonExpired(true)
                 .verified(true)
