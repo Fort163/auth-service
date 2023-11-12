@@ -18,8 +18,6 @@ public class VkUser extends SocialUser {
     public UserEntity getUserEntity() {
         return UserEntity.builder()
                 .birthDay(getBirthDay())
-//            .email((String)getAttribute("default_email"))
-//            .password(passwordEncoder.encode("test"))
                 .credentialsNonExpired(true)
                 .username((String)getAttribute("id"))
                 .enabled(true)

@@ -21,4 +21,9 @@ public class LoginController {
         return "login";
     }
 
+    @GetMapping("/login/registration")
+    public String registration(){
+        return "registration";
+    }
+
 }

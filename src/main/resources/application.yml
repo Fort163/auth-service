@@ -63,9 +63,11 @@ spring:
     password: postgres
   jpa:
     hibernate:
-      ddl-auto: 'create-drop'
+      ddl-auto: none
     show-sql: false
     database-platform: org.hibernate.dialect.PostgreSQLDialect
+  liquibase:
+    change-log : classpath:db/changelog/db.changelog-master.xml
 eureka:
   instance:
     hostname: localhost

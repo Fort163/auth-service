@@ -25,7 +25,6 @@ public class YandexUser extends SocialUser {
                                 LocalDate.parse((String) attributes.get("birthday"))
                                 : null)
                 .email((String) getAttribute("default_email"))
-//            .password(passwordEncoder.encode("test"))
                 .credentialsNonExpired(true)
                 .username((String) getAttribute("display_name"))
                 .enabled(true)

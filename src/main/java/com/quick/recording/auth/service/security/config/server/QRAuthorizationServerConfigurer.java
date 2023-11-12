@@ -5,6 +5,7 @@ import com.quick.recording.auth.service.entity.UserEntity;
 import com.quick.recording.auth.service.exception.NotFoundException;
 import com.quick.recording.auth.service.security.config.QRPrincipalUser;
 import com.quick.recording.auth.service.service.UserService;
+import com.quick.recording.resource.service.enumeration.AuthProvider;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.AllArgsConstructor;
@@ -50,9 +51,15 @@ public class QRAuthorizationServerConfigurer {
                 if(Strings.isNotEmpty(request.getHeader("username"))){
                     Optional<UserEntity> user = userService.findByEmail(request.getHeader("username"));
                     if(user.isPresent()) {
-                        QRPrincipalUserDto qrPrincipalUserDto = new QRPrincipalUserDto(new QRPrincipalUser(user.get()));
-                        ServletServerHttpResponse httpResponse = new ServletServerHttpResponse(response);
-                        mappingJackson2HttpMessageConverter.write(qrPrincipalUserDto, null, httpResponse);
+                        UserEntity userEntity = user.get();
+                        if(userEntity.getProvider().equals(AuthProvider.service)){
+                            QRPrincipalUserDto qrPrincipalUserDto = new QRPrincipalUserDto(new QRPrincipalUser(userEntity));
+                            ServletServerHttpResponse httpResponse = new ServletServerHttpResponse(response);
+                            mappingJackson2HttpMessageConverter.write(qrPrincipalUserDto, null, httpResponse);
+                        }
+                        else {
+                            throw new AccessDeniedException("User with email " + request.getHeader("username") + " have provider not service access denied");
+                        }
                     }
                     else {
                         throw new NotFoundException("User with email " + request.getHeader("username") + " not found");
