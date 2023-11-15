@@ -1,4 +1,4 @@
-package com.quick.recording.auth.service.model;
+package com.quick.recording.auth.service.security.model;
 
 import com.quick.recording.auth.service.entity.UserEntity;
 import com.quick.recording.resource.service.enumeration.AuthProvider;
@@ -26,7 +26,7 @@ public class YandexUser extends SocialUser {
                                 : null)
                 .email((String) getAttribute("default_email"))
                 .credentialsNonExpired(true)
-                .username((String) getAttribute("display_name"))
+                .username((String) getAttribute("id"))
                 .enabled(true)
                 .firstName((String) getAttribute("first_name"))
                 .lastName((String) getAttribute("last_name"))
@@ -38,7 +38,6 @@ public class YandexUser extends SocialUser {
                 .providerId((String) getAttribute("id"))
                 .accountNonLocked(true)
                 .accountNonExpired(true)
-                .verified(true)
                 .lastVisit(LocalDateTime.now())
                 .build();
     }

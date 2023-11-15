@@ -1,0 +1,13 @@
+.error{
+    width: 90%;
+    min-height: 65px;
+    font-size: 30px;
+    padding-left: 5%;
+    padding-right: 5%;
+    border: none;
+    margin-right: auto;
+    margin-left: auto;
+    text-align: center;
+    background-color: #eea0a0;
+    color: #5e5858;
+}

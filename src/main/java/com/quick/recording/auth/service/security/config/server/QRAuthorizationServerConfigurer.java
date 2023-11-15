@@ -49,7 +49,7 @@ public class QRAuthorizationServerConfigurer {
             }
             else {
                 if(Strings.isNotEmpty(request.getHeader("username"))){
-                    Optional<UserEntity> user = userService.findByEmail(request.getHeader("username"));
+                    Optional<UserEntity> user = userService.findByUsernameAndProvider(request.getHeader("username"),AuthProvider.service);
                     if(user.isPresent()) {
                         UserEntity userEntity = user.get();
                         if(userEntity.getProvider().equals(AuthProvider.service)){

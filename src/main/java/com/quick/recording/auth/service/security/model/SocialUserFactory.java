@@ -1,4 +1,4 @@
-package com.quick.recording.auth.service.model;
+package com.quick.recording.auth.service.security.model;
 
 import com.quick.recording.auth.service.exception.AuthenticationProcessingException;
 import com.quick.recording.resource.service.enumeration.AuthProvider;

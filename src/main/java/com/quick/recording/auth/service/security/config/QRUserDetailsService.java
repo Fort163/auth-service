@@ -2,6 +2,7 @@ package com.quick.recording.auth.service.security.config;
 
 import com.quick.recording.auth.service.entity.UserEntity;
 import com.quick.recording.auth.service.service.UserService;
+import com.quick.recording.resource.service.enumeration.AuthProvider;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -18,7 +19,7 @@ public class QRUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Optional<UserEntity> user = userService.findByEmail(username);
+        Optional<UserEntity> user = userService.findByUsernameAndProvider(username, AuthProvider.local);
         if (user.isPresent()) {
             return new QRPrincipalUser(user.get());
         } else {

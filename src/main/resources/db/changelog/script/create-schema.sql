@@ -16,9 +16,6 @@ create table oauth2_registered_client
     token_settings                varchar(2000)
 );
 
-alter table oauth2_registered_client
-    owner to postgres;
-
 create table permission_entity
 (
     uuid       uuid not null
@@ -29,9 +26,6 @@ create table permission_entity
             unique
 );
 
-alter table permission_entity
-    owner to postgres;
-
 create table role_entity
 (
     uuid uuid not null
@@ -41,9 +35,6 @@ create table role_entity
         constraint uk_role_name
             unique
 );
-
-alter table role_entity
-    owner to postgres;
 
 create table qr_user
 (
@@ -57,6 +48,7 @@ create table qr_user
     email                   varchar(255)
         constraint uk_user_email
             unique,
+    email_verified   boolean,
     enabled                 boolean,
     first_name              varchar(255),
     full_name               varchar(255),
@@ -66,18 +58,16 @@ create table qr_user
     locale                  varchar(255),
     password                varchar(255),
     phone_number            varchar(255),
+    phone_number_verified   boolean,
     provider                varchar(255) not null,
     provider_id             varchar(255)
         constraint uk_user_provider_id
             unique,
-    status                  varchar(255),
-    username                varchar(255),
-    userpic                 varchar(255),
-    verified                boolean
+    username                varchar(255)
+        constraint uk_user_username
+            unique,
+    userpic                 varchar(255)
 );
-
-alter table qr_user
-    owner to postgres;
 
 create table role2permission
 (
@@ -89,9 +79,6 @@ create table role2permission
             references permission_entity
 );
 
-alter table role2permission
-    owner to postgres;
-
 create table user2role
 (
     user2role_id uuid not null
@@ -101,9 +88,6 @@ create table user2role
         constraint fk9n0u2o2x6janlj6spfqxoprb4
             references role_entity
 );
-
-alter table user2role
-    owner to postgres;
 
 
 

@@ -32,6 +32,7 @@ public class SecurityConfig {
                 authorize
                         .requestMatchers(
                                 antMatcher("/login*"),
+                                antMatcher("/login/*"),
                                 antMatcher("/static/*"),
                                 antMatcher("/css/*"),
                                 antMatcher("/assert/*")).permitAll()

@@ -37,6 +37,9 @@ public class UserEntity extends BaseEntity {
     @Column(name = "email", unique = true)
     private String email;
 
+    @Column(name = "email_verified")
+    private Boolean emailVerified = false;
+
     @Column(name = "locale")
     private String locale;
 
@@ -53,15 +56,11 @@ public class UserEntity extends BaseEntity {
     @Column(name = "phone_number")
     private String phoneNumber;
 
+    @Column(name = "phone_number_verified")
+    private Boolean phoneNumberVerified = false;
+
     @Column(name = "birth_day")
     private LocalDate birthDay;
-
-    @Column(name = "verified")
-    private Boolean verified = false;
-
-    @Column(name = "status")
-    @Enumerated(EnumType.STRING)
-    private Status status;
 
     @Column(name = "provider", nullable = false)
     @Enumerated(EnumType.STRING)

@@ -1,4 +1,4 @@
-package com.quick.recording.auth.service.model;
+package com.quick.recording.auth.service.security.model;
 
 import com.quick.recording.auth.service.entity.UserEntity;
 import org.springframework.security.oauth2.core.user.OAuth2User;

@@ -2,10 +2,11 @@ package com.quick.recording.auth.service.service;
 
 import com.quick.recording.auth.service.entity.UserEntity;
 import com.quick.recording.auth.service.exception.NotFoundException;
-import com.quick.recording.auth.service.model.SocialUserFactory;
+import com.quick.recording.auth.service.security.model.SocialUserFactory;
 import com.quick.recording.auth.service.repository.UserRepository;
 import com.quick.recording.resource.service.enumeration.AuthProvider;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 
@@ -22,6 +23,14 @@ public class UserService {
 
     public UserEntity findById(UUID id) {
         return userRepository.findById(id).orElseThrow(() -> new NotFoundException(UserEntity.class, id));
+    }
+
+    public Boolean existsByUsername(String username) {
+        return userRepository.existsByUsername(username);
+    }
+
+    public Optional<UserEntity> findByUsernameAndProvider(String username,AuthProvider provider) {
+        return userRepository.findByUsernameAndProvider(username,provider);
     }
 
     public Optional<UserEntity> findByEmail(String email) {
