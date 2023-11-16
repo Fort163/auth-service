@@ -59,7 +59,7 @@ public class QRAuthorizationServer {
                 .clientName("Test Client")
                 .clientId("test-client")
                 .clientSecret(passwordEncoder.encode("test-client"))
-                .redirectUri("http://localhost:3001/home")
+                .redirectUri("http://localhost:3001/login")
                 .scope("read.scope")
                 .scope("write.scope")
                 .clientAuthenticationMethod(ClientAuthenticationMethod.CLIENT_SECRET_BASIC)

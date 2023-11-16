@@ -5,6 +5,7 @@ import com.quick.recording.auth.service.mapper.UserMapper;
 import com.quick.recording.auth.service.model.UserRegistrationModel;
 import com.quick.recording.auth.service.service.UserService;
 import com.quick.recording.resource.service.enumeration.AuthProvider;
+import com.quick.recording.resource.service.enumeration.Gender;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -78,10 +79,12 @@ public class LoginController {
             UserEntity userEntity = userMapper.toUserEntity(userRegistrationModel);
             userEntity.setPassword(passwordEncoder.encode(userRegistrationModel.getPassword()));
             userEntity.setProvider(AuthProvider.local);
+            userEntity.setGender(Gender.NOT_DEFINED);
             userEntity.setEnabled(true);
             userEntity.setAccountNonExpired(true);
             userEntity.setCredentialsNonExpired(true);
             userEntity.setAccountNonLocked(true);
+            userEntity.setFullName(userEntity.getFirstName()+" "+userEntity.getLastName());
             userService.save(userEntity);
             modelAndView.setViewName("login");
         }
