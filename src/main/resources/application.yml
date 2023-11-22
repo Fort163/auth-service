@@ -9,6 +9,11 @@ spring:
     name: ${APPLICATION_NAME}
   security:
     oauth2:
+      resourceserver:
+        opaquetoken:
+          client-id: 'test-client'
+          client-secret: 'test-client'
+          custom-auth: true
       client:
         registration:
           yandex:

@@ -89,7 +89,55 @@ create table user2role
             references role_entity
 );
 
+create table oauth2_authorization (
+          uuid uuid NOT NULL
+              constraint oauth2_authorization_pkey
+              primary key,
+          registered_client_id varchar(100),
+          qr_user_id uuid
+              constraint qr_user_fk
+              references qr_user,
+          principal_name varchar(200) NOT NULL,
+          attributes jsonb DEFAULT NULL,
+          authorization_grant_type varchar(100) NOT NULL,
+          state varchar(500) DEFAULT NULL,
+          authorization_code_value varchar(1000) DEFAULT NULL,
+          authorization_code_issued_at timestamp DEFAULT NULL,
+          authorization_code_expires_at timestamp DEFAULT NULL,
+          access_token_value varchar(1000) DEFAULT NULL,
+          access_token_issued_at timestamp DEFAULT NULL,
+          access_token_expires_at timestamp DEFAULT NULL,
+          access_token_type varchar(100) DEFAULT NULL,
+          oidc_id_token_value varchar(1000) DEFAULT NULL,
+          oidc_id_token_issued_at timestamp DEFAULT NULL,
+          oidc_id_token_expires_at timestamp DEFAULT NULL,
+          refresh_token_value varchar(1000) DEFAULT NULL,
+          refresh_token_issued_at timestamp DEFAULT NULL,
+          refresh_token_expires_at timestamp DEFAULT NULL
+);
 
+CREATE TABLE SPRING_SESSION (
+        PRIMARY_ID CHAR(36) NOT NULL,
+        SESSION_ID CHAR(36) NOT NULL,
+        CREATION_TIME BIGINT NOT NULL,
+        LAST_ACCESS_TIME BIGINT NOT NULL,
+        MAX_INACTIVE_INTERVAL INT NOT NULL,
+        EXPIRY_TIME BIGINT NOT NULL,
+        PRINCIPAL_NAME VARCHAR(100),
+        CONSTRAINT SPRING_SESSION_PK PRIMARY KEY (PRIMARY_ID)
+);
+
+CREATE UNIQUE INDEX SPRING_SESSION_IX1 ON SPRING_SESSION (SESSION_ID);
+CREATE INDEX SPRING_SESSION_IX2 ON SPRING_SESSION (EXPIRY_TIME);
+CREATE INDEX SPRING_SESSION_IX3 ON SPRING_SESSION (PRINCIPAL_NAME);
+
+CREATE TABLE SPRING_SESSION_ATTRIBUTES (
+       SESSION_PRIMARY_ID CHAR(36) NOT NULL,
+       ATTRIBUTE_NAME VARCHAR(200) NOT NULL,
+       ATTRIBUTE_BYTES BYTEA NOT NULL,
+       CONSTRAINT SPRING_SESSION_ATTRIBUTES_PK PRIMARY KEY (SESSION_PRIMARY_ID, ATTRIBUTE_NAME),
+       CONSTRAINT SPRING_SESSION_ATTRIBUTES_FK FOREIGN KEY (SESSION_PRIMARY_ID) REFERENCES SPRING_SESSION(PRIMARY_ID) ON DELETE CASCADE
+);
 
 
 

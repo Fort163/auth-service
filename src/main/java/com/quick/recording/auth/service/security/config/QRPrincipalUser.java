@@ -4,7 +4,9 @@ import com.quick.recording.auth.service.entity.PermissionEntity;
 import com.quick.recording.auth.service.entity.UserEntity;
 import com.quick.recording.resource.service.enumeration.AuthProvider;
 import com.quick.recording.resource.service.enumeration.Gender;
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -16,6 +18,7 @@ import org.springframework.security.oauth2.core.user.OAuth2User;
 import java.security.Principal;
 import java.time.LocalDate;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.Map;
 
 @Getter
@@ -37,6 +40,26 @@ public class QRPrincipalUser implements OAuth2User, OidcUser, Principal, UserDet
     private Boolean credentialsNonExpired;
     private Boolean accountNonLocked;
     private Boolean enabled;
+
+    @Builder
+    public QRPrincipalUser(Collection<? extends GrantedAuthority> authorities, String name, String fullName, String userpic, String email, String locale, Gender genderEnum, AuthProvider provider, String phoneNumber, LocalDate birthDay, String password, String username, Boolean accountNonExpired, Boolean credentialsNonExpired, Boolean accountNonLocked, Boolean enabled) {
+        this.authorities = authorities;
+        this.name = name;
+        this.fullName = fullName;
+        this.userpic = userpic;
+        this.email = email;
+        this.locale = locale;
+        this.genderEnum = genderEnum;
+        this.provider = provider;
+        this.phoneNumber = phoneNumber;
+        this.birthDay = birthDay;
+        this.password = password;
+        this.username = username;
+        this.accountNonExpired = accountNonExpired;
+        this.credentialsNonExpired = credentialsNonExpired;
+        this.accountNonLocked = accountNonLocked;
+        this.enabled = enabled;
+    }
 
     public QRPrincipalUser(UserEntity user) {
         this.name = user.getUsername();
@@ -92,7 +115,7 @@ public class QRPrincipalUser implements OAuth2User, OidcUser, Principal, UserDet
 
     @Override
     public Map<String, Object> getClaims() {
-        return null;
+        return Map.of("active",true);
     }
 
     @Override
