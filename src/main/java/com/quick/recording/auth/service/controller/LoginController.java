@@ -46,10 +46,12 @@ public class LoginController {
         modelAndView.setViewName("registration");
         if(userRegistrationModel.getUsername().length() < 3){
             userRegistrationModel.setErrorUserName("Логин должен содержать хотябы 3 символа");
+            return modelAndView;
         }
         Boolean existsByUsername = userService.existsByUsername(userRegistrationModel.getUsername());
         if(existsByUsername){
             userRegistrationModel.setErrorUserName("Логин уже занят");
+            return modelAndView;
         }
         if(!Objects.equals(userRegistrationModel.getPassword(),userRegistrationModel.getConfirmPassword())){
             userRegistrationModel.setErrorPassword("Пороли не совпадают");
@@ -65,16 +67,17 @@ public class LoginController {
                 if(password.length() < 5){
                     errorPassword += " больше 5 символов; ";
                 }
-                if(!specChars.matcher(password).matches()){
+                if(!specChars.matcher(password).find()){
                     errorPassword += " спец символ « !@#$%^&* »; ";
                 }
-                if(!upper.matcher(password).matches()){
+                if(!upper.matcher(password).find()){
                     errorPassword += " латинскую букву в верхнем регистре; ";
                 }
-                if(!lower.matcher(password).matches()){
+                if(!lower.matcher(password).find()){
                     errorPassword += " латинскую букву в нижнем регистре; ";
                 }
                 userRegistrationModel.setErrorPassword(errorPassword);
+                return modelAndView;
             }
             UserEntity userEntity = userMapper.toUserEntity(userRegistrationModel);
             userEntity.setPassword(passwordEncoder.encode(userRegistrationModel.getPassword()));
