@@ -24,7 +24,6 @@ public class GoogleUser extends SocialUser {
                 .enabled(true)
                 .firstName((String) getAttribute("given_name"))
                 .lastName((String) getAttribute("family_name"))
-                .fullName((String) getAttribute("name"))
                 .gender(getGender())
                 .userpic((String) getAttribute("picture"))
                 //.phoneNumber(getPhone())

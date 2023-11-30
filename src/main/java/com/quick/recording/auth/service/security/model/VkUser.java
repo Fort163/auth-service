@@ -23,7 +23,6 @@ public class VkUser extends SocialUser {
                 .enabled(true)
                 .firstName((String) getAttribute("first_name"))
                 .lastName((String) getAttribute("last_name"))
-                .fullName(getFullName())
                 .gender(getGender())
                 .userpic(getImageUrl())
                 .phoneNumber((String) getAttribute("home_phone"))
@@ -33,20 +32,6 @@ public class VkUser extends SocialUser {
                 .accountNonExpired(true)
                 .lastVisit(LocalDateTime.now())
                 .build();
-    }
-
-    private String getFullName() {
-        String fullName = "";
-        String firstName = (String) getAttribute("first_name");
-        String lastName = (String) getAttribute("last_name");
-        if (Objects.nonNull(lastName)) {
-            fullName = lastName + " ";
-        }
-        if (Objects.nonNull(firstName)) {
-            fullName = fullName + firstName;
-        }
-
-        return fullName;
     }
 
     private Gender getGender() {

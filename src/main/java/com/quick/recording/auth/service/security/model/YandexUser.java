@@ -30,7 +30,6 @@ public class YandexUser extends SocialUser {
                 .enabled(true)
                 .firstName((String) getAttribute("first_name"))
                 .lastName((String) getAttribute("last_name"))
-                .fullName(((String) getAttribute("real_name")))
                 .gender(getGender())
                 .userpic(getImageUrl())
                 .phoneNumber(getPhone())
