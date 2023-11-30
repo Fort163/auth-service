@@ -1,6 +1,6 @@
 package com.quick.recording.auth.service.security.model;
 
-import com.quick.recording.auth.service.exception.AuthenticationProcessingException;
+import com.quick.recording.gateway.config.error.exeption.AuthenticationProcessingException;
 import com.quick.recording.resource.service.enumeration.AuthProvider;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 

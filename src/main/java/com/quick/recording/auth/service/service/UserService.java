@@ -1,12 +1,11 @@
 package com.quick.recording.auth.service.service;
 
 import com.quick.recording.auth.service.entity.UserEntity;
-import com.quick.recording.auth.service.exception.NotFoundException;
-import com.quick.recording.auth.service.security.model.SocialUserFactory;
 import com.quick.recording.auth.service.repository.UserRepository;
+import com.quick.recording.auth.service.security.model.SocialUserFactory;
+import com.quick.recording.gateway.config.error.exeption.NotFoundException;
 import com.quick.recording.resource.service.enumeration.AuthProvider;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 

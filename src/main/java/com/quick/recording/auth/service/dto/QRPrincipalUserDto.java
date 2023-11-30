@@ -8,11 +8,13 @@ import org.springframework.security.core.GrantedAuthority;
 
 import java.time.LocalDate;
 import java.util.Collection;
+import java.util.UUID;
 
 @Data
 public class QRPrincipalUserDto {
 
     private Collection<? extends GrantedAuthority> authorities;
+    private UUID uuid;
     private String name;
     private String fullName;
     private String userpic;
@@ -25,6 +27,7 @@ public class QRPrincipalUserDto {
     private Boolean active;
 
     public QRPrincipalUserDto(QRPrincipalUser user) {
+        this.uuid = user.getUuid();
         this.name = user.getUsername();
         this.fullName = user.getFullName();
         this.userpic = user.getUserpic();

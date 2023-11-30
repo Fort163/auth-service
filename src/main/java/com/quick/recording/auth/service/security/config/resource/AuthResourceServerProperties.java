@@ -1,5 +1,6 @@
 package com.quick.recording.auth.service.security.config.resource;
 
+import com.quick.recording.resource.service.security.ResourceServicePropertiesInterface;
 import jakarta.annotation.PostConstruct;
 import lombok.Getter;
 import lombok.Setter;
@@ -8,6 +9,7 @@ import org.apache.logging.log4j.util.Strings;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
 
 import java.util.Objects;
 
@@ -16,7 +18,8 @@ import java.util.Objects;
 @Getter
 @Configuration
 @Log4j2
-public class ResourceServerProperties {
+@Primary
+public class AuthResourceServerProperties implements ResourceServicePropertiesInterface {
 
     @Value("${spring.application.name}")
     private String username;
@@ -26,7 +29,7 @@ public class ResourceServerProperties {
     private String ssoUrl;
     private Boolean customAuth;
 
-    public ResourceServerProperties() {
+    public AuthResourceServerProperties() {
         ssoUrl = "http://localhost:8090/";
         introspectionUri = ssoUrl+"oauth2/token-info";
     }

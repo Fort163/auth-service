@@ -6,7 +6,6 @@ import com.quick.recording.resource.service.enumeration.AuthProvider;
 import com.quick.recording.resource.service.enumeration.Gender;
 import lombok.Builder;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -18,13 +17,14 @@ import org.springframework.security.oauth2.core.user.OAuth2User;
 import java.security.Principal;
 import java.time.LocalDate;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 @Getter
 public class QRPrincipalUser implements OAuth2User, OidcUser, Principal, UserDetails {
 
     private Collection<? extends GrantedAuthority> authorities;
+    private UUID uuid;
     private String name;
     private String fullName;
     private String userpic;
@@ -42,7 +42,8 @@ public class QRPrincipalUser implements OAuth2User, OidcUser, Principal, UserDet
     private Boolean enabled;
 
     @Builder
-    public QRPrincipalUser(Collection<? extends GrantedAuthority> authorities, String name, String fullName, String userpic, String email, String locale, Gender genderEnum, AuthProvider provider, String phoneNumber, LocalDate birthDay, String password, String username, Boolean accountNonExpired, Boolean credentialsNonExpired, Boolean accountNonLocked, Boolean enabled) {
+    public QRPrincipalUser(Collection<? extends GrantedAuthority> authorities,UUID uuid, String name, String fullName, String userpic, String email, String locale, Gender genderEnum, AuthProvider provider, String phoneNumber, LocalDate birthDay, String password, String username, Boolean accountNonExpired, Boolean credentialsNonExpired, Boolean accountNonLocked, Boolean enabled) {
+        this.uuid = uuid;
         this.authorities = authorities;
         this.name = name;
         this.fullName = fullName;
@@ -62,6 +63,7 @@ public class QRPrincipalUser implements OAuth2User, OidcUser, Principal, UserDet
     }
 
     public QRPrincipalUser(UserEntity user) {
+        this.uuid = user.getUuid();
         this.name = user.getUsername();
         this.username = user.getUsername();
         this.fullName = user.getFullName();

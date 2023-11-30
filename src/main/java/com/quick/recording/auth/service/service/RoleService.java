@@ -1,8 +1,8 @@
 package com.quick.recording.auth.service.service;
 
 import com.quick.recording.auth.service.entity.RoleEntity;
-import com.quick.recording.auth.service.exception.NotFoundException;
 import com.quick.recording.auth.service.repository.RoleRepository;
+import com.quick.recording.gateway.config.error.exeption.NotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

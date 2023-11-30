@@ -9,6 +9,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 @Component
@@ -21,9 +22,12 @@ public class QRUserDetailsService implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         Optional<UserEntity> user = userService.findByUsernameAndProvider(username, AuthProvider.local);
         if (user.isPresent()) {
-            return new QRPrincipalUser(user.get());
+            UserEntity userEntity = user.get();
+            userEntity.setLastVisit(LocalDateTime.now());
+            UserEntity save = userService.save(userEntity);
+            return new QRPrincipalUser(save);
         } else {
-            throw new UsernameNotFoundException("User with email " + username + " not found");
+            throw new UsernameNotFoundException("User with username " + username + " not found");
         }
     }
 

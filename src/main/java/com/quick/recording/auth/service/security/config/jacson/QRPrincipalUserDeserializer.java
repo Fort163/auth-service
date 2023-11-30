@@ -17,10 +17,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 public class QRPrincipalUserDeserializer extends JsonDeserializer<QRPrincipalUser> {
 
@@ -34,13 +31,14 @@ public class QRPrincipalUserDeserializer extends JsonDeserializer<QRPrincipalUse
     private QRPrincipalUser deserialize(JsonParser parser, ObjectMapper mapper, JsonNode root) throws JsonParseException {
         AuthProvider provider = AuthProvider.valueOf(this.findStringValue(root, "provider"));
         String username = this.findStringValue(root, "username");
+        String uuid = this.findStringValue(root, "uuid");
         String name = this.findStringValue(root, "name");
         String email = this.findStringValue(root, "email");
         String locale = this.findStringValue(root, "locale");
         Boolean enabled = Boolean.valueOf(this.findStringValue(root, "enabled"));
         LocalDate birthDay = null;
         if(Objects.nonNull(this.findStringValue(root, "birthDay"))){
-            birthDay = LocalDate.parse(this.findStringValue(root, "birthDay"), DateTimeFormatter.ofPattern("yyyy.MM.dd"));
+            birthDay = LocalDate.parse(this.findStringValue(root, "birthDay"), DateTimeFormatter.ofPattern("dd.MM.yyyy"));
         }
         String userpic = this.findStringValue(root, "userpic");
         String fullName = this.findStringValue(root, "fullName");
@@ -52,6 +50,7 @@ public class QRPrincipalUserDeserializer extends JsonDeserializer<QRPrincipalUse
 
         Boolean credentialsNonExpired = Boolean.valueOf(this.findStringValue(root, "credentialsNonExpired"));
         return QRPrincipalUser.builder()
+                .uuid(UUID.fromString(uuid))
                 .provider(provider)
                 .username(username)
                 .name(name)

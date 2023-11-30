@@ -3,14 +3,13 @@ package com.quick.recording.auth.service.security.config.jacson;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.quick.recording.gateway.config.LocalDateDeserialize;
-import com.quick.recording.gateway.config.LocalDateSerializer;
+import com.quick.recording.gateway.config.json.desirializer.LocalDateDeserializer;
+import com.quick.recording.gateway.config.json.serializer.LocalDateSerializer;
 
 @JsonDeserialize(
-        using = LocalDateDeserialize.class
+        using = LocalDateDeserializer.class
 )
 @JsonSerialize(
         using = LocalDateSerializer.class
