@@ -25,7 +25,7 @@ import java.util.Arrays;
 public class QRSocialConfigurer extends AbstractHttpConfigurer<QRSocialConfigurer, HttpSecurity> {
 
 
-    private final AuthenticationFailureHandler failureHandler;
+    private final QRSocialFailureHandler failureHandler;
     private final AuthenticationSuccessHandler successHandler;
     private final AuthorizationRequestRepository authorizationRequestRepository;
     private final OAuth2UserService auth2UserService;

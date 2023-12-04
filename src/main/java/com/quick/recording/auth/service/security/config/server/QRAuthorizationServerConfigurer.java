@@ -12,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import org.apache.logging.log4j.util.Strings;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.http.server.ServletServerHttpResponse;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.server.authorization.OAuth2Authorization;
 import org.springframework.security.oauth2.server.authorization.OAuth2AuthorizationService;
@@ -20,7 +21,6 @@ import org.springframework.security.oauth2.server.authorization.authentication.O
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
-import java.nio.file.AccessDeniedException;
 import java.util.Optional;
 
 @Component
