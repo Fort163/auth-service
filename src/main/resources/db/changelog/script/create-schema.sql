@@ -21,6 +21,11 @@ create table permission_entity
     uuid       uuid not null
         constraint permission_entity_pkey
             primary key,
+    created_by         varchar(255),
+    created_when       timestamp,
+    updated_by         varchar(255),
+    updated_when       timestamp ,
+    is_active boolean default true,
     permission varchar(255)
         constraint uk_permission_permission
             unique
@@ -31,6 +36,11 @@ create table role_entity
     uuid uuid not null
         constraint role_entity_pkey
             primary key,
+    created_by         varchar(255),
+    created_when       timestamp,
+    updated_by         varchar(255),
+    updated_when       timestamp ,
+    is_active boolean default true,
     name varchar(255)
         constraint uk_role_name
             unique

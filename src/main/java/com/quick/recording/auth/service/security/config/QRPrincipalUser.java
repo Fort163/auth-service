@@ -1,6 +1,7 @@
 package com.quick.recording.auth.service.security.config;
 
 import com.quick.recording.auth.service.entity.PermissionEntity;
+import com.quick.recording.auth.service.entity.RoleEntity;
 import com.quick.recording.auth.service.entity.UserEntity;
 import com.quick.recording.resource.service.enumeration.AuthProvider;
 import com.quick.recording.resource.service.enumeration.Gender;
@@ -84,7 +85,7 @@ public class QRPrincipalUser implements OAuth2User, OidcUser, Principal, UserDet
 
     @Override
     public Map<String, Object> getAttributes() {
-        return null;
+        return Map.of();
     }
 
     @Override
@@ -108,8 +109,9 @@ public class QRPrincipalUser implements OAuth2User, OidcUser, Principal, UserDet
     }
 
     private Collection<? extends GrantedAuthority> setAuthorities(UserEntity user) {
-        return user.getRoleList().stream()
+        return user.getRoleList().stream().filter(RoleEntity::getIsActive)
                 .flatMap(role -> role.getPermissions().stream())
+                .filter(PermissionEntity::getIsActive)
                 .map(PermissionEntity::getPermission)
                 .map(SimpleGrantedAuthority::new)
                 .toList();

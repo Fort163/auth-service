@@ -1,5 +1,6 @@
 package com.quick.recording.auth.service.entity;
 
+import com.quick.recording.gateway.entity.AuditEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.ManyToMany;
@@ -15,10 +16,13 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class PermissionEntity extends BaseEntity {
+public class PermissionEntity extends AuditEntity {
 
     @Column(name = "permission", unique = true)
     private String permission;
+
+    @Column(name = "is_active")
+    private Boolean isActive;
 
     @ManyToMany(mappedBy = "permissions")
     private List<RoleEntity> roleList;

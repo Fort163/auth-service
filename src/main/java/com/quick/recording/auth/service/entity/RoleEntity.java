@@ -1,5 +1,6 @@
 package com.quick.recording.auth.service.entity;
 
+import com.quick.recording.gateway.entity.AuditEntity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -13,10 +14,13 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class RoleEntity extends BaseEntity {
+public class RoleEntity extends AuditEntity {
 
     @Column(name = "name", unique = true)
     private String name;
+
+    @Column(name = "is_active")
+    private Boolean isActive;
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(

@@ -1,18 +1,15 @@
 package com.quick.recording.auth.service.service;
 
 import com.quick.recording.auth.service.entity.PermissionEntity;
-import com.quick.recording.auth.service.repository.PermissionRepository;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
 
-@Service
-@RequiredArgsConstructor
-public class PermissionService {
+import java.util.List;
+import java.util.UUID;
 
-    private final PermissionRepository permissionRepository;
+public interface PermissionService {
 
-    public PermissionEntity save(PermissionEntity entity) {
-        return permissionRepository.save(entity);
-    }
+    PermissionEntity save(PermissionEntity entity);
 
+    List<PermissionEntity> findAllByUuids(List<UUID> uuids);
+
+    List<PermissionEntity> saveAll(List<PermissionEntity> permissions);
 }
