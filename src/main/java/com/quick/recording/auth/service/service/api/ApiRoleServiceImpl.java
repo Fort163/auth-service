@@ -6,6 +6,7 @@ import com.quick.recording.auth.service.mapper.RoleMapper;
 import com.quick.recording.auth.service.repository.api.ApiRoleRepository;
 import com.quick.recording.auth.service.service.PermissionService;
 import com.quick.recording.gateway.config.error.exeption.NotFoundException;
+import com.quick.recording.gateway.dto.auth.PermissionDto;
 import com.quick.recording.gateway.dto.auth.RoleDto;
 import com.quick.recording.gateway.dto.auth.SearchRoleDto;
 import lombok.RequiredArgsConstructor;
@@ -47,7 +48,7 @@ public class ApiRoleServiceImpl implements ApiRoleService{
     @Override
     @Transactional
     public RoleDto post(RoleDto role) {
-        List<PermissionEntity> permissionByUuids = permissionService.findAllByUuids(role.getPermissions().stream().map(r -> r.getUuid()).toList());
+        List<PermissionEntity> permissionByUuids = permissionService.findAllByUuids(role.getPermissions().stream().map(PermissionDto::getUuid).toList());
         RoleEntity roleEntity = roleMapper.toRoleEntity(role);
         roleEntity.setPermissions(permissionByUuids);
         roleEntity.setIsActive(true);

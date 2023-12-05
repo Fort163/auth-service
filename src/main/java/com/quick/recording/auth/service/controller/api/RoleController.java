@@ -29,27 +29,27 @@ public class RoleController implements AuthServiceRoleApi {
     private final ApiRoleService apiRoleService;
 
     @Override
-    @PreAuthorize("hasAnyAuthority('SPACE_ADMIN')")
+    @PreAuthorize("hasAnyAuthority('ROLE_CREATE_SPACE')")
     public ResponseEntity<RoleDto> byUuid(@PathVariable UUID uuid){
         return ResponseEntity.ok(apiRoleService.byUuid(uuid));
     }
 
     @Override
-    @PreAuthorize("hasAnyAuthority('SPACE_ADMIN')")
+    @PreAuthorize("hasAnyAuthority('ROLE_CREATE_SPACE')")
     public Page<RoleDto> list(SearchRoleDto searchRoleDto, Pageable pageable){
         return apiRoleService.findAll(searchRoleDto,pageable);
     }
 
     @Override
     @Transactional(propagation = Propagation.REQUIRES_NEW)
-    @PreAuthorize("hasAnyAuthority('SPACE_ADMIN')")
+    @PreAuthorize("hasAnyAuthority('ROLE_CREATE_SPACE')")
     public ResponseEntity<RoleDto> post(@Validated(PostRole.class) @RequestBody RoleDto role) {
         RoleDto roleDto = apiRoleService.post(role);
         return ResponseEntity.ok(roleDto);
     }
 
     @Override
-    @PreAuthorize("hasAnyAuthority('SPACE_ADMIN')")
+    @PreAuthorize("hasAnyAuthority('ROLE_CREATE_SPACE')")
     public ResponseEntity<RoleDto> patch(@RequestBody RoleDto role){
         RoleDto roleDto = apiRoleService.patch(role);
         return ResponseEntity.ok(roleDto);
