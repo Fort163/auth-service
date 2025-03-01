@@ -20,7 +20,7 @@ import java.util.UUID;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/permission")
+@RequestMapping("/api/v1/permission")
 public class PermissionController implements AuthServicePermissionApi {
 
     private final ApiPermissionService apiPermissionService;
