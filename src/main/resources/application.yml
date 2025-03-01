@@ -1,87 +1,9 @@
-server:
-  port: ${SERVER_PORT}
 spring:
-  mvc:
-    static-path-pattern: ${MVC_STATIC_PATH_PATTERN}
-  main:
-    allow-bean-definition-overriding: ${ALLOW_BEAN_DEFINITION_OVERRIDING}
   application:
-    name: ${APPLICATION_NAME}
-  security:
-    oauth2:
-      resourceserver:
-        opaquetoken:
-          client-id: 'test-client'
-          client-secret: 'test-client'
-          custom-auth: true
-      client:
-        registration:
-          yandex:
-            client-name: ${OAUTH2_CLIENT_REGISTRATION_YANDEX_CLIENT_NAME}
-            clientId: ${OAUTH2_CLIENT_REGISTRATION_YANDEX_CLIENT_ID}
-            clientSecret: ${OAUTH2_CLIENT_REGISTRATION_YANDEX_CLIENT_SECRET}
-            redirectUri: ${OAUTH2_CLIENT_REGISTRATION_YANDEX_REDIRECT_URI}
-            client-authentication-method: ${OAUTH2_CLIENT_REGISTRATION_YANDEX_CLIENT_AUTH_METHOD}
-            authorization-grant-type: ${OAUTH2_CLIENT_REGISTRATION_YANDEX_AUTH_GRANT_TYPE}
-          vk:
-            client-name: ${OAUTH2_CLIENT_REGISTRATION_VK_CLIENT_NAME}
-            clientId: ${OAUTH2_CLIENT_REGISTRATION_VK_CLIENT_ID}
-            clientSecret: ${OAUTH2_CLIENT_REGISTRATION_VK_CLIENT_SECRET}
-            redirectUri: ${OAUTH2_CLIENT_REGISTRATION_VK_REDIRECT_URI}
-            client-authentication-method: ${OAUTH2_CLIENT_REGISTRATION_VK_CLIENT_AUTH_METHOD}
-            authorization-grant-type: ${OAUTH2_CLIENT_REGISTRATION_VK_AUTH_GRANT_TYPE}
-          google:
-            client-name: ${OAUTH2_CLIENT_REGISTRATION_GOOGLE_CLIENT_NAME}
-            clientId: ${OAUTH2_CLIENT_REGISTRATION_GOOGLE_CLIENT_ID}
-            clientSecret: ${OAUTH2_CLIENT_REGISTRATION_GOOGLE_CLIENT_SECRET}
-            redirectUri: ${OAUTH2_CLIENT_REGISTRATION_GOOGLE_REDIRECT_URI}
-            client-authentication-method: ${OAUTH2_CLIENT_REGISTRATION_GOOGLE_CLIENT_AUTH_METHOD}
-            authorization-grant-type: ${OAUTH2_CLIENT_REGISTRATION_GOOGLE_AUTH_GRANT_TYPE}
-            scope:
-              - openid
-              - email
-              - profile
-              - https://www.googleapis.com/auth/user.phonenumbers.read
-              - https://www.googleapis.com/auth/user.gender.read
-              - https://www.googleapis.com/auth/user.birthday.read
-        provider:
-          yandex:
-            authorization-uri: ${CLIENT_PROVIDER_YANDEX_AUTH_URI}
-            token-uri: ${CLIENT_PROVIDER_YANDEX_TOKEN_URI}
-            user-info-uri: ${CLIENT_PROVIDER_YANDEX_USER_INFO_URI}
-            user-name-attribute: ${CLIENT_PROVIDER_YANDEX_USER_NAME_ATTRIBUTE}
-          vk:
-            authorization-uri: ${CLIENT_PROVIDER_VK_AUTH_URI}
-            token-uri: ${CLIENT_PROVIDER_VK_TOKEN_URI}
-            user-info-uri: ${CLIENT_PROVIDER_VK_USER_INFO_URI}
-            user-name-attribute: ${CLIENT_PROVIDER_VK_USER_NAME_ATTRIBUTE}
-          google:
-            authorization-uri: ${CLIENT_PROVIDER_GOOGLE_AUTH_URI}
-            token-uri: ${CLIENT_PROVIDER_GOOGLE_TOKEN_URI}
-            user-info-uri: ${CLIENT_PROVIDER_GOOGLE_USER_INFO_URI}
-            user-name-attribute: ${CLIENT_PROVIDER_GOOGLE_USER_NAME_ATTRIBUTE}
-      authorization-server:
-        issuer-url: ${OAUTH2_AUTH_SERVER_ISSUER_URL}
-        introspection-endpoint: ${OAUTH2_AUTH_SERVER_INTROSPECTION_ENDPOINT}
-  datasource:
-    url: ${DATASOURCE_URL}
-    username: ${DATASOURCE_USERNAME}
-    password: ${DATASOURCE_PASSWORD}
-  jpa:
-    hibernate:
-      ddl-auto: ${JPA_HIBERNATE_DDL_AUTO}
-    show-sql: ${JPA_SHOW_SQL}
-    database-platform: ${JPA_DATABASE_PLATFORM}
-  liquibase:
-    change-log: ${LIQUIBASE_CHANGE_LOG}
-eureka:
-  instance:
-    hostname: ${EUREKA_INSTANCE_HOSTNAME}
-  client:
-    service-url:
-      defaultZone: ${EUREKA_CLIENT_SERVICE_URL}
-logging:
-  level:
-    org:
-      springframework:
-        security: ${LOGGING_LEVEL_ORG_SPRING_SECURITY}
+    name: auth-service
+  profiles:
+    active: local
+  config:
+    import: configserver:http://localhost:8001
+  main:
+    allow-bean-definition-overriding: true
