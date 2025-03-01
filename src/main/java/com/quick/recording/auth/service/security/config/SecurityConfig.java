@@ -81,7 +81,7 @@ public class SecurityConfig {
     @Bean
     public RegisteredClientRepository registeredClientRepository(@Autowired PasswordEncoder passwordEncoder) {
         JdbcRegisteredClientRepository jdbcRegisteredClientRepository = new JdbcRegisteredClientRepository(new JdbcTemplate(dataSource));
-        RegisteredClient.Builder test_client = RegisteredClient.withId("test-client-id")
+        RegisteredClient.Builder testClient = RegisteredClient.withId("test-client-id")
                 .clientName("Test Client")
                 .clientId("test-client")
                 .clientSecret(passwordEncoder.encode("test-client"))
@@ -100,7 +100,7 @@ public class SecurityConfig {
                         .reuseRefreshTokens(false)
                         .authorizationCodeTimeToLive(Duration.of(30, ChronoUnit.SECONDS))
                         .build());
-        jdbcRegisteredClientRepository.save(test_client.build());
+        jdbcRegisteredClientRepository.save(testClient.build());
         return jdbcRegisteredClientRepository;
     }
 
