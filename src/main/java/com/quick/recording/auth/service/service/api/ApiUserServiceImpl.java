@@ -9,6 +9,7 @@ import com.quick.recording.gateway.config.error.exeption.NotFoundException;
 import com.quick.recording.gateway.dto.auth.AuthUserDto;
 import com.quick.recording.gateway.dto.auth.Role2UserDto;
 import com.quick.recording.gateway.dto.auth.SearchUserDto;
+import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -27,12 +28,16 @@ public class ApiUserServiceImpl implements ApiUserService{
     private final UserMapper userMapper;
     private final RoleService roleService;
 
+    @Override
+    @CircuitBreaker(name = "database")
     public AuthUserDto byUuid(UUID uuid){
         Assert.notNull(uuid, "Uuid cannot be null");
         UserEntity userEntity = apiUserRepository.findById(uuid).orElseThrow(() -> new NotFoundException(UserEntity.class, uuid));
         return userMapper.toUserDto(userEntity);
     }
 
+    @Override
+    @CircuitBreaker(name = "database")
     public Page<AuthUserDto> findAll(SearchUserDto searchUserDto, Pageable pageable) {
         List<UserEntity> list = apiUserRepository.searchUser(searchUserDto, pageable);
         long count = apiUserRepository.searchUserCount(searchUserDto);
@@ -40,6 +45,8 @@ public class ApiUserServiceImpl implements ApiUserService{
         return new PageImpl<AuthUserDto>(result, pageable, count);
     }
 
+    @Override
+    @CircuitBreaker(name = "database")
     public AuthUserDto patch(AuthUserDto user) {
         Assert.notNull(user.getUuid(), "Uuid cannot be null");
         UserEntity userEntity = apiUserRepository.findById(user.getUuid()).orElseThrow(() -> new NotFoundException(UserEntity.class, user.getUuid()));
@@ -47,6 +54,8 @@ public class ApiUserServiceImpl implements ApiUserService{
         return userMapper.toUserDto(apiUserRepository.save(userEntity));
     }
 
+    @Override
+    @CircuitBreaker(name = "database")
     public AuthUserDto put(AuthUserDto user) {
         Assert.notNull(user.getUuid(), "Uuid cannot be null");
         UserEntity userEntity = apiUserRepository.findById(user.getUuid()).orElseThrow(() -> new NotFoundException(UserEntity.class, user.getUuid()));
@@ -54,6 +63,8 @@ public class ApiUserServiceImpl implements ApiUserService{
         return userMapper.toUserDto(apiUserRepository.save(userEntity));
     }
 
+    @Override
+    @CircuitBreaker(name = "database")
     public Boolean delete(UUID uuid) {
         Assert.notNull(uuid, "Uuid cannot be null");
         UserEntity userEntity = apiUserRepository.findById(uuid).orElseThrow(() -> new NotFoundException(UserEntity.class, uuid));
@@ -63,6 +74,7 @@ public class ApiUserServiceImpl implements ApiUserService{
     }
 
     @Override
+    @CircuitBreaker(name = "database")
     public Boolean addRole(Role2UserDto dto) {
         Assert.notNull(dto.getUser(), "Uuid user cannot be null");
         Assert.notNull(dto.getRole(), "Uuid role cannot be null");

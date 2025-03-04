@@ -110,11 +110,19 @@ public class QROAuth2AuthorizationService implements OAuth2AuthorizationService 
         return entity;
     }
 
-    private OAuth2Authorization convert(OAuthAuthorizationEntity oAuthAuthorizationEntity) throws JsonProcessingException {
+    private OAuth2Authorization convert(OAuthAuthorizationEntity oAuthAuthorizationEntity) {
         RegisteredClient byId = registeredClientRepository.findById(oAuthAuthorizationEntity.getRegisteredClient());
         Map<Class<? extends OAuth2Token>, OAuth2Token> tokens = new HashMap<>();
-        Map<String, Object> attributes = this.objectMapper.readValue(oAuthAuthorizationEntity.getAttributes(), new TypeReference<Map<String, Object>>() {
-        });
+        Map<String, Object> attributesVar = null;
+        try {
+            attributesVar = this.objectMapper.readValue(oAuthAuthorizationEntity.getAttributes(),
+                            new TypeReference<Map<String, Object>>() {});
+        } catch (JsonProcessingException e) {
+            //TODO
+            e.printStackTrace();
+            attributesVar = new HashMap<>();
+        }
+        Map<String, Object> attributes = attributesVar;
         OAuth2Authorization.Builder build = OAuth2Authorization.withRegisteredClient(byId)
                 .id(oAuthAuthorizationEntity.getUuid().toString())
                 .authorizationGrantType(new AuthorizationGrantType(oAuthAuthorizationEntity.getGrantType()))

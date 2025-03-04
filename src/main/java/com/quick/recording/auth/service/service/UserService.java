@@ -1,67 +1,24 @@
 package com.quick.recording.auth.service.service;
 
 import com.quick.recording.auth.service.entity.UserEntity;
-import com.quick.recording.auth.service.repository.UserRepository;
-import com.quick.recording.auth.service.security.model.SocialUserFactory;
-import com.quick.recording.gateway.config.error.exeption.NotFoundException;
 import com.quick.recording.resource.service.enumeration.AuthProvider;
-import lombok.RequiredArgsConstructor;
 import org.springframework.security.oauth2.core.user.OAuth2User;
-import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
-import java.util.Objects;
 import java.util.Optional;
 import java.util.UUID;
 
-@Service
-@RequiredArgsConstructor
-public class UserService {
+public interface UserService {
 
-    private final UserRepository userRepository;
+    UserEntity findById(UUID id);
 
-    public UserEntity findById(UUID id) {
-        return userRepository.findById(id).orElseThrow(() -> new NotFoundException(UserEntity.class, id));
-    }
+    Boolean existsByUsername(String username);
 
-    public Boolean existsByUsername(String username) {
-        return userRepository.existsByUsername(username);
-    }
+    Optional<UserEntity> findByUsernameAndProvider(String username,AuthProvider provider);
 
-    public Optional<UserEntity> findByUsernameAndProvider(String username,AuthProvider provider) {
-        return userRepository.findByUsernameAndProvider(username,provider);
-    }
+    Optional<UserEntity> findByEmail(String email);
 
-    public Optional<UserEntity> findByEmail(String email) {
-        return userRepository.findByEmail(email);
-    }
+    UserEntity save(UserEntity userEntity);
 
-    public UserEntity save(UserEntity userEntity) {
-        return userRepository.save(userEntity);
-    }
+    UserEntity save(OAuth2User oAuth2User, AuthProvider provider);
 
-    public UserEntity save(OAuth2User oAuth2User, AuthProvider provider) {
-        UserEntity userEntity = SocialUserFactory.createSocialUser(oAuth2User, provider).getUserEntity();
-        if(userRepository.existsByProviderAndProviderId(provider,userEntity.getProviderId())){
-            Optional<UserEntity> optional = userRepository.findByProviderAndProviderId(provider,userEntity.getProviderId());
-            if(optional.isPresent()){
-                UserEntity existUser = optional.get();
-                if(Objects.nonNull(userEntity.getBirthDay())){
-                    existUser.setBirthDay(userEntity.getBirthDay());
-                }
-                if(Objects.nonNull(userEntity.getEmail())){
-                    existUser.setEmail(userEntity.getEmail());
-                }
-                if(Objects.nonNull(userEntity.getUserpic())){
-                    existUser.setUserpic(userEntity.getUserpic());
-                }
-                if(Objects.nonNull(userEntity.getPhoneNumber()) && Objects.isNull(existUser.getPhoneNumber())){
-                    existUser.setPhoneNumber(userEntity.getPhoneNumber());
-                }
-                existUser.setLastVisit(LocalDateTime.now());
-                return save(existUser);
-            }
-        }
-        return save(userEntity);
-    }
 }

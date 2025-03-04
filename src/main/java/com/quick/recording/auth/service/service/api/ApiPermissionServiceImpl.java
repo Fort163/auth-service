@@ -7,6 +7,7 @@ import com.quick.recording.auth.service.service.RoleService;
 import com.quick.recording.gateway.config.error.exeption.NotFoundException;
 import com.quick.recording.gateway.dto.auth.PermissionDto;
 import com.quick.recording.gateway.dto.auth.SearchPermissionDto;
+import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -28,6 +29,7 @@ public class ApiPermissionServiceImpl implements ApiPermissionService{
 
 
     @Override
+    @CircuitBreaker(name = "database")
     public PermissionDto byUuid(UUID uuid) {
         Assert.notNull(uuid, "Uuid cannot be null");
         PermissionEntity entity = apiPermissionRepository.findById(uuid).orElseThrow(() -> new NotFoundException(PermissionEntity.class, uuid));
@@ -35,6 +37,7 @@ public class ApiPermissionServiceImpl implements ApiPermissionService{
     }
 
     @Override
+    @CircuitBreaker(name = "database")
     public Page<PermissionDto> findAll(SearchPermissionDto searchPermissionDto, Pageable pageable) {
         List<PermissionEntity> list = apiPermissionRepository.search(searchPermissionDto, pageable);
         long count = apiPermissionRepository.searchCount(searchPermissionDto);
@@ -44,6 +47,7 @@ public class ApiPermissionServiceImpl implements ApiPermissionService{
 
     @Override
     @Transactional
+    @CircuitBreaker(name = "database")
     public PermissionDto post(PermissionDto permissionDto) {
         PermissionEntity entity = permissionMapper.toPermissionEntity(permissionDto);
         entity.setIsActive(true);
@@ -52,6 +56,7 @@ public class ApiPermissionServiceImpl implements ApiPermissionService{
     }
 
     @Override
+    @CircuitBreaker(name = "database")
     public PermissionDto patch(PermissionDto permission) {
         Assert.notNull(permission.getUuid(), "Uuid cannot be null");
         PermissionEntity entity = apiPermissionRepository.findById(permission.getUuid()).orElseThrow(() -> new NotFoundException(PermissionEntity.class, permission.getUuid()));
@@ -60,6 +65,7 @@ public class ApiPermissionServiceImpl implements ApiPermissionService{
     }
 
     @Override
+    @CircuitBreaker(name = "database")
     public PermissionDto put(PermissionDto permission) {
         Assert.notNull(permission.getUuid(), "Uuid cannot be null");
         PermissionEntity roleEntity = apiPermissionRepository.findById(permission.getUuid()).orElseThrow(() -> new NotFoundException(PermissionEntity.class, permission.getUuid()));
@@ -68,6 +74,7 @@ public class ApiPermissionServiceImpl implements ApiPermissionService{
     }
 
     @Override
+    @CircuitBreaker(name = "database")
     public Boolean delete(UUID uuid) {
         Assert.notNull(uuid, "Uuid cannot be null");
         PermissionEntity roleEntity = apiPermissionRepository.findById(uuid).orElseThrow(() -> new NotFoundException(PermissionEntity.class, uuid));
