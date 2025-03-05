@@ -3,6 +3,7 @@ package com.quick.recording.auth.service.service;
 import com.quick.recording.auth.service.entity.UserEntity;
 import com.quick.recording.auth.service.repository.UserRepository;
 import com.quick.recording.auth.service.security.model.SocialUserFactory;
+import com.quick.recording.gateway.config.MessageUtil;
 import com.quick.recording.gateway.config.error.exeption.NotFoundException;
 import com.quick.recording.resource.service.enumeration.AuthProvider;
 import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
@@ -20,11 +21,12 @@ import java.util.UUID;
 public class UserServiceImpl implements UserService{
 
     private final UserRepository userRepository;
+    private final MessageUtil messageUtil;
 
     @Override
     @CircuitBreaker(name = "database")
     public UserEntity findById(UUID id) {
-        return userRepository.findById(id).orElseThrow(() -> new NotFoundException(UserEntity.class, id));
+        return userRepository.findById(id).orElseThrow(() -> new NotFoundException(messageUtil, UserEntity.class, id));
     }
 
     @Override

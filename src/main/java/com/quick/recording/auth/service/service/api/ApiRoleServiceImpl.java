@@ -5,6 +5,7 @@ import com.quick.recording.auth.service.entity.RoleEntity;
 import com.quick.recording.auth.service.mapper.RoleMapper;
 import com.quick.recording.auth.service.repository.api.ApiRoleRepository;
 import com.quick.recording.auth.service.service.PermissionService;
+import com.quick.recording.gateway.config.MessageUtil;
 import com.quick.recording.gateway.config.error.exeption.NotFoundException;
 import com.quick.recording.gateway.dto.auth.PermissionDto;
 import com.quick.recording.gateway.dto.auth.RoleDto;
@@ -30,12 +31,15 @@ public class ApiRoleServiceImpl implements ApiRoleService{
     private final ApiRoleRepository apiRoleRepository;
     private final PermissionService permissionService;
     private final RoleMapper roleMapper;
+    private final MessageUtil messageUtil;
 
     @Override
     @CircuitBreaker(name = "database")
     public RoleDto byUuid(UUID uuid) {
         Assert.notNull(uuid, "Uuid cannot be null");
-        RoleEntity entity = apiRoleRepository.findById(uuid).orElseThrow(() -> new NotFoundException(RoleEntity.class, uuid));
+        RoleEntity entity = apiRoleRepository.findById(uuid).orElseThrow(
+                () -> new NotFoundException(messageUtil, RoleEntity.class, uuid)
+        );
         return roleMapper.toRoleDto(entity);
     }
 
@@ -64,7 +68,9 @@ public class ApiRoleServiceImpl implements ApiRoleService{
     @CircuitBreaker(name = "database")
     public RoleDto patch(RoleDto role) {
         Assert.notNull(role.getUuid(), "Uuid cannot be null");
-        RoleEntity roleEntity = apiRoleRepository.findById(role.getUuid()).orElseThrow(() -> new NotFoundException(RoleEntity.class, role.getUuid()));
+        RoleEntity roleEntity = apiRoleRepository.findById(role.getUuid()).orElseThrow(
+                () -> new NotFoundException(messageUtil, RoleEntity.class, role.getUuid())
+        );
         roleEntity = roleMapper.toRoleEntityWithNull(role,roleEntity);
         LinkedList<UUID> uuids = role.getPermissions().stream().map(r -> r.getUuid()).collect(Collectors.toCollection(LinkedList::new));
         List<UUID> currentUuids = roleEntity.getPermissions().stream().map(r -> r.getUuid()).toList();
@@ -85,7 +91,9 @@ public class ApiRoleServiceImpl implements ApiRoleService{
     @CircuitBreaker(name = "database")
     public RoleDto put(RoleDto role) {
         Assert.notNull(role.getUuid(), "Uuid cannot be null");
-        RoleEntity roleEntity = apiRoleRepository.findById(role.getUuid()).orElseThrow(() -> new NotFoundException(RoleEntity.class, role.getUuid()));
+        RoleEntity roleEntity = apiRoleRepository.findById(role.getUuid()).orElseThrow(
+                () -> new NotFoundException(messageUtil, RoleEntity.class, role.getUuid())
+        );
         roleEntity = roleMapper.toRoleEntity(role,roleEntity);
         List<PermissionEntity> permissionByUuids = permissionService.findAllByUuids(role.getPermissions().stream().map(r -> r.getUuid()).toList());
         roleEntity.setPermissions(permissionByUuids);
@@ -97,7 +105,9 @@ public class ApiRoleServiceImpl implements ApiRoleService{
     @CircuitBreaker(name = "database")
     public Boolean delete(UUID uuid) {
         Assert.notNull(uuid, "Uuid cannot be null");
-        RoleEntity roleEntity = apiRoleRepository.findById(uuid).orElseThrow(() -> new NotFoundException(RoleEntity.class, uuid));
+        RoleEntity roleEntity = apiRoleRepository.findById(uuid).orElseThrow(
+                () -> new NotFoundException(messageUtil, RoleEntity.class, uuid)
+        );
         roleEntity.setIsActive(false);
         apiRoleRepository.save(roleEntity);
         return true;

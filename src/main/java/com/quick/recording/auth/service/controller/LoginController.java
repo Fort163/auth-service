@@ -4,6 +4,7 @@ import com.quick.recording.auth.service.entity.UserEntity;
 import com.quick.recording.auth.service.mapper.UserMapper;
 import com.quick.recording.auth.service.model.UserRegistrationModel;
 import com.quick.recording.auth.service.service.UserService;
+import com.quick.recording.gateway.config.MessageUtil;
 import com.quick.recording.resource.service.enumeration.AuthProvider;
 import com.quick.recording.resource.service.enumeration.Gender;
 import lombok.RequiredArgsConstructor;
@@ -15,6 +16,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 import java.util.regex.Pattern;
 
@@ -26,6 +29,7 @@ public class LoginController {
     private final UserService userService;
     private final UserMapper userMapper;
     private final PasswordEncoder passwordEncoder;
+    private final MessageUtil messageUtil;
 
     @GetMapping("/login")
     public String login() {
@@ -45,16 +49,18 @@ public class LoginController {
         modelAndView.addObject("model",userRegistrationModel);
         modelAndView.setViewName("registration");
         if(userRegistrationModel.getUsername().length() < 3){
-            userRegistrationModel.setErrorUserName("Логин должен содержать хотябы 3 символа");
+            userRegistrationModel.setErrorUserName(messageUtil.create("login.error.login.small"));
             return modelAndView;
         }
         Boolean existsByUsername = userService.existsByUsername(userRegistrationModel.getUsername());
         if(existsByUsername){
-            userRegistrationModel.setErrorUserName("Логин уже занят");
+            userRegistrationModel.setErrorUserName(messageUtil.create("login.error.login.taken"));
             return modelAndView;
         }
         if(!Objects.equals(userRegistrationModel.getPassword(),userRegistrationModel.getConfirmPassword())){
-            userRegistrationModel.setErrorPassword("Пороли не совпадают");
+            userRegistrationModel.setErrorConfirmPassword(
+                    messageUtil.create("login.error.password.not.confirm")
+            );
         }
         else {
             String password = userRegistrationModel.getPassword();
@@ -63,20 +69,20 @@ public class LoginController {
                 Pattern specChars = Pattern.compile("(?=.*[!@#$%^&*])");
                 Pattern upper = Pattern.compile("(?=.*[A-Z])");
                 Pattern lower = Pattern.compile("(?=.*[a-z])");
-                String errorPassword = "Пороль должен содержать";
+                List<String> errorsPassword = new ArrayList<>();
                 if(password.length() < 5){
-                    errorPassword += " больше 5 символов; ";
+                    errorsPassword.add(messageUtil.create("login.error.password.small"));
                 }
                 if(!specChars.matcher(password).find()){
-                    errorPassword += " спец символ « !@#$%^&* »; ";
+                    errorsPassword.add(messageUtil.create("login.error.password.symbol"));
                 }
                 if(!upper.matcher(password).find()){
-                    errorPassword += " латинскую букву в верхнем регистре; ";
+                    errorsPassword.add(messageUtil.create("login.error.password.upper"));
                 }
                 if(!lower.matcher(password).find()){
-                    errorPassword += " латинскую букву в нижнем регистре; ";
+                    errorsPassword.add(messageUtil.create("login.error.password.lower"));
                 }
-                userRegistrationModel.setErrorPassword(errorPassword);
+                userRegistrationModel.setErrorsPassword(errorsPassword);
                 return modelAndView;
             }
             UserEntity userEntity = userMapper.toUserEntity(userRegistrationModel);

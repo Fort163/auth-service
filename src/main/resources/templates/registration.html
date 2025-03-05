@@ -2,21 +2,27 @@
 <html xmlns:th="http://www.thymeleaf.org" style="height: 100%; margin: 0px">
 <head>
     <meta http-equiv="content-type" content="text/html; charset=UTF-8">
-    <title>Please sign in</title>
+    <title th:text="#{registration.title}"></title>
     <link th:href="@{/css/login.css}" rel="stylesheet"/>
     <link th:href="@{/css/registration.css}" rel="stylesheet"/>
 </head>
 <body style="height: 100%; margin: 0px">
 <div class="container" th:object="${model}" >
     <form class="container-form" style="height: max-content" method="post" action="/login/registration">
-        <input type="text" id="firstName" name="firstName" class="form-control" placeholder="Имя" th:field="*{firstName}" required autofocus>
-        <input type="text" id="lastName" name="lastName" class="form-control" placeholder="Фамилия" th:field="*{lastName}" required >
-        <input type="text" id="username" name="username" class="form-control" placeholder="Логин" th:field="*{username}" required >
+        <input type="text" id="firstName" name="firstName" class="form-control" th:placeholder="#{registration.first.name}" th:field="*{firstName}" required autofocus>
+        <input type="text" id="lastName" name="lastName" class="form-control" th:placeholder="#{registration.last.name}" th:field="*{lastName}" required >
+        <input type="text" id="username" name="username" class="form-control" th:placeholder="#{registration.username}" th:field="*{username}" required >
         <div th:if="*{errorUserName != null}" class="error" th:text="*{errorUserName}"></div>
-        <input type="password" id="password" name="password" class="form-control" placeholder="Пароль" th:field="*{password}" required >
-        <input type="password" id="confirmPassword" name="confirmPassword" class="form-control" placeholder="Подтвердите пароль" th:field="*{confirmPassword}" required >
-        <div th:if="*{errorPassword != null}" class="error" th:text="*{errorPassword}"></div>
-        <button class="btn-submit" style="margin-top: 30px" type="submit">Регистрация</button>
+        <input type="password" id="password" name="password" class="form-control" th:placeholder="#{registration.password}" th:field="*{password}" required >
+        <input type="password" id="confirmPassword" name="confirmPassword" class="form-control" th:placeholder="#{registration.confirm.password}" th:field="*{confirmPassword}" required >
+        <div th:if="*{errorConfirmPassword != null}" class="error" th:text="*{errorConfirmPassword}"></div>
+        <div th:if="*{errorsPassword != null && !errorsPassword.isEmpty()}" class="error">
+            <label th:text="#{login.error.password.text}"></label>
+            <ul th:each="str : *{errorsPassword}">
+                <li style="font-size: large" th:text="${str}"/>
+            </ul>
+        </div>
+        <button class="btn-submit" style="margin-top: 30px" type="submit" th:text="#{auth.registration}"></button>
     </form>
 </div>
 </body>

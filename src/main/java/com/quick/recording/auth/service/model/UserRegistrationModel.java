@@ -2,6 +2,8 @@ package com.quick.recording.auth.service.model;
 
 import lombok.Data;
 
+import java.util.List;
+
 @Data
 public class UserRegistrationModel {
 
@@ -11,6 +13,7 @@ public class UserRegistrationModel {
     private String errorUserName;
     private String password;
     private String confirmPassword;
-    private String errorPassword;
+    private String errorConfirmPassword;
+    private List<String> errorsPassword;
 
 }
