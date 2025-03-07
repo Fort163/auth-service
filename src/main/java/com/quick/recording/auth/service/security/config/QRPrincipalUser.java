@@ -43,7 +43,7 @@ public class QRPrincipalUser implements OAuth2User, OidcUser, Principal, UserDet
     private Boolean enabled;
 
     @Builder
-    public QRPrincipalUser(Collection<? extends GrantedAuthority> authorities,UUID uuid, String name, String fullName, String userpic, String email, String locale, Gender genderEnum, AuthProvider provider, String phoneNumber, LocalDate birthDay, String password, String username, Boolean accountNonExpired, Boolean credentialsNonExpired, Boolean accountNonLocked, Boolean enabled) {
+    public QRPrincipalUser(Collection<? extends GrantedAuthority> authorities, UUID uuid, String name, String fullName, String userpic, String email, String locale, Gender genderEnum, AuthProvider provider, String phoneNumber, LocalDate birthDay, String password, String username, Boolean accountNonExpired, Boolean credentialsNonExpired, Boolean accountNonLocked, Boolean enabled) {
         this.uuid = uuid;
         this.authorities = authorities;
         this.name = name;
@@ -119,7 +119,7 @@ public class QRPrincipalUser implements OAuth2User, OidcUser, Principal, UserDet
 
     @Override
     public Map<String, Object> getClaims() {
-        return Map.of("active",true);
+        return Map.of("active", true);
     }
 
     @Override
@@ -133,7 +133,7 @@ public class QRPrincipalUser implements OAuth2User, OidcUser, Principal, UserDet
     }
 
     @Override
-    public String getGender(){
+    public String getGender() {
         return null;
     }
 

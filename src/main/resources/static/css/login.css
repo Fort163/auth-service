@@ -12,13 +12,13 @@
     cursor: pointer;
 }
 
-.google-button:hover{
+.google-button:hover {
     background-color: #cbf4ff;
     border-radius: 10px;
-    box-shadow:0 0 30px rgb(153, 231, 252);
+    box-shadow: 0 0 30px rgb(153, 231, 252);
 }
 
-.google-button:focus{
+.google-button:focus {
     outline: none;
 }
 
@@ -35,13 +35,13 @@
     cursor: pointer;
 }
 
-.yandex-button:hover{
+.yandex-button:hover {
     background-color: #ffcfcf;
     border-radius: 10px;
-    box-shadow:0 0 30px rgb(252, 153, 165);
+    box-shadow: 0 0 30px rgb(252, 153, 165);
 }
 
-.yandex-button:focus{
+.yandex-button:focus {
     outline: none;
 }
 
@@ -58,17 +58,17 @@
     cursor: pointer;
 }
 
-.vk-button:hover{
+.vk-button:hover {
     background-color: #d1e6ff;
     border-radius: 10px;
-    box-shadow:0 0 25px #97c8ff;
+    box-shadow: 0 0 25px #97c8ff;
 }
 
-.vk-button:focus{
+.vk-button:focus {
     outline: none;
 }
 
-.container{
+.container {
     display: flex;
     height: 100%;
     flex-direction: row;
@@ -90,13 +90,13 @@
     box-shadow: 5px 5px 30px #22add9;
 }
 
-.form-signin{
+.form-signin {
     display: flex;
     flex-direction: column;
     margin: auto;
 }
 
-.btn-submit{
+.btn-submit {
     margin-top: 10px;
     margin-right: auto;
     margin-left: auto;
@@ -109,18 +109,18 @@
     border: none;
 }
 
-.btn-submit:hover{
+.btn-submit:hover {
     background-color: #2271d9;
 }
 
-.form-signin-heading{
+.form-signin-heading {
     width: 100%;
     border-bottom: 2px groove #22add9;
     text-align: center;
     color: #1298bd;
 }
 
-.form-control{
+.form-control {
     width: 90%;
     min-height: 65px;
     font-size: 30px;
@@ -134,17 +134,17 @@
     text-align: center;
 }
 
-.form-control:focus{
+.form-control:focus {
     outline: none;
 }
 
-.container-social{
+.container-social {
     display: flex;
     flex-direction: column;
-    margin : auto;
+    margin: auto;
 }
 
-.label-social{
+.label-social {
     margin-right: auto;
     margin-left: auto;
     font-style: italic;
@@ -152,7 +152,7 @@
     width: 100%;
 }
 
-.span_row{
+.span_row {
     display: block;
     position: relative;
     top: 12px;
@@ -161,11 +161,11 @@
     border: 1px inset #22add9;
 }
 
-.span_left{
+.span_left {
     top: 13px;
     left: 0px;
 }
 
-.span_right{
+.span_right {
     right: -55%;
 }

@@ -11,11 +11,11 @@ import java.time.LocalDate;
 public class QROAuth2AuthorizationServerJackson2Module extends SimpleModule {
 
     public QROAuth2AuthorizationServerJackson2Module() {
-        super(QROAuth2AuthorizationServerJackson2Module.class.getName(), new Version(1, 0, 0, (String)null, (String)null, (String)null));
+        super(QROAuth2AuthorizationServerJackson2Module.class.getName(), new Version(1, 0, 0, (String) null, (String) null, (String) null));
     }
 
     public void setupModule(SetupContext context) {
-        SecurityJackson2Modules.enableDefaultTyping((ObjectMapper)context.getOwner());
+        SecurityJackson2Modules.enableDefaultTyping((ObjectMapper) context.getOwner());
         context.setMixInAnnotations(QRPrincipalUser.class, QRPrincipalMixin.class);
         context.setMixInAnnotations(LocalDate.class, LocalDateMixin.class);
     }

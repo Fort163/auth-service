@@ -20,14 +20,14 @@ public class QRSuccessHandler extends SavedRequestAwareAuthenticationSuccessHand
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws ServletException, IOException {
-        if(Arrays.stream(request.getCookies()).filter(cookie -> MAIN_SESSION.equals(cookie.getName())).toList().isEmpty()) {
+        if (Arrays.stream(request.getCookies()).filter(cookie -> MAIN_SESSION.equals(cookie.getName())).toList().isEmpty()) {
             Cookie cookie = this.createCookie(request);
             response.addCookie(cookie);
         }
         super.onAuthenticationSuccess(request, response, authentication);
     }
 
-    private Cookie createCookie(HttpServletRequest request){
+    private Cookie createCookie(HttpServletRequest request) {
         Cookie cookie = new Cookie(MAIN_SESSION, request.getSession().getId());
         cookie.setMaxAge(Integer.MAX_VALUE);
         return cookie;

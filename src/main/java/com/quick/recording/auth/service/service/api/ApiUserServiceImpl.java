@@ -23,7 +23,7 @@ import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
-public class ApiUserServiceImpl implements ApiUserService{
+public class ApiUserServiceImpl implements ApiUserService {
 
     private final ApiUserRepository apiUserRepository;
     private final UserMapper userMapper;
@@ -32,7 +32,7 @@ public class ApiUserServiceImpl implements ApiUserService{
 
     @Override
     @CircuitBreaker(name = "database")
-    public AuthUserDto byUuid(UUID uuid){
+    public AuthUserDto byUuid(UUID uuid) {
         Assert.notNull(uuid, "Uuid cannot be null");
         UserEntity userEntity = apiUserRepository.findById(uuid).orElseThrow(
                 () -> new NotFoundException(messageUtil, UserEntity.class, uuid)
@@ -56,7 +56,7 @@ public class ApiUserServiceImpl implements ApiUserService{
         UserEntity userEntity = apiUserRepository.findById(user.getUuid()).orElseThrow(
                 () -> new NotFoundException(messageUtil, UserEntity.class, user.getUuid())
         );
-        userEntity = userMapper.toUserEntityWithNull(user,userEntity);
+        userEntity = userMapper.toUserEntityWithNull(user, userEntity);
         return userMapper.toUserDto(apiUserRepository.save(userEntity));
     }
 
@@ -67,7 +67,7 @@ public class ApiUserServiceImpl implements ApiUserService{
         UserEntity userEntity = apiUserRepository.findById(user.getUuid()).orElseThrow(
                 () -> new NotFoundException(messageUtil, UserEntity.class, user.getUuid())
         );
-        userEntity = userMapper.toUserEntity(user,userEntity);
+        userEntity = userMapper.toUserEntity(user, userEntity);
         return userMapper.toUserDto(apiUserRepository.save(userEntity));
     }
 

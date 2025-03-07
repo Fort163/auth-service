@@ -38,40 +38,34 @@ public class QRAuthorizationServerConfigurer {
             OAuth2Authorization tokenAuth = oAuth2AuthorizationService.findByToken(token, OAuth2TokenType.ACCESS_TOKEN);
             Authentication attributeAuth = tokenAuth.getAttribute("java.security.Principal");
             if (attributeAuth != null) {
-                if(attributeAuth.getPrincipal() instanceof QRPrincipalUser){
+                if (attributeAuth.getPrincipal() instanceof QRPrincipalUser) {
                     QRPrincipalUserDto qrPrincipalUserDto = new QRPrincipalUserDto((QRPrincipalUser) attributeAuth.getPrincipal());
                     ServletServerHttpResponse httpResponse = new ServletServerHttpResponse(response);
                     mappingJackson2HttpMessageConverter.write(qrPrincipalUserDto, null, httpResponse);
-                }else {
+                } else {
                     throw new ClassCastException("Principal not supported " + attributeAuth.getPrincipal().getClass());
                 }
-            }
-            else {
-                if(Strings.isNotEmpty(request.getHeader("username"))){
-                    Optional<UserEntity> user = userService.findByUsernameAndProvider(request.getHeader("username"),AuthProvider.service);
-                    if(user.isPresent()) {
+            } else {
+                if (Strings.isNotEmpty(request.getHeader("username"))) {
+                    Optional<UserEntity> user = userService.findByUsernameAndProvider(request.getHeader("username"), AuthProvider.service);
+                    if (user.isPresent()) {
                         UserEntity userEntity = user.get();
-                        if(userEntity.getProvider().equals(AuthProvider.service)){
+                        if (userEntity.getProvider().equals(AuthProvider.service)) {
                             QRPrincipalUserDto qrPrincipalUserDto = new QRPrincipalUserDto(new QRPrincipalUser(userEntity));
                             ServletServerHttpResponse httpResponse = new ServletServerHttpResponse(response);
                             mappingJackson2HttpMessageConverter.write(qrPrincipalUserDto, null, httpResponse);
-                        }
-                        else {
+                        } else {
                             throw new AccessDeniedException("User with email " + request.getHeader("username") + " have provider not service access denied");
                         }
-                    }
-                    else {
+                    } else {
                         throw new NotFoundException("User with email " + request.getHeader("username") + " not found");
                     }
                 }
             }
-        }
-        else {
+        } else {
             throw new AccessDeniedException("User for this token is blocked " + introspectionAuthenticationToken.getTokenClaims().getUsername());
         }
     }
-
-
 
 
 }

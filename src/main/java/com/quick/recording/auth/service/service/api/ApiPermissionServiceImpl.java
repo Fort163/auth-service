@@ -22,7 +22,7 @@ import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
-public class ApiPermissionServiceImpl implements ApiPermissionService{
+public class ApiPermissionServiceImpl implements ApiPermissionService {
 
     private final PermissionMapper permissionMapper;
     private final ApiPermissionRepository apiPermissionRepository;
@@ -65,7 +65,7 @@ public class ApiPermissionServiceImpl implements ApiPermissionService{
         PermissionEntity entity = apiPermissionRepository.findById(permission.getUuid()).orElseThrow(
                 () -> new NotFoundException(messageUtil, PermissionEntity.class, permission.getUuid())
         );
-        entity = permissionMapper.toPermissionEntityWithNull(permission,entity);
+        entity = permissionMapper.toPermissionEntityWithNull(permission, entity);
         return permissionMapper.toPermissionDto(apiPermissionRepository.save(entity));
     }
 
@@ -76,7 +76,7 @@ public class ApiPermissionServiceImpl implements ApiPermissionService{
         PermissionEntity roleEntity = apiPermissionRepository.findById(permission.getUuid()).orElseThrow(
                 () -> new NotFoundException(messageUtil, PermissionEntity.class, permission.getUuid())
         );
-        roleEntity = permissionMapper.toPermissionEntity(permission,roleEntity);
+        roleEntity = permissionMapper.toPermissionEntity(permission, roleEntity);
         return permissionMapper.toPermissionDto(apiPermissionRepository.save(apiPermissionRepository.save(roleEntity)));
     }
 

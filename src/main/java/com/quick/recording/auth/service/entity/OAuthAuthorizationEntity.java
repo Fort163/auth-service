@@ -17,7 +17,7 @@ import java.util.Map;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class OAuthAuthorizationEntity extends BaseEntity{
+public class OAuthAuthorizationEntity extends BaseEntity {
 
     @Column(name = "registered_client_id")
     private String registeredClient;

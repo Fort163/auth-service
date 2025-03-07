@@ -17,22 +17,21 @@ import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
-public class SpringSessionServiceImpl implements SpringSessionService{
+public class SpringSessionServiceImpl implements SpringSessionService {
 
     private final SpringSessionRepository springSessionRepository;
 
     @Override
     @CircuitBreaker(name = "database")
-    public Boolean logout(){
+    public Boolean logout() {
         Optional<Set<SpringSessionEntity>> springSessions;
         String mainSession = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest().getHeader(QRSuccessHandler.MAIN_SESSION);
-        if(Objects.nonNull(mainSession)){
-            springSessions = springSessionRepository.findAllByPrincipalNameAndSessionId(SecurityContextHolder.getContext().getAuthentication().getName(),mainSession);
-        }
-        else {
+        if (Objects.nonNull(mainSession)) {
+            springSessions = springSessionRepository.findAllByPrincipalNameAndSessionId(SecurityContextHolder.getContext().getAuthentication().getName(), mainSession);
+        } else {
             springSessions = springSessionRepository.findAllByPrincipalName(SecurityContextHolder.getContext().getAuthentication().getName());
         }
-        if(springSessions.isPresent()){
+        if (springSessions.isPresent()) {
             springSessionRepository.deleteAll(springSessions.get());
             return true;
         }

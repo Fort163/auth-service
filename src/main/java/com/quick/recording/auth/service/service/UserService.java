@@ -13,7 +13,7 @@ public interface UserService {
 
     Boolean existsByUsername(String username);
 
-    Optional<UserEntity> findByUsernameAndProvider(String username,AuthProvider provider);
+    Optional<UserEntity> findByUsernameAndProvider(String username, AuthProvider provider);
 
     Optional<UserEntity> findByEmail(String email);
 

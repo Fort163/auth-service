@@ -12,7 +12,7 @@ values (gen_random_uuid(), '2000-01-01', 'user-service', 'user-service', 'NOT_DE
         true, true, true, true);
 insert into qr_user(uuid, birth_day, full_name, username, gender, provider, account_non_expired,
                     account_non_locked, credentials_non_expired, enabled)
-values (gen_random_uuid(), '2000-01-01', 'part-time-service', 'part-time-service', 'NOT_DEFINED','service',
+values (gen_random_uuid(), '2000-01-01', 'part-time-service', 'part-time-service', 'NOT_DEFINED', 'service',
         true, true, true, true);
 insert into qr_user(uuid, birth_day, full_name, username, gender, provider, account_non_expired,
                     account_non_locked, credentials_non_expired, enabled)

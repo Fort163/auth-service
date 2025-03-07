@@ -18,7 +18,7 @@ import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
-public class UserServiceImpl implements UserService{
+public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
     private final MessageUtil messageUtil;
@@ -37,8 +37,8 @@ public class UserServiceImpl implements UserService{
 
     @Override
     @CircuitBreaker(name = "database")
-    public Optional<UserEntity> findByUsernameAndProvider(String username,AuthProvider provider) {
-        return userRepository.findByUsernameAndProvider(username,provider);
+    public Optional<UserEntity> findByUsernameAndProvider(String username, AuthProvider provider) {
+        return userRepository.findByUsernameAndProvider(username, provider);
     }
 
     @Override
@@ -57,20 +57,20 @@ public class UserServiceImpl implements UserService{
     @CircuitBreaker(name = "database")
     public UserEntity save(OAuth2User oAuth2User, AuthProvider provider) {
         UserEntity userEntity = SocialUserFactory.createSocialUser(oAuth2User, provider).getUserEntity();
-        if(userRepository.existsByProviderAndProviderId(provider,userEntity.getProviderId())){
-            Optional<UserEntity> optional = userRepository.findByProviderAndProviderId(provider,userEntity.getProviderId());
-            if(optional.isPresent()){
+        if (userRepository.existsByProviderAndProviderId(provider, userEntity.getProviderId())) {
+            Optional<UserEntity> optional = userRepository.findByProviderAndProviderId(provider, userEntity.getProviderId());
+            if (optional.isPresent()) {
                 UserEntity existUser = optional.get();
-                if(Objects.nonNull(userEntity.getBirthDay())){
+                if (Objects.nonNull(userEntity.getBirthDay())) {
                     existUser.setBirthDay(userEntity.getBirthDay());
                 }
-                if(Objects.nonNull(userEntity.getEmail())){
+                if (Objects.nonNull(userEntity.getEmail())) {
                     existUser.setEmail(userEntity.getEmail());
                 }
-                if(Objects.nonNull(userEntity.getUserpic())){
+                if (Objects.nonNull(userEntity.getUserpic())) {
                     existUser.setUserpic(userEntity.getUserpic());
                 }
-                if(Objects.nonNull(userEntity.getPhoneNumber()) && Objects.isNull(existUser.getPhoneNumber())){
+                if (Objects.nonNull(userEntity.getPhoneNumber()) && Objects.isNull(existUser.getPhoneNumber())) {
                     existUser.setPhoneNumber(userEntity.getPhoneNumber());
                 }
                 existUser.setLastVisit(LocalDateTime.now());

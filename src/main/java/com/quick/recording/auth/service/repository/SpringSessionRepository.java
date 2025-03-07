@@ -11,7 +11,7 @@ import java.util.Set;
 public interface SpringSessionRepository extends JpaRepository<SpringSessionEntity, String> {
 
 
-    Optional<Set<SpringSessionEntity>> findAllByPrincipalNameAndSessionId(String principalName,String sessionId);
+    Optional<Set<SpringSessionEntity>> findAllByPrincipalNameAndSessionId(String principalName, String sessionId);
 
     Optional<Set<SpringSessionEntity>> findAllByPrincipalName(String principalName);
 

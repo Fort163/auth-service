@@ -47,7 +47,6 @@ public class QROAuth2UserService extends DefaultOAuth2UserService {
     }
 
 
-
     private OAuth2User loadVkUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
         Assert.notNull(userRequest, "userRequest cannot be null");
         RestTemplate restTemplate = new RestTemplate();

@@ -24,7 +24,7 @@ public class UserListener {
     }
 
     @PreUpdate
-    private void preUpdate(UserEntity entity){
+    private void preUpdate(UserEntity entity) {
         entity.setFullName(fullName(entity));
     }
 
@@ -37,12 +37,12 @@ public class UserListener {
         }
     }
 
-    private String fullName(UserEntity user){
+    private String fullName(UserEntity user) {
         String result = "";
-        if(Objects.nonNull(user.getFirstName())){
+        if (Objects.nonNull(user.getFirstName())) {
             result += user.getFirstName() + " ";
         }
-        if(Objects.nonNull(user.getLastName())){
+        if (Objects.nonNull(user.getLastName())) {
             result += user.getLastName();
         }
         return result;

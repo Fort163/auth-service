@@ -15,12 +15,11 @@ public interface UserRepository extends JpaRepository<UserEntity, UUID> {
 
     Boolean existsByEmail(String email);
 
-    Optional<UserEntity> findByUsernameAndProvider(String email,AuthProvider provider);
+    Optional<UserEntity> findByUsernameAndProvider(String email, AuthProvider provider);
 
     Optional<UserEntity> findByUsername(String email);
 
     Boolean existsByUsername(String email);
-
 
 
     Boolean existsByProviderAndProviderId(AuthProvider provider, String providerId);

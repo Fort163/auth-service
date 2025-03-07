@@ -42,7 +42,7 @@ public class QROAuth2AuthorizationService implements OAuth2AuthorizationService 
     private ObjectMapper objectMapper = new ObjectMapper();
 
     @PostConstruct
-    private void init(){
+    private void init() {
         ClassLoader classLoader = QROAuth2AuthorizationService.class.getClassLoader();
         List<Module> securityModules = SecurityJackson2Modules.getModules(classLoader);
         this.objectMapper.registerModules(securityModules);
@@ -60,7 +60,7 @@ public class QROAuth2AuthorizationService implements OAuth2AuthorizationService 
     @Override
     public void remove(OAuth2Authorization authorization) {
         Optional<OAuthAuthorizationEntity> byId = oAuthAuthorizationService.findByUuid(UUID.fromString(authorization.getId()));
-        if(byId.isPresent()) {
+        if (byId.isPresent()) {
             oAuthAuthorizationService.delete(byId.get().getUuid());
         }
     }
@@ -68,9 +68,9 @@ public class QROAuth2AuthorizationService implements OAuth2AuthorizationService 
     @SneakyThrows
     @Override
     public OAuth2Authorization findById(String id) {
-        if(id != null) {
+        if (id != null) {
             Optional<OAuthAuthorizationEntity> byId = oAuthAuthorizationService.findByUuid(UUID.fromString(id));
-            if(byId.isPresent()) {
+            if (byId.isPresent()) {
                 return convert(byId.get());
             }
         }
@@ -80,10 +80,10 @@ public class QROAuth2AuthorizationService implements OAuth2AuthorizationService 
     @SneakyThrows
     @Override
     public OAuth2Authorization findByToken(String token, OAuth2TokenType tokenType) {
-        if(token != null) {
+        if (token != null) {
             String type = tokenType != null ? tokenType.getValue() : "notSet";
             Optional<OAuthAuthorizationEntity> byToken = oAuthAuthorizationService.findByToken(token, type);
-            if(byToken.isPresent()) {
+            if (byToken.isPresent()) {
                 return convert(byToken.get());
             }
         }
@@ -92,21 +92,19 @@ public class QROAuth2AuthorizationService implements OAuth2AuthorizationService 
 
     private OAuthAuthorizationEntity convert(OAuth2Authorization oAuth2Authorization) throws JsonProcessingException {
         OAuthAuthorizationEntity entity;
-        if(oAuthAuthorizationService.findByUuid(UUID.fromString(oAuth2Authorization.getId())).isPresent()){
+        if (oAuthAuthorizationService.findByUuid(UUID.fromString(oAuth2Authorization.getId())).isPresent()) {
             entity = oAuthAuthorizationService.findByUuid(UUID.fromString(oAuth2Authorization.getId())).get();
-        }
-        else {
+        } else {
             entity = new OAuthAuthorizationEntity();
-            entity.setUuid(UUID.fromString(oAuth2Authorization.getId()));
             entity.setPrincipalName(oAuth2Authorization.getPrincipalName());
             entity.setUser(getUser(oAuth2Authorization));
             entity.setRegisteredClient(oAuth2Authorization.getRegisteredClientId());
         }
         entity.setGrantType(oAuth2Authorization.getAuthorizationGrantType().getValue());
         entity.setAttributes(this.objectMapper.writeValueAsString(oAuth2Authorization.getAttributes()));
-        setTokenCode(oAuth2Authorization,entity);
-        setTokenAccess(oAuth2Authorization,entity);
-        setTokenRefresh(oAuth2Authorization,entity);
+        setTokenCode(oAuth2Authorization, entity);
+        setTokenAccess(oAuth2Authorization, entity);
+        setTokenRefresh(oAuth2Authorization, entity);
         return entity;
     }
 
@@ -116,7 +114,8 @@ public class QROAuth2AuthorizationService implements OAuth2AuthorizationService 
         Map<String, Object> attributesVar = null;
         try {
             attributesVar = this.objectMapper.readValue(oAuthAuthorizationEntity.getAttributes(),
-                            new TypeReference<Map<String, Object>>() {});
+                    new TypeReference<Map<String, Object>>() {
+                    });
         } catch (JsonProcessingException e) {
             //TODO
             e.printStackTrace();
@@ -129,21 +128,21 @@ public class QROAuth2AuthorizationService implements OAuth2AuthorizationService 
                 .principalName(oAuthAuthorizationEntity.getPrincipalName())
                 .authorizedScopes(byId.getScopes());
 
-        if(Objects.nonNull(oAuthAuthorizationEntity.getAuthorizationCodeValue())){
+        if (Objects.nonNull(oAuthAuthorizationEntity.getAuthorizationCodeValue())) {
             build.token(new OAuth2AuthorizationCode(
                     oAuthAuthorizationEntity.getAuthorizationCodeValue(),
                     oAuthAuthorizationEntity.getAuthorizationCodeIssuedAt().toInstant(ZoneOffset.UTC),
                     oAuthAuthorizationEntity.getAuthorizationCodeExpiresAt().toInstant(ZoneOffset.UTC)
             ));
         }
-        if(Objects.nonNull(oAuthAuthorizationEntity.getRefreshTokenValue())){
+        if (Objects.nonNull(oAuthAuthorizationEntity.getRefreshTokenValue())) {
             build.token(new OAuth2RefreshToken(
                     oAuthAuthorizationEntity.getRefreshTokenValue(),
                     oAuthAuthorizationEntity.getRefreshTokenIssuedAt().toInstant(ZoneOffset.UTC),
                     oAuthAuthorizationEntity.getRefreshTokenExpiresAt().toInstant(ZoneOffset.UTC)
             ));
         }
-        if(Objects.nonNull(oAuthAuthorizationEntity.getAccessTokenValue())){
+        if (Objects.nonNull(oAuthAuthorizationEntity.getAccessTokenValue())) {
             build.token(new OAuth2AccessToken(
                     OAuth2AccessToken.TokenType.BEARER,
                     oAuthAuthorizationEntity.getAccessTokenValue(),
@@ -153,13 +152,13 @@ public class QROAuth2AuthorizationService implements OAuth2AuthorizationService 
         }
 
         attributes.keySet().stream().forEach(key -> {
-            build.attribute(key,attributes.get(key));
+            build.attribute(key, attributes.get(key));
         });
         return build.build();
     }
 
-    private void setTokenCode(OAuth2Authorization oAuth2Authorization,OAuthAuthorizationEntity entity){
-        if(Objects.nonNull(oAuth2Authorization.getToken(OAuth2AuthorizationCode.class))) {
+    private void setTokenCode(OAuth2Authorization oAuth2Authorization, OAuthAuthorizationEntity entity) {
+        if (Objects.nonNull(oAuth2Authorization.getToken(OAuth2AuthorizationCode.class))) {
             OAuth2AuthorizationCode token = oAuth2Authorization.getToken(OAuth2AuthorizationCode.class).getToken();
             if (Objects.nonNull(token)) {
                 entity.setAuthorizationCodeValue(token.getTokenValue());
@@ -169,8 +168,8 @@ public class QROAuth2AuthorizationService implements OAuth2AuthorizationService 
         }
     }
 
-    private void setTokenRefresh(OAuth2Authorization oAuth2Authorization,OAuthAuthorizationEntity entity){
-        if(Objects.nonNull(oAuth2Authorization.getRefreshToken())) {
+    private void setTokenRefresh(OAuth2Authorization oAuth2Authorization, OAuthAuthorizationEntity entity) {
+        if (Objects.nonNull(oAuth2Authorization.getRefreshToken())) {
             OAuth2RefreshToken token = oAuth2Authorization.getRefreshToken().getToken();
             if (Objects.nonNull(token)) {
                 entity.setRefreshTokenValue(token.getTokenValue());
@@ -180,8 +179,8 @@ public class QROAuth2AuthorizationService implements OAuth2AuthorizationService 
         }
     }
 
-    private void setTokenAccess(OAuth2Authorization oAuth2Authorization,OAuthAuthorizationEntity entity){
-        if(Objects.nonNull(oAuth2Authorization.getAccessToken())) {
+    private void setTokenAccess(OAuth2Authorization oAuth2Authorization, OAuthAuthorizationEntity entity) {
+        if (Objects.nonNull(oAuth2Authorization.getAccessToken())) {
             OAuth2AccessToken token = oAuth2Authorization.getAccessToken().getToken();
             if (Objects.nonNull(token)) {
                 entity.setAccessTokenType(token.getTokenType().getValue());
@@ -192,11 +191,11 @@ public class QROAuth2AuthorizationService implements OAuth2AuthorizationService 
         }
     }
 
-    private UserEntity getUser(OAuth2Authorization oAuth2Authorization){
+    private UserEntity getUser(OAuth2Authorization oAuth2Authorization) {
         Authentication attributeAuth = oAuth2Authorization.getAttribute("java.security.Principal");
-        if(Objects.nonNull(attributeAuth)) {
+        if (Objects.nonNull(attributeAuth)) {
             QRPrincipalUser principal = (QRPrincipalUser) attributeAuth.getPrincipal();
-            return userService.findByUsernameAndProvider(principal.getUsername(),principal.getProvider()).orElseThrow();
+            return userService.findByUsernameAndProvider(principal.getUsername(), principal.getProvider()).orElseThrow();
         }
         return null;
     }

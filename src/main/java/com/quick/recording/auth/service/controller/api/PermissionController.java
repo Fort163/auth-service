@@ -34,7 +34,7 @@ public class PermissionController implements AuthServicePermissionApi {
     @Override
     @PreAuthorize("hasAnyAuthority('SPACE_ADMIN')")
     public Page<PermissionDto> list(SearchPermissionDto searchPermissionDto, Pageable pageable) {
-        return apiPermissionService.findAll(searchPermissionDto,pageable);
+        return apiPermissionService.findAll(searchPermissionDto, pageable);
     }
 
     @Override

@@ -24,10 +24,11 @@ public class QRPrincipalUserDeserializer extends JsonDeserializer<QRPrincipalUse
 
     @Override
     public QRPrincipalUser deserialize(JsonParser jsonParser, DeserializationContext deserializationContext) throws IOException, JacksonException {
-        ObjectMapper mapper = (ObjectMapper)jsonParser.getCodec();
-        JsonNode root = (JsonNode)mapper.readTree(jsonParser);
+        ObjectMapper mapper = (ObjectMapper) jsonParser.getCodec();
+        JsonNode root = (JsonNode) mapper.readTree(jsonParser);
         return this.deserialize(jsonParser, mapper, root);
     }
+
     private QRPrincipalUser deserialize(JsonParser parser, ObjectMapper mapper, JsonNode root) throws JsonParseException {
         AuthProvider provider = AuthProvider.valueOf(this.findStringValue(root, "provider"));
         String username = this.findStringValue(root, "username");
@@ -37,7 +38,7 @@ public class QRPrincipalUserDeserializer extends JsonDeserializer<QRPrincipalUse
         String locale = this.findStringValue(root, "locale");
         Boolean enabled = Boolean.valueOf(this.findStringValue(root, "enabled"));
         LocalDate birthDay = null;
-        if(Objects.nonNull(this.findStringValue(root, "birthDay"))){
+        if (Objects.nonNull(this.findStringValue(root, "birthDay"))) {
             birthDay = LocalDate.parse(this.findStringValue(root, "birthDay"), DateTimeFormatter.ofPattern("dd.MM.yyyy"));
         }
         String userpic = this.findStringValue(root, "userpic");
@@ -70,15 +71,15 @@ public class QRPrincipalUserDeserializer extends JsonDeserializer<QRPrincipalUse
                 .build();
     }
 
-    private Collection<? extends GrantedAuthority>  findAuthorities(JsonNode jsonNode) {
+    private Collection<? extends GrantedAuthority> findAuthorities(JsonNode jsonNode) {
         if (jsonNode != null) {
             JsonNode value = jsonNode.findValue("authorities");
             List<SimpleGrantedAuthority> result = new ArrayList<>();
-            if(value.isArray()){
-                ArrayNode arrayNode = (ArrayNode)value;
+            if (value.isArray()) {
+                ArrayNode arrayNode = (ArrayNode) value;
                 for (final JsonNode objNode : arrayNode) {
-                    if(objNode.isArray()){
-                        for (final JsonNode authorityNode : objNode){
+                    if (objNode.isArray()) {
+                        for (final JsonNode authorityNode : objNode) {
                             String authority = findStringValue(authorityNode, "authority");
                             SimpleGrantedAuthority simpleGrantedAuthority = new SimpleGrantedAuthority(authority);
                             result.add(simpleGrantedAuthority);

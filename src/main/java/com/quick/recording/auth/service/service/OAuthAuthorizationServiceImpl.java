@@ -17,48 +17,48 @@ public class OAuthAuthorizationServiceImpl implements OAuthAuthorizationService 
 
     @Override
     @CircuitBreaker(name = "database")
-    public Boolean existsByUuid(UUID uuid){
+    public Boolean existsByUuid(UUID uuid) {
         return oAuthAuthorizationRepository.existsByUuid(uuid);
     }
 
     @Override
     @CircuitBreaker(name = "database")
-    public Optional<OAuthAuthorizationEntity> findByUuid(UUID uuid){
+    public Optional<OAuthAuthorizationEntity> findByUuid(UUID uuid) {
         return oAuthAuthorizationRepository.findByUuid(uuid);
     }
 
     @Override
     @CircuitBreaker(name = "database")
-    public OAuthAuthorizationEntity save(OAuthAuthorizationEntity entity){
+    public OAuthAuthorizationEntity save(OAuthAuthorizationEntity entity) {
         return oAuthAuthorizationRepository.save(entity);
     }
 
     @Override
     @CircuitBreaker(name = "database")
-    public Optional<OAuthAuthorizationEntity> findByToken(String token, String tokenType){
-        switch (tokenType){
-            case "access_token" : {
+    public Optional<OAuthAuthorizationEntity> findByToken(String token, String tokenType) {
+        switch (tokenType) {
+            case "access_token": {
                 return oAuthAuthorizationRepository.findByAccessTokenValue(token);
             }
-            case "refresh_token" : {
+            case "refresh_token": {
                 return oAuthAuthorizationRepository.findByRefreshTokenValue(token);
             }
-            case "code" : {
+            case "code": {
                 return oAuthAuthorizationRepository.findByAuthorizationCodeValue(token);
             }
-            case "state" : {
+            case "state": {
                 return oAuthAuthorizationRepository.findByState(token);
             }
-            default:{
+            default: {
                 return oAuthAuthorizationRepository.findByAuthorizationCodeValueOrAccessTokenValueOrRefreshTokenValueOrState(
-                        token,token,token,token);
+                        token, token, token, token);
             }
         }
     }
 
     @Override
     @CircuitBreaker(name = "database")
-    public void delete(UUID uuid){
+    public void delete(UUID uuid) {
         oAuthAuthorizationRepository.deleteById(uuid);
     }
 

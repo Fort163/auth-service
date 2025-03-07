@@ -26,7 +26,7 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
-public class ApiRoleServiceImpl implements ApiRoleService{
+public class ApiRoleServiceImpl implements ApiRoleService {
 
     private final ApiRoleRepository apiRoleRepository;
     private final PermissionService permissionService;
@@ -71,15 +71,15 @@ public class ApiRoleServiceImpl implements ApiRoleService{
         RoleEntity roleEntity = apiRoleRepository.findById(role.getUuid()).orElseThrow(
                 () -> new NotFoundException(messageUtil, RoleEntity.class, role.getUuid())
         );
-        roleEntity = roleMapper.toRoleEntityWithNull(role,roleEntity);
+        roleEntity = roleMapper.toRoleEntityWithNull(role, roleEntity);
         LinkedList<UUID> uuids = role.getPermissions().stream().map(r -> r.getUuid()).collect(Collectors.toCollection(LinkedList::new));
         List<UUID> currentUuids = roleEntity.getPermissions().stream().map(r -> r.getUuid()).toList();
-        for(UUID uuid : currentUuids){
-            if(uuids.contains(uuid)){
+        for (UUID uuid : currentUuids) {
+            if (uuids.contains(uuid)) {
                 uuids.remove(uuid);
             }
         }
-        if(!uuids.isEmpty()){
+        if (!uuids.isEmpty()) {
             List<PermissionEntity> permissionByUuids = permissionService.findAllByUuids(uuids);
             roleEntity.getPermissions().addAll(permissionByUuids);
         }
@@ -94,7 +94,7 @@ public class ApiRoleServiceImpl implements ApiRoleService{
         RoleEntity roleEntity = apiRoleRepository.findById(role.getUuid()).orElseThrow(
                 () -> new NotFoundException(messageUtil, RoleEntity.class, role.getUuid())
         );
-        roleEntity = roleMapper.toRoleEntity(role,roleEntity);
+        roleEntity = roleMapper.toRoleEntity(role, roleEntity);
         List<PermissionEntity> permissionByUuids = permissionService.findAllByUuids(role.getPermissions().stream().map(r -> r.getUuid()).toList());
         roleEntity.setPermissions(permissionByUuids);
         roleEntity = apiRoleRepository.save(roleEntity);

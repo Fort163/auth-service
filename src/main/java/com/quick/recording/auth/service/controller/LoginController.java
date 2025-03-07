@@ -37,49 +37,48 @@ public class LoginController {
     }
 
     @GetMapping("/login/registration")
-    public ModelAndView registration(ModelAndView modelAndView, @ModelAttribute("model") UserRegistrationModel userRegistrationModel){
+    public ModelAndView registration(ModelAndView modelAndView, @ModelAttribute("model") UserRegistrationModel userRegistrationModel) {
         UserRegistrationModel model = new UserRegistrationModel();
-        modelAndView.addObject("model",model);
+        modelAndView.addObject("model", model);
         modelAndView.setViewName("registration");
         return modelAndView;
     }
 
     @PostMapping("/login/registration")
-    public ModelAndView registrationSubmit(ModelAndView modelAndView, @ModelAttribute("model") UserRegistrationModel userRegistrationModel){
-        modelAndView.addObject("model",userRegistrationModel);
+    public ModelAndView registrationSubmit(ModelAndView modelAndView, @ModelAttribute("model") UserRegistrationModel userRegistrationModel) {
+        modelAndView.addObject("model", userRegistrationModel);
         modelAndView.setViewName("registration");
-        if(userRegistrationModel.getUsername().length() < 3){
+        if (userRegistrationModel.getUsername().length() < 3) {
             userRegistrationModel.setErrorUserName(messageUtil.create("login.error.login.small"));
             return modelAndView;
         }
         Boolean existsByUsername = userService.existsByUsername(userRegistrationModel.getUsername());
-        if(existsByUsername){
+        if (existsByUsername) {
             userRegistrationModel.setErrorUserName(messageUtil.create("login.error.login.taken"));
             return modelAndView;
         }
-        if(!Objects.equals(userRegistrationModel.getPassword(),userRegistrationModel.getConfirmPassword())){
+        if (!Objects.equals(userRegistrationModel.getPassword(), userRegistrationModel.getConfirmPassword())) {
             userRegistrationModel.setErrorConfirmPassword(
                     messageUtil.create("login.error.password.not.confirm")
             );
-        }
-        else {
+        } else {
             String password = userRegistrationModel.getPassword();
             Pattern pattern = Pattern.compile("(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z!@#$%^&*]{5,}");
-            if(!pattern.matcher(password).matches()){
+            if (!pattern.matcher(password).matches()) {
                 Pattern specChars = Pattern.compile("(?=.*[!@#$%^&*])");
                 Pattern upper = Pattern.compile("(?=.*[A-Z])");
                 Pattern lower = Pattern.compile("(?=.*[a-z])");
                 List<String> errorsPassword = new ArrayList<>();
-                if(password.length() < 5){
+                if (password.length() < 5) {
                     errorsPassword.add(messageUtil.create("login.error.password.small"));
                 }
-                if(!specChars.matcher(password).find()){
+                if (!specChars.matcher(password).find()) {
                     errorsPassword.add(messageUtil.create("login.error.password.symbol"));
                 }
-                if(!upper.matcher(password).find()){
+                if (!upper.matcher(password).find()) {
                     errorsPassword.add(messageUtil.create("login.error.password.upper"));
                 }
-                if(!lower.matcher(password).find()){
+                if (!lower.matcher(password).find()) {
                     errorsPassword.add(messageUtil.create("login.error.password.lower"));
                 }
                 userRegistrationModel.setErrorsPassword(errorsPassword);
@@ -93,7 +92,7 @@ public class LoginController {
             userEntity.setAccountNonExpired(true);
             userEntity.setCredentialsNonExpired(true);
             userEntity.setAccountNonLocked(true);
-            userEntity.setFullName(userEntity.getFirstName()+" "+userEntity.getLastName());
+            userEntity.setFullName(userEntity.getFirstName() + " " + userEntity.getLastName());
             userService.save(userEntity);
             modelAndView.setViewName("login");
         }
