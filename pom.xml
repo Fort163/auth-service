@@ -20,7 +20,7 @@
         <maven.compiler.version>3.13.0</maven.compiler.version>
         <spring.security.cas.version>6.4.3</spring.security.cas.version>
         <postgresql.version>42.2.19</postgresql.version>
-        <gateway.version>0.0.1-SNAPSHOT</gateway.version>
+        <qr.gateway.version>0.0.1-SNAPSHOT</qr.gateway.version>
     </properties>
     <dependencies>
         <dependency>
@@ -62,8 +62,8 @@
         </dependency>
         <dependency>
             <groupId>com.quick.recording</groupId>
-            <artifactId>gateway</artifactId>
-            <version>${gateway.version}</version>
+            <artifactId>qr-gateway</artifactId>
+            <version>${qr.gateway.version}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
