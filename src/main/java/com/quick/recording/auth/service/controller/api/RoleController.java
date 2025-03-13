@@ -1,10 +1,10 @@
 package com.quick.recording.auth.service.controller.api;
 
 import com.quick.recording.auth.service.service.api.ApiRoleService;
-import com.quick.recording.gateway.dto.auth.PostRole;
-import com.quick.recording.gateway.dto.auth.PutRole;
 import com.quick.recording.gateway.dto.auth.RoleDto;
 import com.quick.recording.gateway.dto.auth.SearchRoleDto;
+import com.quick.recording.gateway.dto.util.Post;
+import com.quick.recording.gateway.dto.util.Put;
 import com.quick.recording.gateway.service.auth.AuthServiceRoleApi;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -43,7 +43,7 @@ public class RoleController implements AuthServiceRoleApi {
     @Override
     @Transactional(propagation = Propagation.REQUIRES_NEW)
     @PreAuthorize("hasAnyAuthority('ROLE_CREATE_SPACE')")
-    public ResponseEntity<RoleDto> post(@Validated(PostRole.class) @RequestBody RoleDto role) {
+    public ResponseEntity<RoleDto> post(@Validated(Post.class) @RequestBody RoleDto role) {
         RoleDto roleDto = apiRoleService.post(role);
         return ResponseEntity.ok(roleDto);
     }
@@ -57,7 +57,7 @@ public class RoleController implements AuthServiceRoleApi {
 
     @Override
     @PreAuthorize("hasAnyAuthority('ROLE_ADMIN')")
-    public ResponseEntity<RoleDto> put(@RequestBody @Validated(PutRole.class) RoleDto role) {
+    public ResponseEntity<RoleDto> put(@RequestBody @Validated(Put.class) RoleDto role) {
         RoleDto roleDto = apiRoleService.put(role);
         return ResponseEntity.ok(roleDto);
     }

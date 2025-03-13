@@ -2,9 +2,9 @@ package com.quick.recording.auth.service.controller.api;
 
 import com.quick.recording.auth.service.service.api.ApiPermissionService;
 import com.quick.recording.gateway.dto.auth.PermissionDto;
-import com.quick.recording.gateway.dto.auth.PostPermission;
-import com.quick.recording.gateway.dto.auth.PutPermission;
 import com.quick.recording.gateway.dto.auth.SearchPermissionDto;
+import com.quick.recording.gateway.dto.util.Post;
+import com.quick.recording.gateway.dto.util.Put;
 import com.quick.recording.gateway.service.auth.AuthServicePermissionApi;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -39,7 +39,7 @@ public class PermissionController implements AuthServicePermissionApi {
 
     @Override
     @PreAuthorize("hasAnyAuthority('SPACE_ADMIN')")
-    public ResponseEntity<PermissionDto> post(@RequestBody @Validated(PostPermission.class) PermissionDto permission) {
+    public ResponseEntity<PermissionDto> post(@RequestBody @Validated(Post.class) PermissionDto permission) {
         PermissionDto permissionDto = apiPermissionService.post(permission);
         return ResponseEntity.ok(permissionDto);
     }
@@ -53,7 +53,7 @@ public class PermissionController implements AuthServicePermissionApi {
 
     @Override
     @PreAuthorize("hasAnyAuthority('SPACE_ADMIN')")
-    public ResponseEntity<PermissionDto> put(@RequestBody @Validated(PutPermission.class) PermissionDto permission) {
+    public ResponseEntity<PermissionDto> put(@RequestBody @Validated(Put.class) PermissionDto permission) {
         PermissionDto permissionDto = apiPermissionService.put(permission);
         return ResponseEntity.ok(permissionDto);
     }
