@@ -49,6 +49,7 @@ public class SecurityConfig {
                         .requestMatchers(
                                 antMatcher("/login*"),
                                 antMatcher("/login/*"),
+                                antMatcher("/oauth2/token-info"),
                                 antMatcher("/static/*"),
                                 antMatcher("/css/*"),
                                 antMatcher("/assert/*")).permitAll()
