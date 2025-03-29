@@ -76,7 +76,7 @@ create table qr_user
     username                varchar(255)
         constraint uk_user_username
             unique,
-    userpic                 varchar(255)
+    userpic                 text
 );
 
 create table role2permission
