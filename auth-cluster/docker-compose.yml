@@ -2,37 +2,32 @@ version: "3.9"
 
 services:
 
-  company-item-1:
-    image: fort163/qr-company-service:0.0.1-SNAPSHOT
+  auth-item-1:
+    image: fort163/qr-auth-service:0.0.1-SNAPSHOT
     environment:
       - ACTIVE_PROFILE=${PROFILE}
       - CONFIG_SERVER=${CONFIG_SERVER}
     ports:
-      - "8097:8097"
+      - "8090:8090"
     networks:
-      - company-infrastructure
-      - kafka
+      - auth-infrastructure
       - single-service
 
-  company-item-2:
-    image: fort163/qr-company-service:0.0.1-SNAPSHOT
+  auth-item-2:
+    image: fort163/qr-auth-service:0.0.1-SNAPSHOT
     environment:
       - ACTIVE_PROFILE=${PROFILE}
       - CONFIG_SERVER=${CONFIG_SERVER}
     ports:
-      - "8098:8097"
+      - "8091:8090"
     networks:
-      - company-infrastructure
-      - kafka
+      - auth-infrastructure
       - single-service
 
 networks:
   single-service:
     external: true
     name: single-service-network
-  company-infrastructure:
+  auth-infrastructure:
     external: true
-    name: company-infrastructure-network
-  kafka:
-    external: true
-    name: kafka-network
+    name: auth-infrastructure-network
