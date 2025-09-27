@@ -1,0 +1,108 @@
+.container {
+    display: flex;
+    height: 100%;
+    flex-direction: column;
+    background-color: darkgrey;
+}
+
+.table{
+    display: flex;
+    width: 96%;
+    height: 75%;
+    flex-direction: column;
+    align-items: center;
+    padding-left: 2%;
+    padding-right: 2%;
+}
+
+.tableHeader{
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    height: 50px;
+    background-color: #488ad9;
+    margin: 10px;
+    font-size: x-large;
+}
+
+.tableFooter{
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    height: 50px;
+    background-color: #2fc79e;
+    margin: 10px;
+    font-size: x-large;
+}
+
+.tableItem{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #f3f4fc;
+    margin: 5px;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.itemLabel{
+    display: flex;
+    min-width: 25%;
+    min-height: 25px;
+    border-style: solid;
+    border-radius: 5px;
+    border-color: #cfd6e4;
+    align-items: center;
+    justify-content: center;
+    margin: 3px;
+}
+
+.tableData{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: auto;
+    min-height: 30%;
+}
+
+.tableDataRow{
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    min-height: 40px;
+    background-color: grey;
+    font-size: large;
+}
+
+.selectMenu{
+    display: flex;
+    flex-direction: row;
+    width: 98%;
+    min-height: 50px;
+    cursor: pointer;
+    font-size: x-large;
+    justify-content: center;
+    align-items: center;
+    margin: 1%;
+}
+
+.selectButton{
+    display: flex;
+    width: 100%;
+    min-height: 40px;
+    font-size: inherit;
+    cursor: inherit;
+    margin: 5px;
+    border: none;
+    background-color: #bcc5cc;
+    justify-content: center;
+    align-items: center;
+}
+
+.selectButton:hover{
+    background-color: #8ab6d0;
+}
+
+.selectButtonSelected{
+    background-color: #569fd0;
+}

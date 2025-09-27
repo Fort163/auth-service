@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" style="height: 100%; margin: 0px">
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <title th:text="#{admin.title}"></title>
+    <link th:href="@{/css/main.css}" rel="stylesheet"/>
+    <link th:href="@{/css/admin.css}" rel="stylesheet"/>
+</head>
+<body style="height: 100%; margin: 0px">
+    <script th:src="@{/js/adminPanel.js}"></script>
+    <div class="container" th:object="${model}">
+
+        <form id="mainSelectForm" class="selectMenu" method="post"
+              th:object="${model}" th:action="@{/admin}">
+            <input id="mainSelectField" type="hidden" th:field="*{mainSelect}" />
+            <button id="security"
+                    th:class="${'selectButton ' + ( model.mainSelect == 'security' ? 'selectButtonSelected' : '') }"
+                    th:text="#{admin.panel.menu.security}"
+                    th:data-form="'selectMainForm'"
+                    th:data-field="'mainSelectField'"
+                    th:data-value="'security'"
+                    onclick="select(this.dataset)">
+            </button>
+            <button id="test"
+                    th:class="${'selectButton ' + ( model.mainSelect == 'test' ? 'selectButtonSelected' : '') }"
+                    th:data-form="'selectMainForm'"
+                    th:data-field="'mainSelectField'"
+                    th:data-value="'test'"
+                    onclick="select(this.dataset)">Test</button>
+        </form>
+
+        <form th:if="${model.mainSelect == 'security'}"
+              id="securitySelectForm" class="selectMenu" method="post"
+              th:object="${model}" th:action="@{/admin}">
+            <input type="hidden" th:field="*{mainSelect}" />
+            <input id="securitySelectField" type="hidden" th:field="*{securitySelect}" />
+            <button id="role"
+                    th:class="${'selectButton ' + ( model.securitySelect == 'role' ? 'selectButtonSelected' : '') }"
+                    th:text="#{admin.panel.role}"
+                    th:data-form="'securitySelectForm'"
+                    th:data-field="'securitySelectField'"
+                    th:data-value="'role'"
+                    onclick="select(this.dataset)">
+            </button>
+            <button id="permission"
+                    th:class="${'selectButton ' + ( model.securitySelect == 'permission' ? 'selectButtonSelected' : '') }"
+                    th:text="#{admin.panel.permission}"
+                    th:data-form="'securitySelectForm'"
+                    th:data-field="'securitySelectField'"
+                    th:data-value="'permission'"
+                    onclick="select(this.dataset)">
+            </button>
+        </form>
+
+        <div th:if="${model.securitySelect == 'role'}" class="table">
+            <div class="tableHeader">
+                <div class="tableItem" style="width: 25%" th:text="#{admin.panel.role}"></div>
+                <div class="tableItem" style="width: 75%" th:text="#{admin.panel.permission}"></div>
+            </div>
+            <div class="tableData">
+                <div class="tableDataRow" th:each="role: *{roleList}">
+                    <div class="tableItem" style="width: 25%;cursor: pointer"
+                         th:text="${role.name}"
+                         th:data-form="'selectRoleForm'"
+                         th:data-field="'selectRole'"
+                         th:data-value="${role.uuid}"
+                         onclick="select(this.dataset)"></div>
+                    <div class="tableItem" style="width: 75%">
+                        <label class="itemLabel" style="cursor: pointer"
+                               th:text="${permission.permission}"
+                               th:each="permission : ${role.permissions}"
+                               th:data-form="'selectPermissionForm'"
+                               th:data-field="'selectPermission'"
+                               th:data-value="${permission.uuid}"
+                               onclick="select(this.dataset)">
+
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="tableFooter">
+                <div class="tableItem" style="width: 25%;cursor: pointer"
+                     th:data-form="'selectRoleForm'"
+                     th:data-field="'selectRole'"
+                     th:data-value="null"
+                     onclick="select(this.dataset)"
+                     th:text="#{admin.panel.add.new}"></div>
+                <div class="tableItem" style="width: 75%;cursor: pointer"
+                     th:data-form="'selectPermissionForm'"
+                     th:data-field="'selectPermission'"
+                     th:data-value="null"
+                     onclick="select(this.dataset)"
+                     th:text="#{admin.panel.add.new}"></div>
+            </div>
+        </div>
+
+        <div th:if="${model.securitySelect == 'permission'}" class="table">
+            <div class="tableHeader">
+                <div class="tableItem" style="width: 100%" th:text="#{admin.panel.permission}"></div>
+            </div>
+            <div class="tableData">
+                <div class="tableDataRow" th:each="permission: *{permissionList}">
+                    <div class="tableItem" style="width: 100%;cursor: pointer"
+                         th:data-form="'selectPermissionForm'"
+                         th:data-field="'selectPermission'"
+                         th:data-value="${permission.uuid}"
+                         onclick="select(this.dataset)"
+                         th:text="${permission.permission}"></div>
+                </div>
+            </div>
+            <form class="tableFooter" method="post"
+                  th:object="${model}" th:action="@{/admin/role}">
+                <button class="tableItem" style="width: 100%;cursor: pointer"
+                     th:data-form="'tableFooter'"
+                     th:data-field="'selectPermission'"
+                     th:data-value="null"
+                     onclick="select(this.dataset)"
+                     th:text="#{admin.panel.add.new}"></button>
+            </form>
+        </div>
+
+        <form id="selectRoleForm" method="post"
+              th:object="${model}" th:action="@{/admin/role}">
+            <input id="selectRole"  type="hidden" th:field="*{selectRole}" />
+        </form>
+
+        <form id="selectPermissionForm" method="post"
+              th:object="${model}" th:action="@{/admin}">
+            <input id="selectPermission" type="hidden" th:field="*{selectPermission}" />
+        </form>
+
+    </div>
+</body>
+</html>
