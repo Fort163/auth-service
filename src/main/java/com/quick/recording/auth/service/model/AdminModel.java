@@ -19,8 +19,6 @@ public class AdminModel {
     private SearchPermissionDto permissionSearch;
     private List<RoleDto> roleList;
     private List<PermissionDto> permissionList;
-    private UUID selectRole;
-    private UUID selectPermission;
 
     public AdminModel() {
         this.roleSearch = new SearchRoleDto();

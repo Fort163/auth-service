@@ -57,10 +57,11 @@ public class AdminController {
         return modelAndView;
     }
 
-    @PostMapping("/admin/{securityItem}")
+    @GetMapping("/admin/{securityItem}")
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
-    public ModelAndView adminPanel(ModelAndView modelAndView, @PathVariable String securityItem,
-                                   @ModelAttribute("model") AdminModel model) {
+    public ModelAndView securityPanel(ModelAndView modelAndView,
+                                      @RequestParam(required = false) String selectUUID,
+                                      @PathVariable String securityItem) {
         switch (securityItem){
             case "role" : {
                 modelAndView.setViewName("role");

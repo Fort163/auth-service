@@ -7,6 +7,7 @@
     <link th:href="@{/css/admin.css}" rel="stylesheet"/>
 </head>
 <body style="height: 100%; margin: 0px">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script th:src="@{/js/adminPanel.js}"></script>
     <div class="container" th:object="${model}">
 
@@ -53,45 +54,58 @@
         </form>
 
         <div th:if="${model.securitySelect == 'role'}" class="table">
-            <div class="tableHeader">
-                <div class="tableItem" style="width: 25%" th:text="#{admin.panel.role}"></div>
-                <div class="tableItem" style="width: 75%" th:text="#{admin.panel.permission}"></div>
-            </div>
-            <div class="tableData">
-                <div class="tableDataRow" th:each="role: *{roleList}">
-                    <div class="tableItem" style="width: 25%;cursor: pointer"
-                         th:text="${role.name}"
-                         th:data-form="'selectRoleForm'"
-                         th:data-field="'selectRole'"
-                         th:data-value="${role.uuid}"
-                         onclick="select(this.dataset)"></div>
-                    <div class="tableItem" style="width: 75%">
-                        <label class="itemLabel" style="cursor: pointer"
-                               th:text="${permission.permission}"
-                               th:each="permission : ${role.permissions}"
-                               th:data-form="'selectPermissionForm'"
-                               th:data-field="'selectPermission'"
-                               th:data-value="${permission.uuid}"
-                               onclick="select(this.dataset)">
-
-                        </label>
+            <form id="searchRole" class="searchClass" th:object="${model}" method="post" th:action="@{/admin}">
+                <div class="searchInputClass">
+                    <input type="hidden" th:field="*{mainSelect}" />
+                    <input type="hidden" th:field="*{securitySelect}" />
+                    <input type="text" th:placeholder="#{admin.panel.role.placeholder.name}"
+                           class="inputText" th:field="*{roleSearch.name}">
+                    <input type="checkbox" th:text="#{admin.panel.role.is.active}"
+                           class="inputCheckbox" th:field="*{roleSearch.isActive}">
+                </div>
+                <button class="buttonSearch" type="submit" th:text="#{admin.panel.search}"></button>
+                <div class="tableHeader">
+                    <div class="tableItem" style="width: 25%" th:text="#{admin.panel.role}"></div>
+                    <div class="tableItem" style="width: 75%" th:text="#{admin.panel.permission}"></div>
+                </div>
+                <div class="tableData">
+                    <div class="tableDataRow" th:each="role: *{roleList}">
+                        <div class="tableItem" style="width: 25%;cursor: pointer"
+                             th:text="${role.name}"
+                             th:data-url="'/admin/role?selectUUID='+ ${role.uuid}"
+                             th:data-method="'GET'"
+                             th:data-data="null"
+                             onclick="selectAjax(this.dataset)"></div>
+                        <div class="tableItem" style="width: 75%">
+                            <label class="itemLabel" style="cursor: pointer"
+                                   th:text="${permission.permission}"
+                                   th:each="permission : ${role.permissions}"
+                                   th:data-url="'/admin/permission?selectUUID='+ ${permission.uuid}"
+                                   th:data-method="'GET'"
+                                   th:data-data="null"
+                                   onclick="selectAjax(this.dataset)">
+                            </label>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="tableFooter">
-                <div class="tableItem" style="width: 25%;cursor: pointer"
-                     th:data-form="'selectRoleForm'"
-                     th:data-field="'selectRole'"
-                     th:data-value="null"
-                     onclick="select(this.dataset)"
-                     th:text="#{admin.panel.add.new}"></div>
-                <div class="tableItem" style="width: 75%;cursor: pointer"
-                     th:data-form="'selectPermissionForm'"
-                     th:data-field="'selectPermission'"
-                     th:data-value="null"
-                     onclick="select(this.dataset)"
-                     th:text="#{admin.panel.add.new}"></div>
-            </div>
+                <div class="tableFooterButton">
+
+                </div>
+                <div class="tableFooter">
+                    <div class="tableItem" style="width: 25%;cursor: pointer"
+                         th:data-url="'/admin/role'"
+                         th:data-method="'GET'"
+                         th:data-data="null"
+                         onclick="selectAjax(this.dataset)"
+                         th:text="#{admin.panel.add.new}"></div>
+                    <div class="tableItem" style="width: 75%;cursor: pointer"
+                         th:data-url="'/admin/permission'"
+                         th:data-method="'GET'"
+                         th:data-data="null"
+                         onclick="selectAjax(this.dataset)"
+                         th:text="#{admin.panel.add.new}"></div>
+                </div>
+            </form>
         </div>
 
         <div th:if="${model.securitySelect == 'permission'}" class="table">
@@ -101,33 +115,24 @@
             <div class="tableData">
                 <div class="tableDataRow" th:each="permission: *{permissionList}">
                     <div class="tableItem" style="width: 100%;cursor: pointer"
-                         th:data-form="'selectPermissionForm'"
-                         th:data-field="'selectPermission'"
-                         th:data-value="${permission.uuid}"
-                         onclick="select(this.dataset)"
+                         th:data-url="'/admin/permission?selectUUID='+ ${permission.uuid}"
+                         th:data-method="'GET'"
+                         th:data-data="null"
+                         onclick="selectAjax(this.dataset)"
                          th:text="${permission.permission}"></div>
                 </div>
             </div>
-            <form class="tableFooter" method="post"
+            <div class="tableFooter" method="post"
                   th:object="${model}" th:action="@{/admin/role}">
-                <button class="tableItem" style="width: 100%;cursor: pointer"
-                     th:data-form="'tableFooter'"
-                     th:data-field="'selectPermission'"
-                     th:data-value="null"
-                     onclick="select(this.dataset)"
-                     th:text="#{admin.panel.add.new}"></button>
-            </form>
+                <div class="tableItem" style="width: 100%;cursor: pointer"
+                     th:data-url="'/admin/permission'"
+                     th:data-method="'GET'"
+                     th:data-data="null"
+                     onclick="selectAjax(this.dataset)"
+                     th:text="#{admin.panel.add.new}">
+                </div>
+            </div>
         </div>
-
-        <form id="selectRoleForm" method="post"
-              th:object="${model}" th:action="@{/admin/role}">
-            <input id="selectRole"  type="hidden" th:field="*{selectRole}" />
-        </form>
-
-        <form id="selectPermissionForm" method="post"
-              th:object="${model}" th:action="@{/admin}">
-            <input id="selectPermission" type="hidden" th:field="*{selectPermission}" />
-        </form>
 
     </div>
 </body>

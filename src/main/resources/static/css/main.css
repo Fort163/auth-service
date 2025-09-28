@@ -106,3 +106,47 @@
 .selectButtonSelected{
     background-color: #569fd0;
 }
+
+.searchClass{
+    display: flex;
+    flex-direction: column;
+    width: 96%;
+    height: auto;
+    padding: 1%;
+    padding-left: 2%;
+    padding-right: 2%;
+    background-color: #dce8ed;
+    font-size: larger;
+}
+
+.searchInputClass{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    font-size: inherit;
+    width: 100%;
+    height: max-content;
+}
+
+.inputText{
+    display: flex;
+    width: 100%;
+    opacity: 0.5;
+    border: none;
+    min-height: 25px;
+    background-color: white;
+    margin-top: 3px;
+    margin-bottom: 3px;
+    font-size: inherit;
+}
+
+.buttonSearch{
+    display: flex;
+    width: max-content;
+    min-width: 100px;
+    min-height: 30px;
+    align-items: center;
+    justify-content: center;
+    font-size: inherit;
+    background-color: #78efb8;
+}

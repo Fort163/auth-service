@@ -5,3 +5,14 @@ function select(dataset) {
     field.value = dataset.value
     form.submit;
 }
+
+function selectAjax(dataset) {
+    $.ajax({
+        url: dataset.url,
+        type: dataset.method,
+        data: dataset.data,
+        success(response){
+            $('body').html(response);
+        }
+    });
+}
