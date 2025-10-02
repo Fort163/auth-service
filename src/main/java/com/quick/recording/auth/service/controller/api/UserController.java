@@ -25,7 +25,7 @@ public class UserController implements AuthServiceUserApi {
 
     private final ApiUserService apiUserService;
 
-    @PreAuthorize("hasAnyAuthority('ROLE_CHANGE_ME_INFO')")
+    @PreAuthorize("hasAnyAuthority('ROLE_ADMIN','ROLE_CHANGE_ME_INFO')")
     public ResponseEntity<AuthUserDto> byUuid(@PathVariable UUID uuid) {
         return ResponseEntity.ok(apiUserService.byUuid(uuid));
     }
@@ -35,7 +35,7 @@ public class UserController implements AuthServiceUserApi {
         return apiUserService.findAll(searchUserDto, pageable);
     }
 
-    @PreAuthorize("hasAnyAuthority('ROLE_CHANGE_ME_INFO')")
+    @PreAuthorize("hasAnyAuthority('ROLE_ADMIN','ROLE_CHANGE_ME_INFO')")
     public ResponseEntity<AuthUserDto> patch(@RequestBody AuthUserDto user) {
         AuthUserDto userDto = apiUserService.patch(user);
         return ResponseEntity.ok(userDto);
@@ -53,7 +53,13 @@ public class UserController implements AuthServiceUserApi {
         return ResponseEntity.ok(result);
     }
 
-    @PreAuthorize("hasAnyAuthority('ROLE_CREATE_SPACE')")
+    @PreAuthorize("hasAnyAuthority('ROLE_ADMIN')")
+    public ResponseEntity<Boolean> restore(@PathVariable UUID uuid) {
+        Boolean result = apiUserService.restore(uuid);
+        return ResponseEntity.ok(result);
+    }
+
+    @PreAuthorize("hasAnyAuthority('ROLE_ADMIN','ROLE_CREATE_SPACE')")
     public ResponseEntity<Boolean> addRole(@RequestBody @Valid Role2UserDto dto) {
         Boolean result = apiUserService.addRole(dto);
         return ResponseEntity.ok(result);

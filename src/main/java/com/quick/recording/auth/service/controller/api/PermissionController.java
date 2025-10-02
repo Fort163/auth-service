@@ -26,33 +26,33 @@ public class PermissionController implements AuthServicePermissionApi {
     private final ApiPermissionService apiPermissionService;
 
     @Override
-    @PreAuthorize("hasAnyAuthority('ROLE_READ')")
+    @PreAuthorize("hasAnyAuthority('ROLE_ADMIN','ROLE_READ')")
     public ResponseEntity<PermissionDto> byUuid(UUID uuid) {
         return ResponseEntity.ok(apiPermissionService.byUuid(uuid));
     }
 
     @Override
-    @PreAuthorize("hasAnyAuthority('SPACE_ADMIN')")
+    @PreAuthorize("hasAnyAuthority('ROLE_ADMIN','SPACE_ADMIN')")
     public Page<PermissionDto> list(SearchPermissionDto searchPermissionDto, Pageable pageable) {
         return apiPermissionService.findAll(searchPermissionDto, pageable);
     }
 
     @Override
-    @PreAuthorize("hasAnyAuthority('SPACE_ADMIN')")
+    @PreAuthorize("hasAnyAuthority('ROLE_ADMIN','SPACE_ADMIN')")
     public ResponseEntity<PermissionDto> post(@RequestBody @Validated(Post.class) PermissionDto permission) {
         PermissionDto permissionDto = apiPermissionService.post(permission);
         return ResponseEntity.ok(permissionDto);
     }
 
     @Override
-    @PreAuthorize("hasAnyAuthority('SPACE_ADMIN')")
+    @PreAuthorize("hasAnyAuthority('ROLE_ADMIN','SPACE_ADMIN')")
     public ResponseEntity<PermissionDto> patch(@RequestBody PermissionDto permission) {
         PermissionDto permissionDto = apiPermissionService.patch(permission);
         return ResponseEntity.ok(permissionDto);
     }
 
     @Override
-    @PreAuthorize("hasAnyAuthority('SPACE_ADMIN')")
+    @PreAuthorize("hasAnyAuthority('ROLE_ADMIN','SPACE_ADMIN')")
     public ResponseEntity<PermissionDto> put(@RequestBody @Validated(Put.class) PermissionDto permission) {
         PermissionDto permissionDto = apiPermissionService.put(permission);
         return ResponseEntity.ok(permissionDto);
@@ -62,6 +62,13 @@ public class PermissionController implements AuthServicePermissionApi {
     @PreAuthorize("hasAnyAuthority('ROLE_ADMIN')")
     public ResponseEntity<Boolean> delete(UUID uuid) {
         Boolean result = apiPermissionService.delete(uuid);
+        return ResponseEntity.ok(result);
+    }
+
+    @Override
+    @PreAuthorize("hasAnyAuthority('ROLE_ADMIN')")
+    public ResponseEntity<Boolean> restore(UUID uuid) {
+        Boolean result = apiPermissionService.restore(uuid);
         return ResponseEntity.ok(result);
     }
 

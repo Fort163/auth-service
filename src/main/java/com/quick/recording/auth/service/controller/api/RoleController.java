@@ -29,27 +29,27 @@ public class RoleController implements AuthServiceRoleApi {
     private final ApiRoleService apiRoleService;
 
     @Override
-    @PreAuthorize("hasAnyAuthority('ROLE_CREATE_SPACE')")
+    @PreAuthorize("hasAnyAuthority('ROLE_ADMIN','ROLE_CREATE_SPACE')")
     public ResponseEntity<RoleDto> byUuid(@PathVariable UUID uuid) {
         return ResponseEntity.ok(apiRoleService.byUuid(uuid));
     }
 
     @Override
-    @PreAuthorize("hasAnyAuthority('ROLE_CREATE_SPACE')")
+    @PreAuthorize("hasAnyAuthority('ROLE_ADMIN','ROLE_CREATE_SPACE')")
     public Page<RoleDto> list(SearchRoleDto searchRoleDto, Pageable pageable) {
         return apiRoleService.findAll(searchRoleDto, pageable);
     }
 
     @Override
     @Transactional(propagation = Propagation.REQUIRES_NEW)
-    @PreAuthorize("hasAnyAuthority('ROLE_CREATE_SPACE')")
+    @PreAuthorize("hasAnyAuthority('ROLE_ADMIN','ROLE_CREATE_SPACE')")
     public ResponseEntity<RoleDto> post(@Validated(Post.class) @RequestBody RoleDto role) {
         RoleDto roleDto = apiRoleService.post(role);
         return ResponseEntity.ok(roleDto);
     }
 
     @Override
-    @PreAuthorize("hasAnyAuthority('ROLE_CREATE_SPACE')")
+    @PreAuthorize("hasAnyAuthority('ROLE_ADMIN','ROLE_CREATE_SPACE')")
     public ResponseEntity<RoleDto> patch(@RequestBody RoleDto role) {
         RoleDto roleDto = apiRoleService.patch(role);
         return ResponseEntity.ok(roleDto);
@@ -66,6 +66,13 @@ public class RoleController implements AuthServiceRoleApi {
     @PreAuthorize("hasAnyAuthority('ROLE_ADMIN')")
     public ResponseEntity<Boolean> delete(@PathVariable UUID uuid) {
         Boolean result = apiRoleService.delete(uuid);
+        return ResponseEntity.ok(result);
+    }
+
+    @Override
+    @PreAuthorize("hasAnyAuthority('ROLE_ADMIN')")
+    public ResponseEntity<Boolean> restore(@PathVariable UUID uuid) {
+        Boolean result = apiRoleService.restore(uuid);
         return ResponseEntity.ok(result);
     }
 
