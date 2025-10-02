@@ -8,10 +8,8 @@ import lombok.Data;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
-
 @Data
-public class AdminModel {
+public class AdminModel extends PageModel{
 
     private String mainSelect;
     private String securitySelect;
