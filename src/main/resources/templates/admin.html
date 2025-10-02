@@ -88,8 +88,32 @@
                         </div>
                     </div>
                 </div>
-                <div class="tableFooterButton">
-
+                <div class="tableFooterButtonGroup">
+                    <button class="tableFooterButton"
+                            th:data-form="'searchRole'"
+                            th:data-field="'pageNumber'"
+                            th:data-value="*{backPage}"
+                            th:text="#{table.button.back}"
+                            onclick="select(this.dataset)">
+                    </button>
+                    <div class="tableFooterCounter">
+                        <div class="tableFooterCounterLabelGroup">
+                            <label class="tableFooterCounterLabel" th:text="#{admin.panel.table.page}"></label>
+                            <label class="tableFooterCounterLabel" th:text="*{counterPage}"></label>
+                        </div>
+                        <div class="tableFooterCounterLabelGroup">
+                            <label class="tableFooterCounterLabel" th:text="#{admin.panel.table.elements}"></label>
+                            <input class="tableFooterInput" th:field="*{pageSize}" type="number">
+                        </div>
+                    </div>
+                    <input id="pageNumber" style="display: none" type="number" th:field="*{currentPage}">
+                    <button class="tableFooterButton"
+                            th:data-form="'searchRole'"
+                            th:data-field="'pageNumber'"
+                            th:data-value="*{nextPage}"
+                            th:text="#{table.button.next}"
+                            onclick="select(this.dataset)">
+                    </button>
                 </div>
                 <div class="tableFooter">
                     <div class="tableItem" style="width: 25%;cursor: pointer"
@@ -109,29 +133,67 @@
         </div>
 
         <div th:if="${model.securitySelect == 'permission'}" class="table">
-            <div class="tableHeader">
-                <div class="tableItem" style="width: 100%" th:text="#{admin.panel.permission}"></div>
-            </div>
-            <div class="tableData">
-                <div class="tableDataRow" th:each="permission: *{permissionList}">
+            <form id="searchPermission" class="searchClass" th:object="${model}" method="post" th:action="@{/admin}">
+                <div class="searchInputClass">
+                    <input type="hidden" th:field="*{mainSelect}" />
+                    <input type="hidden" th:field="*{securitySelect}" />
+                    <input type="text" th:placeholder="#{admin.panel.permission.placeholder.name}"
+                           class="inputText" th:field="*{permissionSearch.permission}">
+                    <input type="checkbox" th:text="#{admin.panel.permission.is.active}"
+                           class="inputCheckbox" th:field="*{permissionSearch.isActive}">
+                </div>
+                <button class="buttonSearch" type="submit" th:text="#{admin.panel.search}"></button>
+                <div class="tableHeader">
+                    <div class="tableItem" style="width: 100%" th:text="#{admin.panel.permission}"></div>
+                </div>
+                <div class="tableData">
+                    <div class="tableDataRow" th:each="permission: *{permissionList}">
+                        <div class="tableItem" style="width: 100%;cursor: pointer"
+                             th:data-url="'/admin/permission?selectUUID='+ ${permission.uuid}"
+                             th:data-method="'GET'"
+                             th:data-data="null"
+                             onclick="selectAjax(this.dataset)"
+                             th:text="${permission.permission}"></div>
+                    </div>
+                </div>
+                <div class="tableFooterButtonGroup">
+                    <button class="tableFooterButton"
+                            th:data-form="'searchRole'"
+                            th:data-field="'pageNumber'"
+                            th:data-value="*{backPage}"
+                            th:text="#{table.button.back}"
+                            onclick="select(this.dataset)">
+                    </button>
+                    <div class="tableFooterCounter">
+                        <div class="tableFooterCounterLabelGroup">
+                            <label class="tableFooterCounterLabel" th:text="#{admin.panel.table.page}"></label>
+                            <label class="tableFooterCounterLabel" th:text="*{counterPage}"></label>
+                        </div>
+                        <div class="tableFooterCounterLabelGroup">
+                            <label class="tableFooterCounterLabel" th:text="#{admin.panel.table.elements}"></label>
+                            <input class="tableFooterInput" th:field="*{pageSize}" type="number">
+                        </div>
+                    </div>
+                    <input id="pageNumber" style="display: none" type="number" th:field="*{currentPage}">
+                    <button class="tableFooterButton"
+                            th:data-form="'searchRole'"
+                            th:data-field="'pageNumber'"
+                            th:data-value="*{nextPage}"
+                            th:text="#{table.button.next}"
+                            onclick="select(this.dataset)">
+                    </button>
+                </div>
+                <div class="tableFooter" method="post"
+                      th:object="${model}" th:action="@{/admin/role}">
                     <div class="tableItem" style="width: 100%;cursor: pointer"
-                         th:data-url="'/admin/permission?selectUUID='+ ${permission.uuid}"
+                         th:data-url="'/admin/permission'"
                          th:data-method="'GET'"
                          th:data-data="null"
                          onclick="selectAjax(this.dataset)"
-                         th:text="${permission.permission}"></div>
+                         th:text="#{admin.panel.add.new}">
+                    </div>
                 </div>
-            </div>
-            <div class="tableFooter" method="post"
-                  th:object="${model}" th:action="@{/admin/role}">
-                <div class="tableItem" style="width: 100%;cursor: pointer"
-                     th:data-url="'/admin/permission'"
-                     th:data-method="'GET'"
-                     th:data-data="null"
-                     onclick="selectAjax(this.dataset)"
-                     th:text="#{admin.panel.add.new}">
-                </div>
-            </div>
+            </form>
         </div>
 
     </div>

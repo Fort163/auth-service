@@ -1,5 +1,46 @@
+.topPanel{
+    display: flex;
+    width: 50%;
+    height: 6%;
+    margin: 5px;
+}
 
+.backButton{
+    min-height: 25px;
+    height: max-content;
+}
 
+.workPlace{
+    display: flex;
+    flex-direction: column;
+    width: 96%;
+    height: 100%;
+    padding: 2%;
+}
+
+.rolePermissions{
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    height: 90%;
+}
+
+.roleCurrentPermission{
+    display: flex;
+    width: 48%;
+    height: max-content;
+    flex-direction: column;
+    padding-top: 64px;
+    padding-right: 10px;
+}
+
+.roleAnotherPermission{
+    display: flex;
+    width: 48%;
+    height: 100%;
+    flex-direction: column;
+    padding-left: 10px;
+}
 
 .dropdown {
     position: relative;

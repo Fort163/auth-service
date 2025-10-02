@@ -7,5 +7,108 @@
     <link th:href="@{/css/admin.css}" rel="stylesheet"/>
 </head>
 <body style="height: 100%; margin: 0px">
-    role
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script th:src="@{/js/adminPanel.js}"></script>
+    <form id="mainForm" class="container" th:object="${model}" method="post" th:action="@{/role}">
+        <input id="roleUUID" th:field="*{roleUUID}" type="hidden">
+        <input id="isActive" type="hidden" th:field="*{currentModel.isActive}">
+        <input id="addPermissionUUID" th:field="*{addPermissionUUID}" type="hidden">
+        <input id="deletePermissionUUID" th:field="*{deletePermissionUUID}" type="hidden">
+        <div class="workPlace">
+            <input type="text" th:placeholder="#{admin.panel.role.placeholder.name}"
+                   class="inputText" th:field="*{currentModel.name}">
+            <div class="rolePermissions">
+                <div class="roleCurrentPermission">
+                    <div class="tableHeader">
+                        <div class="tableItem" style="width: 100%" th:text="#{admin.panel.role.current.accesses}"></div>
+                    </div>
+                    <div class="tableData">
+                        <div class="tableDataRow" th:each="permission: *{currentModel.permissions}">
+                            <button class="tableItem" style="width: 100%;cursor: pointer"
+                                 th:text="${permission.permission}"
+                                 th:data-form="'mainForm'"
+                                 th:data-field="'deletePermissionUUID'"
+                                 th:data-value="${permission.uuid}"
+                                 onclick="select(this.dataset)"></button>
+                        </div>
+                    </div>
+                </div>
+                <div class="roleAnotherPermission">
+                    <div class="searchInputClass">
+                        <input type="text" th:placeholder="#{admin.panel.permission.placeholder.name}"
+                               class="inputText" th:field="*{searchPermission.permission}">
+                    </div>
+                    <button class="buttonSearch" type="submit" th:text="#{admin.panel.search}"></button>
+                    <div class="tableHeader">
+                        <div class="tableItem" style="width: 100%" th:text="#{admin.panel.role.all.accesses}"></div>
+                    </div>
+                    <div class="tableData">
+                        <div class="tableDataRow" th:each="permission: *{permissionList}">
+                            <button th:class="${'tableItem ' + ( model.currentPermissionUUIDs.contains(permission.uuid) ? 'tableItemDisable' : '') }"
+                                 style="width: 100%;cursor: pointer"
+                                 th:text="${permission.permission}"
+                                 th:data-form="'mainForm'"
+                                 th:data-field="'addPermissionUUID'"
+                                 th:data-value="${permission.uuid}"
+                                 onclick="select(this.dataset)"></button>
+                        </div>
+                    </div>
+                    <div class="tableFooterButtonGroup">
+                        <button class="tableFooterButton"
+                                th:data-form="'mainForm'"
+                                th:data-field="'pageNumber'"
+                                th:data-value="*{backPage}"
+                                th:text="#{table.button.back}"
+                                onclick="select(this.dataset)">
+                        </button>
+                        <div class="tableFooterCounter">
+                            <div class="tableFooterCounterLabelGroup">
+                                <label class="tableFooterCounterLabel" th:text="#{admin.panel.table.page}"></label>
+                                <label class="tableFooterCounterLabel" th:text="*{counterPage}"></label>
+                            </div>
+                            <div class="tableFooterCounterLabelGroup">
+                                <label class="tableFooterCounterLabel" th:text="#{admin.panel.table.elements}"></label>
+                                <input class="tableFooterInput" th:field="*{pageSize}" type="number">
+                            </div>
+                        </div>
+                        <input id="pageNumber" style="display: none" type="number" th:field="*{currentPage}">
+                        <button class="tableFooterButton"
+                                th:data-form="'mainForm'"
+                                th:data-field="'pageNumber'"
+                                th:data-value="*{nextPage}"
+                                th:text="#{table.button.next}"
+                                onclick="select(this.dataset)">
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="bottomPanel">
+                <div class="leftButton">
+                    <button class="buttonDelete"
+                            th:if="*{currentModel.isActive}"
+                            th:data-form="'mainForm'"
+                            th:data-field="'isActive'"
+                            th:data-value="false"
+                            th:text="#{button.delete}"
+                            onclick="select(this.dataset)">
+                    </button>
+                    <button class="buttonRestore"
+                            th:unless="*{currentModel.isActive}"
+                            th:data-form="'mainForm'"
+                            th:data-field="'isActive'"
+                            th:data-value="true"
+                            th:text="#{button.restore}"
+                            onclick="select(this.dataset)">
+                    </button>
+                </div>
+                <div class="rightButton">
+                    <button class="buttonSave"
+                            th:data-form="'mainForm'"
+                            th:text="#{button.save}"
+                            type="submit">
+                    </button>
+                </div>
+            </div>
+        </div>
+    </form>
 </body>

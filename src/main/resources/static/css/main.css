@@ -45,6 +45,12 @@
     flex-wrap: wrap;
 }
 
+.tableItemDisable{
+    opacity: 0.3;
+    cursor: none;
+    pointer-events: none
+}
+
 .itemLabel{
     display: flex;
     min-width: 25%;
@@ -63,6 +69,57 @@
     width: 100%;
     height: auto;
     min-height: 30%;
+    margin: 10px;
+}
+
+.tableFooterButtonGroup{
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    height: 25px;
+    font-size: medium;
+    margin-left: 10px;
+    margin-right: 10px;
+    justify-content: center;
+    align-items: center;
+}
+
+.tableFooterButton{
+    width: fit-content;
+    height: auto;
+    cursor: pointer;
+}
+
+.tableFooterCounter{
+    display: flex;
+    width: 90%;
+    justify-content: center;
+    align-items: center;
+}
+
+.tableFooterInput{
+    display: flex;
+    min-width: 45px;
+    width: 5%;
+    opacity: 0.5;
+    border: none;
+    background-color: white;
+    font-size: inherit;
+    outline: none;
+    margin-left: 5px;
+}
+
+.tableFooterCounterLabelGroup{
+    display: flex;
+    flex-direction: row;
+    width: 50%;
+    justify-content: center;
+    align-items: center;
+}
+
+.tableFooterCounterLabel{
+    font-size: inherit;
+    margin-left: 5px;
 }
 
 .tableDataRow{
@@ -112,7 +169,8 @@
     flex-direction: column;
     width: 96%;
     height: auto;
-    padding: 1%;
+    padding-bottom: 50px;
+    padding-top: 10px;
     padding-left: 2%;
     padding-right: 2%;
     background-color: #dce8ed;
@@ -149,4 +207,65 @@
     justify-content: center;
     font-size: inherit;
     background-color: #78efb8;
+}
+
+.buttonSearch:hover{
+    background-color: #30ef97;
+}
+
+.bottomPanel{
+    display: flex;
+    width: 100%;
+    max-height: 35px;
+    height: 10%;
+    margin: 5px;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.rightButton{
+    display: flex;
+    width: 50%;
+    height: 90%;
+    justify-content: right;
+    margin-right: 10%;
+}
+
+.leftButton{
+    display: flex;
+    width: 50%;
+    height: 90%;
+    justify-content: left;
+    margin-left: 10%;
+}
+
+.buttonDelete{
+    cursor: pointer;
+    background-color: #ef6c87;
+    border: none;
+}
+
+.buttonDelete:hover{
+    background-color: #ec3e62;
+}
+
+.buttonRestore{
+    cursor: pointer;
+    background-color: #6caaef;
+    border: none;
+}
+
+.buttonRestore:hover{
+    background-color: #3c91ef;
+}
+
+.buttonSave{
+    cursor: pointer;
+    background-color: #6ce58c;
+    border: none;
+}
+
+.buttonSave:hover{
+    background-color: #2cdf5c;
 }
