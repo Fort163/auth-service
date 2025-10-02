@@ -3,6 +3,7 @@ package com.quick.recording.auth.service.listener;
 import com.quick.recording.auth.service.entity.RoleEntity;
 import com.quick.recording.auth.service.entity.UserEntity;
 import com.quick.recording.auth.service.service.RoleService;
+import com.quick.recording.resource.service.enumeration.AuthProvider;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.PreUpdate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,10 +31,12 @@ public class UserListener {
 
     @PrePersist
     private void prePersist(UserEntity user) {
-        user.setFullName(fullName(user));
-        if (Objects.isNull(user.getRoleList())) {
-            RoleEntity role = roleService.findByName(SIMPLE_USER_ROLE);
-            user.setRoleList(List.of(role));
+        if(!user.getProvider().equals(AuthProvider.service)) {
+            user.setFullName(fullName(user));
+            if (Objects.isNull(user.getRoleList())) {
+                RoleEntity role = roleService.findByName(SIMPLE_USER_ROLE);
+                user.setRoleList(List.of(role));
+            }
         }
     }
 
