@@ -7,3 +7,35 @@ spring:
     import: ${CONFIG_SERVER:configserver:http://localhost:8001}
   main:
     allow-bean-definition-overriding: true
+auth:
+  # Первичная настройка доступов
+  permission:
+    # При включении в список будут созданы *_CREATE,*_DELETE,*_EDIT,*_READ доступы
+    include:
+      - MAIN
+    # Исключение из списка ресурсов для которых не нужны свои доступы
+    exclude:
+      - audit
+      - Base
+      - SMART
+      - GeocoderObject
+  # Первичная настройка пользователей и ролей для сервисов,
+  # если роль уже была создана доступы не будут изменены,
+  # в случае необходимости изменять через Панель Администратора
+  service:
+    # название сервиса в нижнем регистре через дефис как в application.name
+    # список необходимых доступов
+    configs:
+      auth-service:
+        - ALL_READ
+      company-service:
+        - ALL_READ
+      part-time-service:
+        - ALL_READ
+      qr-b2b-service:
+        - ALL_READ
+      notification-service:
+        - ALL_READ
+      user-service:
+        - ALL_READ
+        - AUTH_USER_EDIT
