@@ -2,6 +2,7 @@ package com.quick.recording.auth.service.service;
 
 import com.quick.recording.auth.service.entity.PermissionEntity;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
 
@@ -11,5 +12,9 @@ public interface PermissionService {
 
     List<PermissionEntity> findAllByUuids(List<UUID> uuids);
 
-    List<PermissionEntity> saveAll(List<PermissionEntity> permissions);
+    List<PermissionEntity> saveAll(Collection<PermissionEntity> permissions);
+
+    List<PermissionEntity> findAll();
+
+    List<PermissionEntity> findAllByPermission(Collection<String> permissions);
 }

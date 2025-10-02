@@ -22,5 +22,6 @@ public interface ApiPermissionService {
 
     Boolean delete(UUID uuid);
 
+    Boolean restore(UUID uuid);
 
 }

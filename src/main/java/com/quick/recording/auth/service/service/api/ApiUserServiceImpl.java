@@ -85,6 +85,18 @@ public class ApiUserServiceImpl implements ApiUserService {
 
     @Override
     @CircuitBreaker(name = "database")
+    public Boolean restore(UUID uuid) {
+        Assert.notNull(uuid, "Uuid cannot be null");
+        UserEntity userEntity = apiUserRepository.findById(uuid).orElseThrow(
+                () -> new NotFoundException(messageUtil, UserEntity.class, uuid)
+        );
+        userEntity.setEnabled(true);
+        apiUserRepository.save(userEntity);
+        return true;
+    }
+
+    @Override
+    @CircuitBreaker(name = "database")
     public Boolean addRole(Role2UserDto dto) {
         Assert.notNull(dto.getUser(), "Uuid user cannot be null");
         Assert.notNull(dto.getRole(), "Uuid role cannot be null");

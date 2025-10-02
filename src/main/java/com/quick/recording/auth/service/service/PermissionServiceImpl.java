@@ -6,6 +6,7 @@ import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
@@ -30,9 +31,19 @@ public class PermissionServiceImpl implements PermissionService {
 
     @Override
     @CircuitBreaker(name = "database")
-    public List<PermissionEntity> saveAll(List<PermissionEntity> permissions) {
+    public List<PermissionEntity> saveAll(Collection<PermissionEntity> permissions) {
         return permissionRepository.saveAll(permissions);
     }
 
+    @Override
+    @CircuitBreaker(name = "database")
+    public List<PermissionEntity> findAll(){
+        return permissionRepository.findAll();
+    }
 
+    @Override
+    @CircuitBreaker(name = "database")
+    public List<PermissionEntity> findAllByPermission(Collection<String> permissions) {
+        return permissionRepository.findAllByPermissionIn(permissions);
+    }
 }

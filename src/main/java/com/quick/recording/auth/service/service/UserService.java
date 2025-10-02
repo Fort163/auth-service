@@ -4,6 +4,8 @@ import com.quick.recording.auth.service.entity.UserEntity;
 import com.quick.recording.resource.service.enumeration.AuthProvider;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 
+import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -21,4 +23,7 @@ public interface UserService {
 
     UserEntity save(OAuth2User oAuth2User, AuthProvider provider);
 
+    List<UserEntity> findAllByProvider(AuthProvider provider);
+
+    List<UserEntity> saveAll(Collection<UserEntity> saveList);
 }

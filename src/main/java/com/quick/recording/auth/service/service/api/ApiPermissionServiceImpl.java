@@ -92,4 +92,16 @@ public class ApiPermissionServiceImpl implements ApiPermissionService {
         return true;
     }
 
+    @Override
+    @CircuitBreaker(name = "database")
+    public Boolean restore(UUID uuid) {
+        Assert.notNull(uuid, "Uuid cannot be null");
+        PermissionEntity roleEntity = apiPermissionRepository.findById(uuid).orElseThrow(
+                () -> new NotFoundException(messageUtil, PermissionEntity.class, uuid)
+        );
+        roleEntity.setIsActive(true);
+        apiPermissionRepository.save(roleEntity);
+        return true;
+    }
+
 }

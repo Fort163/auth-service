@@ -8,6 +8,8 @@ import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -41,5 +43,16 @@ public class RoleServiceImpl implements RoleService {
         return roleRepository.findById(uuid).orElseThrow(() -> new NotFoundException(messageUtil, RoleEntity.class, uuid));
     }
 
+    @Override
+    @CircuitBreaker(name = "database")
+    public List<RoleEntity> findAll() {
+        return roleRepository.findAll();
+    }
+
+    @Override
+    @CircuitBreaker(name = "database")
+    public List<RoleEntity> saveAll(Collection<RoleEntity> list) {
+        return roleRepository.saveAll(list);
+    }
 
 }

@@ -21,4 +21,6 @@ public interface ApiRoleService {
 
     Boolean delete(UUID uuid);
 
+    Boolean restore(UUID uuid);
+
 }

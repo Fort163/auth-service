@@ -112,4 +112,17 @@ public class ApiRoleServiceImpl implements ApiRoleService {
         apiRoleRepository.save(roleEntity);
         return true;
     }
+
+    @Override
+    @CircuitBreaker(name = "database")
+    public Boolean restore(UUID uuid) {
+        Assert.notNull(uuid, "Uuid cannot be null");
+        RoleEntity roleEntity = apiRoleRepository.findById(uuid).orElseThrow(
+                () -> new NotFoundException(messageUtil, RoleEntity.class, uuid)
+        );
+        roleEntity.setIsActive(true);
+        apiRoleRepository.save(roleEntity);
+        return true;
+    }
+
 }

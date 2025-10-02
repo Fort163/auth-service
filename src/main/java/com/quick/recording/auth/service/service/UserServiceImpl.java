@@ -12,9 +12,7 @@ import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.Objects;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
@@ -78,5 +76,17 @@ public class UserServiceImpl implements UserService {
             }
         }
         return save(userEntity);
+    }
+
+    @Override
+    @CircuitBreaker(name = "database")
+    public List<UserEntity> findAllByProvider(AuthProvider provider) {
+        return userRepository.findAllByProvider(provider);
+    }
+
+    @Override
+    @CircuitBreaker(name = "database")
+    public List<UserEntity> saveAll(Collection<UserEntity> saveList) {
+        return userRepository.saveAll(saveList);
     }
 }

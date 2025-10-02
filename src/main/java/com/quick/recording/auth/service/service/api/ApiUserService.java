@@ -20,5 +20,7 @@ public interface ApiUserService {
 
     Boolean delete(UUID uuid);
 
+    Boolean restore(UUID uuid);
+
     Boolean addRole(Role2UserDto dto);
 }
