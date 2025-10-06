@@ -63,7 +63,7 @@ public class InitialUserServiceConfig {
                         .provider(AuthProvider.service)
                         .birthDay(LocalDate.parse("2000-01-01"))
                         .credentialsNonExpired(true)
-                        .enabled(true)
+                        .isActive(true)
                         .fullName(userName)
                         .username(userName)
                         .build();

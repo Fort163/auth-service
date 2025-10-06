@@ -41,7 +41,7 @@ public class AdminUserConfig {
                     .credentialsNonExpired(true)
                     .accountNonLocked(true)
                     .accountNonExpired(true)
-                    .enabled(true)
+                    .isActive(true)
                     .emailVerified(true)
                     .roleList(List.of(admin))
                     .gender(Gender.NOT_DEFINED)
