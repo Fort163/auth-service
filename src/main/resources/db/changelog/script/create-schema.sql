@@ -51,6 +51,11 @@ create table qr_user
     uuid                    uuid         not null
         constraint qr_user_pkey
             primary key,
+    created_by              varchar(255),
+    created_when            timestamp,
+    updated_by              varchar(255),
+    updated_when            timestamp,
+    is_active               boolean default true,
     account_non_expired     boolean,
     account_non_locked      boolean,
     birth_day               date,
@@ -59,7 +64,6 @@ create table qr_user
         constraint uk_user_email
             unique,
     email_verified          boolean,
-    enabled                 boolean,
     first_name              varchar(255),
     full_name               varchar(255),
     gender                  varchar(255),
