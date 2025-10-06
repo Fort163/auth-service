@@ -1,19 +1,14 @@
 package com.quick.recording.auth.service.service;
 
-import com.quick.recording.auth.service.service.api.ApiPermissionService;
-import com.quick.recording.auth.service.service.api.ApiRoleService;
 import com.quick.recording.gateway.dto.SmartDto;
 import com.quick.recording.gateway.dto.auth.PermissionDto;
 import com.quick.recording.gateway.dto.auth.RoleDto;
-import com.quick.recording.gateway.dto.auth.SearchPermissionDto;
-import com.quick.recording.gateway.dto.auth.SearchRoleDto;
+import com.quick.recording.gateway.enumerated.Delete;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -21,18 +16,18 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class AdminServiceImpl implements AdminService {
 
-    private final ApiRoleService roleService;
-    private final ApiPermissionService permissionService;
+    private final RoleService roleService;
+    private final PermissionService permissionService;
 
 
     @Override
-    public Page<RoleDto> searchRole(SearchRoleDto dto, Pageable pageable) {
-        return roleService.findAll(dto, pageable);
+    public Page<RoleDto> searchRole(RoleDto dto, Pageable pageable) {
+        return roleService.search(dto, pageable);
     }
 
     @Override
-    public Page<PermissionDto> searchPermission(SearchPermissionDto dto, Pageable pageable) {
-        return permissionService.findAll(dto, pageable);
+    public Page<PermissionDto> searchPermission(PermissionDto dto, Pageable pageable) {
+        return permissionService.search(dto, pageable);
     }
 
     @Override
@@ -62,7 +57,7 @@ public class AdminServiceImpl implements AdminService {
             return roleService.restore(dto.getUuid());
         }
         else {
-            return roleService.delete(dto.getUuid());
+            return roleService.delete(dto.getUuid(), Delete.SOFT);
         }
     }
 
@@ -83,7 +78,7 @@ public class AdminServiceImpl implements AdminService {
             return permissionService.restore(dto.getUuid());
         }
         else {
-            return permissionService.delete(dto.getUuid());
+            return permissionService.delete(dto.getUuid(), Delete.SOFT);
         }
     }
 

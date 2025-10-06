@@ -1,35 +1,44 @@
 package com.quick.recording.auth.service.service;
 
 import com.quick.recording.auth.service.entity.RoleEntity;
-import com.quick.recording.auth.service.repository.RoleRepository;
+import com.quick.recording.auth.service.mapper.RoleMapper;
+import com.quick.recording.auth.service.repository.entity.RoleRepository;
 import com.quick.recording.gateway.config.MessageUtil;
 import com.quick.recording.gateway.config.error.exeption.NotFoundException;
+import com.quick.recording.gateway.dto.auth.RoleDto;
+import com.quick.recording.gateway.main.service.local.CacheableMainServiceAbstract;
 import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cloud.stream.function.StreamBridge;
+import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.stereotype.Service;
 
-import java.util.Collection;
-import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
+
 
 @Service
 @RequiredArgsConstructor
-public class RoleServiceImpl implements RoleService {
+public class RoleServiceImpl extends CacheableMainServiceAbstract<RoleEntity, RoleDto, RoleRepository, RoleMapper>
+        implements RoleService {
 
-    private final RoleRepository roleRepository;
-    private final MessageUtil messageUtil;
+    @Autowired
+    public RoleServiceImpl(RoleRepository repository,
+                           RoleMapper mapper,
+                           MessageUtil messageUtil,
+                           StreamBridge streamBridge) {
+        super(repository, mapper, messageUtil, RoleEntity.class, streamBridge);
+    }
 
     @Override
-    @CircuitBreaker(name = "database")
-    public RoleEntity save(RoleEntity entity) {
-        return roleRepository.save(entity);
+    public Class<RoleDto> getType() {
+        return RoleDto.class;
     }
 
     @Override
     @CircuitBreaker(name = "database")
     public RoleEntity findByName(String name) {
-        Optional<RoleEntity> role = roleRepository.findByName(name);
+        Optional<RoleEntity> role = getRepository().findByName(name);
         if (role.isPresent()) {
             return role.get();
         } else {
@@ -37,22 +46,9 @@ public class RoleServiceImpl implements RoleService {
         }
     }
 
-    @Override
-    @CircuitBreaker(name = "database")
-    public RoleEntity findByUuid(UUID uuid) {
-        return roleRepository.findById(uuid).orElseThrow(() -> new NotFoundException(messageUtil, RoleEntity.class, uuid));
-    }
 
     @Override
-    @CircuitBreaker(name = "database")
-    public List<RoleEntity> findAll() {
-        return roleRepository.findAll();
+    public ExampleMatcher prepareExampleMatcher(ExampleMatcher exampleMatcher) {
+        return exampleMatcher;
     }
-
-    @Override
-    @CircuitBreaker(name = "database")
-    public List<RoleEntity> saveAll(Collection<RoleEntity> list) {
-        return roleRepository.saveAll(list);
-    }
-
 }
