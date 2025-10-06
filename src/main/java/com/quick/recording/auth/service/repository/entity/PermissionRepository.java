@@ -1,4 +1,4 @@
-package com.quick.recording.auth.service.repository;
+package com.quick.recording.auth.service.repository.entity;
 
 import com.quick.recording.auth.service.entity.PermissionEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
