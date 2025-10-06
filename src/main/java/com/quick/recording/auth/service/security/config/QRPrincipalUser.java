@@ -80,7 +80,7 @@ public class QRPrincipalUser implements OAuth2User, OidcUser, Principal, UserDet
         this.accountNonExpired = user.getAccountNonExpired();
         this.credentialsNonExpired = user.getCredentialsNonExpired();
         this.accountNonLocked = user.getAccountNonLocked();
-        this.enabled = user.getEnabled();
+        this.enabled = user.getIsActive();
     }
 
     @Override
