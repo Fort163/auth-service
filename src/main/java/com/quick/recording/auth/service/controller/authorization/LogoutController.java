@@ -1,4 +1,4 @@
-package com.quick.recording.auth.service.controller;
+package com.quick.recording.auth.service.controller.authorization;
 
 import com.quick.recording.auth.service.service.SpringSessionService;
 import lombok.RequiredArgsConstructor;

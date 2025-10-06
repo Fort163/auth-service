@@ -1,4 +1,4 @@
-package com.quick.recording.auth.service.controller;
+package com.quick.recording.auth.service.controller.authorization;
 
 import com.quick.recording.auth.service.entity.UserEntity;
 import com.quick.recording.auth.service.mapper.UserMapper;
@@ -88,7 +88,7 @@ public class LoginController {
             userEntity.setPassword(passwordEncoder.encode(userRegistrationModel.getPassword()));
             userEntity.setProvider(AuthProvider.local);
             userEntity.setGender(Gender.NOT_DEFINED);
-            userEntity.setEnabled(true);
+            userEntity.setIsActive(true);
             userEntity.setAccountNonExpired(true);
             userEntity.setCredentialsNonExpired(true);
             userEntity.setAccountNonLocked(true);
