@@ -8,7 +8,6 @@ import com.quick.recording.auth.service.service.AdminService;
 import com.quick.recording.gateway.dto.BaseDto;
 import com.quick.recording.gateway.dto.auth.PermissionDto;
 import com.quick.recording.gateway.dto.auth.RoleDto;
-import com.quick.recording.gateway.dto.auth.SearchPermissionDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -19,7 +18,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -88,7 +86,7 @@ public class AdminController {
         switch (securityItem){
             case "role" : {
                 RoleModel model = new RoleModel();
-                SearchPermissionDto permissionSearch = new SearchPermissionDto();
+                PermissionDto permissionSearch = new PermissionDto();
                 RoleDto roleDto = null;
                 if(Objects.nonNull(selectUUID)){
                     model.setRoleUUID(selectUUID);

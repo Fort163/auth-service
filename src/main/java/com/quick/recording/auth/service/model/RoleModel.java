@@ -2,7 +2,6 @@ package com.quick.recording.auth.service.model;
 
 import com.quick.recording.gateway.dto.auth.PermissionDto;
 import com.quick.recording.gateway.dto.auth.RoleDto;
-import com.quick.recording.gateway.dto.auth.SearchPermissionDto;
 import lombok.Data;
 
 import java.util.List;
@@ -17,7 +16,7 @@ public class RoleModel extends PageModel {
     private List<UUID> currentPermissionUUIDs;
     private String addPermissionUUID;
     private String deletePermissionUUID;
-    private SearchPermissionDto searchPermission;
+    private PermissionDto searchPermission;
     private List<PermissionDto> permissionList;
 
 }
