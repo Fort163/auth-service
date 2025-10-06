@@ -1,8 +1,10 @@
 package com.quick.recording.auth.service;
 
+import com.quick.recording.gateway.config.cache.CacheStreamConfigurer;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.data.redis.RedisAutoConfiguration;
+import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.cloud.openfeign.EnableFeignClients;
@@ -22,7 +24,9 @@ import static org.springframework.data.web.config.EnableSpringDataWebSupport.Pag
 public class AuthServiceApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(AuthServiceApplication.class, args);
+        SpringApplication application = new SpringApplicationBuilder(AuthServiceApplication.class).build(args);
+        application.addInitializers(new CacheStreamConfigurer());
+        application.run();
     }
 
 }
