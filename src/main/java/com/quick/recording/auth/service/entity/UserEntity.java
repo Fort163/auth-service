@@ -1,26 +1,50 @@
 package com.quick.recording.auth.service.entity;
 
 import com.quick.recording.auth.service.listener.UserListener;
+import com.quick.recording.gateway.entity.SmartEntity;
 import com.quick.recording.resource.service.enumeration.AuthProvider;
 import com.quick.recording.resource.service.enumeration.Gender;
-import com.quick.recording.resource.service.enumeration.Status;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.UUID;
 
 @Entity(name = "qr_user")
 @Data
-@AllArgsConstructor
-@NoArgsConstructor
 @EntityListeners(UserListener.class)
-@Builder
-public class UserEntity extends BaseEntity {
+@EqualsAndHashCode(callSuper = true)
+public class UserEntity extends SmartEntity {
+
+    public UserEntity() {
+    }
+
+    @Builder
+    public UserEntity(UUID uuid, String createdBy, LocalDateTime createdWhen, String updatedBy, LocalDateTime updatedWhen, Boolean isActive, String fullName, String firstName, String lastName, String userpic, String email, Boolean emailVerified, String locale, String username, LocalDateTime lastVisit, Gender gender, String phoneNumber, Boolean phoneNumberVerified, LocalDate birthDay, AuthProvider provider, String providerId, String password, Boolean accountNonExpired, Boolean credentialsNonExpired, Boolean accountNonLocked, Boolean enabled, List<RoleEntity> roleList) {
+        super(uuid, createdBy, createdWhen, updatedBy, updatedWhen, isActive);
+        this.fullName = fullName;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.userpic = userpic;
+        this.email = email;
+        this.emailVerified = emailVerified;
+        this.locale = locale;
+        this.username = username;
+        this.lastVisit = lastVisit;
+        this.gender = gender;
+        this.phoneNumber = phoneNumber;
+        this.phoneNumberVerified = phoneNumberVerified;
+        this.birthDay = birthDay;
+        this.provider = provider;
+        this.providerId = providerId;
+        this.password = password;
+        this.accountNonExpired = accountNonExpired;
+        this.credentialsNonExpired = credentialsNonExpired;
+        this.accountNonLocked = accountNonLocked;
+        this.roleList = roleList;
+    }
 
     @Column(name = "full_name")
     private String fullName;
@@ -81,9 +105,6 @@ public class UserEntity extends BaseEntity {
     @Column(name = "account_non_locked")
     private Boolean accountNonLocked = true;
 
-    @Column(name = "enabled")
-    private Boolean enabled = true;
-
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "User2Role",
@@ -91,5 +112,7 @@ public class UserEntity extends BaseEntity {
             inverseJoinColumns = {@JoinColumn(name = "role2user_id")}
     )
     private List<RoleEntity> roleList;
+
+
 
 }
