@@ -16,7 +16,7 @@ public class LogoutController {
     private final SpringSessionService springSessionService;
 
     @GetMapping
-    @PreAuthorize("hasAnyAuthority('ROLE_READ')")
+    @PreAuthorize("isAuthenticated()")
     public ResponseEntity<Boolean> logout() {
         return ResponseEntity.ok(springSessionService.logout());
     }
